@@ -4,9 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="index.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
     <title>Writing Center</title>
 </head>
 <body>
-    <h1>Hello, writing center!</h1>
+    <section id="landing-page" role="region">
+        <h1>Hello, writing center!</h1>
+        <h3>Are you a: </h3>
+        <button id="student-btn">Student?</button>
+        <button id="consultant-btn">Consultant?</button>
+        <button id="instructor-btn">Instructor?</button>
+    </section>
+    <section id="student-page" class="hidden" role="region">
+        <h1>Hello, student!</h1>
+        <form method="POST" action="">
+            <label for="student-name">Name</label>
+            <input type="text" name="student-name" id="student-name">
+            <label for="student-teacher">Teacher</label>
+            <input type="text" name="student-teacher" id="student-teacher">
+            <label for="student-assignment">Assignment</label>
+            <input type="text" name="student-assignment" id="student-assignment">
+            <label for="student-tutor">Tutor</label>
+            <input type="text" name="student-tutor" id="student-tutor">
+            <input type="submit" value="Jump in line">
+        </form>
+    </section>
+    <section id="consultant-page" class="hidden" role="region">
+        <h1>Hello, Consultant!</h1>
+        <!-- Need to add authentication -->
+        <form action="" method="POST">
+            <label for="">Notes</label>
+            <input type="text" name="" id="">
+            <label for="">Student</label>
+            <input type="text" name="" id="">
+            <input type="submit" value="Add notes">
+        </form>
+    </section>
+    <section id="instructor-page" class="hidden" role="region">
+        <h1>Hello, Instructor!</h1>
+        <!-- Need to add authentication -->
+        <!-- Need to add field that shows all appointments for that day, with options
+        to change dates and see previous appointments, as well as add comments -->
+    </section>
+    <script src="index.js"></script>
 </body>
 </html>

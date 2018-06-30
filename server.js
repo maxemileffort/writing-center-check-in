@@ -1,7 +1,17 @@
 const express = require('express');
 const app = express();
+app.use(express.json());
 
 app.use(express.static('public'));
+
+app.get("/", (req, res) => {
+    res.sendFile(__dirname + "/public/index.html");
+});
+
+app.post("/", (req, res)=>{
+    console.log(res.body);
+    res.redirect("/")
+})
 
 // both runServer and closeServer need to access the same
 // server object, so we declare `server` here, and then when

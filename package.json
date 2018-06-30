@@ -1,0 +1,35 @@
+{
+  "name": "writing-center-check-in",
+  "version": "0.0.1",
+  "description": "check in for writing centers",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha --exit",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxemileffort/writing-center-check-in.git"
+  },
+  "keywords": [
+    "node",
+    "express"
+  ],
+  "author": "Max",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maxemileffort/writing-center-check-in/issues"
+  },
+  "homepage": "https://github.com/maxemileffort/writing-center-check-in#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "mocha": "^5.2.0"
+  }
+}

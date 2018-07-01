@@ -4,6 +4,8 @@ const MOCK_ENTRIES = {
             "id": "11111",
             "name": "John Doe",
             "currentlyWaiting": true,
+            "recentTime": "3:05",
+            "recentRequest": "Jill",
             "email": "jd@ch.edu",
             "previousSessions": [
                 {
@@ -27,6 +29,8 @@ const MOCK_ENTRIES = {
             "id": "22222",
             "name": "Sally Student",
             "currentlyWaiting": false,
+            "recentTime": "3:10",
+            "recentRequest": "Jack",
             "email": "sallystudent@ch.edu",
             "previousSessions": [
                 {
@@ -50,6 +54,8 @@ const MOCK_ENTRIES = {
             "id": "33333",
             "name": "Seymor Butts",
             "currentlyWaiting": true,
+            "recentTime": "3:15",
+            "recentRequest": "Sam",
             "email": "butts@ch.edu",
             "previousSessions": [
                 {
@@ -212,13 +218,15 @@ function getWaitingStudents (callbk){
     // console.log(students[0].currentlyWaiting);
     for (let i=0; i < students.length; i++){
         if (students[i].currentlyWaiting === true){
-            callbk(students[i].name);
+            callbk(students[i]);
         }
     }
 }
 
 function renderWaitlist(el) {
-    $(".waitlist").append(`<li>${el}</li>`);
+    $(".waitlist").append(`<li>
+    Name: ${el.name} | Walk-in time: ${el.recentTime} | Requested Tutor: ${el.recentRequest}
+    </li>`);
 }
 
 getWaitingStudents(renderWaitlist);

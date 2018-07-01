@@ -10,44 +10,79 @@
     <title>Writing Center</title>
 </head>
 <body>
+    <header role="banner">
+
+    </header>
     <section id="landing-page" role="region">
-        <h1>Hello, writing center!</h1>
-        <h3>Are you a: </h3>
-        <button id="student-btn">Student?</button>
-        <button id="consultant-btn">Consultant?</button>
-        <button id="instructor-btn">Instructor?</button>
+        <div class="center">
+            <h1>Hello, writing center!</h1>
+            <h3>Are you a: </h3>
+            <button id="student-btn" class="btn">Student?</button>
+            <button id="consultant-btn" class="btn">Consultant?</button>
+            <button id="instructor-btn" class="btn">Instructor?</button>
+        </div>
+        
     </section>
+
     <section id="student-page" class="hidden" role="region">
-        <h1>Hello, student!</h1>
-        <form method="POST" action="">
-            <label for="student-name">Name</label>
-            <input type="text" name="student-name" id="student-name">
-            <label for="student-teacher">Teacher</label>
-            <input type="text" name="student-teacher" id="student-teacher">
-            <label for="student-assignment">Assignment</label>
-            <input type="text" name="student-assignment" id="student-assignment">
-            <label for="student-tutor">Tutor</label>
-            <input type="text" name="student-tutor" id="student-tutor">
-            <input type="submit" value="Jump in line">
-        </form>
+        <div class="center">
+            <h1>Hello, student!</h1>
+            <form id="student-form" method="POST" action="#">
+                <label for="student-name">Full Name</label>
+                <input type="text" name="student-name" id="student-name">
+                <label for="student-teacher">Teacher</label>
+                <input type="text" name="student-teacher" id="student-teacher">
+                <label for="student-assignment">Assignment</label>
+                <input type="text" name="student-assignment" id="student-assignment">
+                <label for="student-tutor">Tutor</label>
+                <input type="text" name="student-tutor" id="student-tutor">
+                <input type="submit" value="Jump in line" class="btn">
+            </form>
+            <button class="back btn">Back</button>
+
+        </div>
+        
     </section>
-    <section id="consultant-page" class="hidden" role="region">
-        <h1>Hello, Consultant!</h1>
-        <!-- Need to add authentication -->
-        <form action="" method="POST">
-            <label for="">Notes</label>
-            <input type="text" name="" id="">
-            <label for="">Student</label>
-            <input type="text" name="" id="">
-            <input type="submit" value="Add notes">
-        </form>
+
+    <section id="consultant-login" class="hidden" role="region">
+        <div class="center">
+            <h1>Hello, Consultant!</h1>
+            <form id="consultant-form" action="/dashboard1" method="post">
+                <label for="">Email Address</label>
+                <input type="email">
+                <label for="">Password</label>
+                <input type="password">
+                <input type="submit" value="Login" class="btn">
+            </form>
+            <button class="back btn">Back</button>
+
+        </div>
+        
+        
     </section>
-    <section id="instructor-page" class="hidden" role="region">
-        <h1>Hello, Instructor!</h1>
-        <!-- Need to add authentication -->
-        <!-- Need to add field that shows all appointments for that day, with options
-        to change dates and see previous appointments, as well as add comments -->
+
+    <section id="instructor-login" class="hidden" role="region">
+        <div class="center">
+            <h1>Hello, Instructor!</h1>
+            <form id="instructor-form" action="/dashboard2" method="post">
+                <label for="">Email Address</label>
+                <input type="email">
+                <label for="">Password</label>
+                <input type="password">
+                <input type="submit" value="Login" class="btn">
+            </form>
+            <button class="back btn">Back</button>
+        </div>
+        
     </section>
+
+    <footer role="contentinfo">
+        <p class="center">
+        Photo by Dylan Gillis on Unsplash
+        </p>  
+    </footer>
+
     <script src="index.js"></script>
+
 </body>
 </html>

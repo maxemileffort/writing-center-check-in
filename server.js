@@ -12,6 +12,14 @@ app.get("/queue", (req, res) => {
     res.sendFile(__dirname + "/public/queue.html");
 });
 
+app.post("/dashboard1", (req, res) => {
+    res.sendFile(__dirname + "/public/dashboard-cons.html");
+});
+
+app.post("/dashboard2", (req, res) => {
+    res.sendFile(__dirname + "/public/dashboard-inst.html");
+});
+
 app.post("/", (req, res)=>{
     console.log(res.body);
     res.redirect("/")

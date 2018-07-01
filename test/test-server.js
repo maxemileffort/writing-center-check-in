@@ -32,3 +32,21 @@ describe('queue page', function(){
             })
     })
 })
+describe('dashboard for consultants', function(){
+    it('should have status 200', function(){
+        return chai.request(app)
+            .post('/dashboard1')
+            .then(function (res) {
+                expect(res).to.have.status(200);
+            })
+    })
+})
+describe('dashboard for instructors', function(){
+    it('should have status 200', function(){
+        return chai.request(app)
+            .post('/dashboard2')
+            .then(function (res) {
+                expect(res).to.have.status(200);
+            })
+    })
+})

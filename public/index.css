@@ -1,3 +1,71 @@
 .hidden {
-    display: none;
+    display: none !important; 
+}
+
+#student-form {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.btn {
+    background-color: maroon;
+    color: white;
+    border: 1px white solid;
+    box-shadow: rgb(35, 35, 180) 2px 2px 2px;
+    cursor: pointer;
+    height: 40px;
+    width: 22%;
+    margin-top: 10px;
+}
+
+.center {
+    margin: 0 auto;
+    text-align: center;
+}
+
+body {
+    color: rgb(35, 35, 180);
+}
+
+input {
+    width: 65%;
+}
+
+section {
+    max-width: 50%;
+    margin: 0 auto;
+    padding: 5% 5%;
+    border-radius: 10px;
+    background-color: white;
+}
+
+header {
+    background-image: 
+        linear-gradient(
+        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0.5)
+        ),
+        url('assets/dylan-gillis-533818-unsplash.jpg');
+    height: 350px;
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: 0 auto;
+    border-radius: 10px;
+}
+
+@media only screen 
+  and (max-device-width: 768px) 
+  and (-webkit-min-device-pixel-ratio: 1) {
+    .btn {
+    background-color: maroon;
+    color: white;
+    border: 1px white solid;
+    box-shadow: rgb(35, 35, 180) 2px 2px 2px;
+    cursor: pointer;
+    height: 40px;
+    width: 160px;
+    margin-top: 10px;
+}
 }

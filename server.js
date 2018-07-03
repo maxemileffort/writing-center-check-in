@@ -1,7 +1,33 @@
-const express = require('express');
+const express = require('express'),
+      ejs     = require('ejs'),
+      mongoose = require('mongoose');
+      
 const app = express();
+app.use(express.json());
+
 
 app.use(express.static('public'));
+
+app.get("/", (req, res) => {
+    res.sendFile(__dirname + "/public/index.html");
+});
+
+app.get("/queue", (req, res) => {
+    res.sendFile(__dirname + "/public/queue.html");
+});
+
+app.post("/dashboard1", (req, res) => {
+    res.sendFile(__dirname + "/public/dashboard-cons.html");
+});
+
+app.post("/dashboard2", (req, res) => {
+    res.sendFile(__dirname + "/public/dashboard-inst.html");
+});
+
+app.post("/", (req, res)=>{
+    console.log(res.body);
+    res.redirect("/")
+})
 
 // both runServer and closeServer need to access the same
 // server object, so we declare `server` here, and then when

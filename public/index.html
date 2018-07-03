@@ -4,9 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
     <title>Writing Center</title>
 </head>
 <body>
-    <h1>Hello, writing center!</h1>
+    <header role="banner">
+        <div class="clock right">
+
+        </div>
+
+    </header>
+    <section id="landing-page" role="region">
+        <div class="center">
+            <h1>Hello, writing center!</h1>
+            <h3>Are you a: </h3>
+            <button id="student-btn" class="btn">Student?</button>
+            <button id="consultant-btn" class="btn">Consultant?</button>
+            <button id="instructor-btn" class="btn">Instructor?</button>
+        </div>
+        
+    </section>
+
+    <section id="student-page" class="hidden" role="region">
+        <div class="center">
+            <h1>Hello, student!</h1>
+            <h3>Please Sign in</h3>
+            <form id="student-form" method="POST" action="#">
+                <label for="student-name">Full Name</label>
+                <input type="text" name="student-name" id="student-name">
+                <label for="student-teacher">Teacher</label>
+                <input type="text" name="student-teacher" id="student-teacher">
+                <label for="student-assignment">Assignment</label>
+                <input type="text" name="student-assignment" id="student-assignment">
+                <label for="student-tutor">Tutor</label>
+                <input type="text" name="student-tutor" id="student-tutor">
+                <input type="submit" value="Jump in line" class="btn">
+            </form>
+            <button class="back btn">Back</button>
+
+        </div>
+        
+    </section>
+
+    <section id="consultant-login" class="hidden" role="region">
+        <div class="center">
+            <h1>Hello, Consultant!</h1>
+            <h3>Please login</h3>
+            <form id="consultant-form" action="/dashboard1" method="post">
+                <label for="">Email Address</label>
+                <input type="email">
+                <label for="">Password</label>
+                <input type="password">
+                <input type="submit" value="Login" class="btn">
+            </form>
+            <button class="back btn">Back</button>
+            
+        </div>
+        
+        
+    </section>
+    
+    <section id="instructor-login" class="hidden" role="region">
+        <div class="center">
+            <h1>Hello, Instructor!</h1>
+            <h3>Please login</h3>
+            <form id="instructor-form" action="/dashboard2" method="post">
+                <label for="">Email Address</label>
+                <input type="email">
+                <label for="">Password</label>
+                <input type="password">
+                <input type="submit" value="Login" class="btn">
+            </form>
+            <button class="back btn">Back</button>
+        </div>
+        
+    </section>
+
+    <footer role="contentinfo">
+        <p class="center">
+        Photo by Dylan Gillis on Unsplash
+        </p>  
+    </footer>
+
+    <script src="index.js"></script>
+
 </body>
 </html>

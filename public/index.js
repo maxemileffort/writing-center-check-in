@@ -10,17 +10,17 @@ const MOCK_ENTRIES = {
             "previousSessions": [
                 {
                     "date": "Aug 28,2018",
-                    "tutor": "Sam Steak",
+                    "consultant": "Sam Steak",
                     "notes": "talked about blah blah blah"
                 },
                 {
                     "date": "Sep 5,2018",
-                    "tutor": "Jill Hill",
+                    "consultant": "Jill Hill",
                     "notes": "talked about blah blah blah"
                 },
                 {
                     "date": "Nov 15,2018",
-                    "tutor": "Jack Squat",
+                    "consultant": "Jack Squat",
                     "notes": "talked about blah blah blah"
                 },
             ]
@@ -35,17 +35,17 @@ const MOCK_ENTRIES = {
             "previousSessions": [
                 {
                     "date": "Aug 28,2018",
-                    "tutor": "Sam Steak",
+                    "consultant": "Sam Steak",
                     "notes": "talked about blah blah blah"
                 },
                 {
                     "date": "Sep 5,2018",
-                    "tutor": "Jill Hill",
+                    "consultant": "Jill Hill",
                     "notes": "talked about blah blah blah"
                 },
                 {
                     "date": "Nov 15,2018",
-                    "tutor": "Jack Squat",
+                    "consultant": "Jack Squat",
                     "notes": "talked about blah blah blah"
                 },
             ]
@@ -60,17 +60,17 @@ const MOCK_ENTRIES = {
             "previousSessions": [
                 {
                     "date": "Aug 28,2018",
-                    "tutor": "Sam Steak",
+                    "consultant": "Sam Steak",
                     "notes": "talked about blah blah blah"
                 },
                 {
                     "date": "Sep 5,2018",
-                    "tutor": "Jill Hill",
+                    "consultant": "Jill Hill",
                     "notes": "talked about blah blah blah"
                 },
                 {
                     "date": "Nov 15,2018",
-                    "tutor": "Jack Squat",
+                    "consultant": "Jack Squat",
                     "notes": "talked about blah blah blah"
                 },
             ]
@@ -80,7 +80,6 @@ const MOCK_ENTRIES = {
         {
             "id": "aaaaa",
             "name": "Sam Steak",
-            "currentlyWaiting": true,
             "email": "samsteak@ch.edu",
             "previousSessions": [
                 {
@@ -104,7 +103,6 @@ const MOCK_ENTRIES = {
         {
             "id": "bbbbb",
             "name": "Jill Hill",
-            "currentlyWaiting": true,
             "email": "jhill@ch.edu",
             "previousSessions": [
                 {
@@ -127,7 +125,6 @@ const MOCK_ENTRIES = {
         {
             "id": "ccccc",
             "name": "Jack Squat",
-            "currentlyWaiting": true,
             "email": "js@ch.edu",
             "previousSessions": [
                 {
@@ -216,17 +213,58 @@ $('.back').on('click', function () {
 
 function getWaitingStudents (callbk){
     // console.log(students[0].currentlyWaiting);
-    for (let i=0; i < students.length; i++){
-        if (students[i].currentlyWaiting === true){
-            callbk(students[i]);
-        }
+    let waitingKids = students.filter(el=>el.currentlyWaiting === true);
+    for (let i = 0; i < waitingKids.length; i++){
+        callbk(waitingKids[i]);
     }
+    
 }
 
 function renderWaitlist(el) {
     $(".waitlist").append(`<li>
-    Name: ${el.name} | Walk-in time: ${el.recentTime} | Requested Tutor: ${el.recentRequest}
+    Name: ${el.name} | 
+    Walk-in time: ${el.recentTime} | 
+    Requested Tutor: ${el.recentRequest} | 
+    <button class="btn start-btn-${el.id}">Start Session</button>
     </li>`);
+    // console.log('rendered student entry')
+    checkInStudent(el);
 }
 
 getWaitingStudents(renderWaitlist);
+
+function checkInStudent(student){
+    let el = student.id;
+    // console.log(el);
+    $(`.start-btn-${el}`).on("click", function(event){
+        event.stopPropagation();
+        student.currentlyWaiting = false;
+        $('.waitlist').html('');
+        getWaitingStudents(renderWaitlist);
+    })
+}
+
+function tellTime(){
+    let time, today;
+    today = new Date();
+    let hh = today.getHours();
+    let mm = today.getMinutes();
+    let sec = today.getSeconds();
+    if(hh<10){
+        hh = '0'+hh;
+    }
+    if(mm<10){
+        mm = '0'+mm;
+    }
+    if(sec<10){
+        sec = '0'+sec;
+    }
+    
+    time = `${hh}:${mm}:${sec}`;
+    $('.clock').html(`<h2>Current Time: ${time}</h2>`);
+
+}
+
+tellTime();
+
+setInterval(tellTime(), 1000); 

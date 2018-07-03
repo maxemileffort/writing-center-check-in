@@ -11,6 +11,9 @@
 </head>
 <body>
     <header role="banner">
+        <div class="clock right">
+
+        </div>
 
     </header>
     <section id="landing-page" role="region">
@@ -27,6 +30,7 @@
     <section id="student-page" class="hidden" role="region">
         <div class="center">
             <h1>Hello, student!</h1>
+            <h3>Please Sign in</h3>
             <form id="student-form" method="POST" action="#">
                 <label for="student-name">Full Name</label>
                 <input type="text" name="student-name" id="student-name">
@@ -47,6 +51,7 @@
     <section id="consultant-login" class="hidden" role="region">
         <div class="center">
             <h1>Hello, Consultant!</h1>
+            <h3>Please login</h3>
             <form id="consultant-form" action="/dashboard1" method="post">
                 <label for="">Email Address</label>
                 <input type="email">
@@ -55,15 +60,16 @@
                 <input type="submit" value="Login" class="btn">
             </form>
             <button class="back btn">Back</button>
-
+            
         </div>
         
         
     </section>
-
+    
     <section id="instructor-login" class="hidden" role="region">
         <div class="center">
             <h1>Hello, Instructor!</h1>
+            <h3>Please login</h3>
             <form id="instructor-form" action="/dashboard2" method="post">
                 <label for="">Email Address</label>
                 <input type="email">

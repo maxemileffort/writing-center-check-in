@@ -19,9 +19,19 @@
     margin-top: 10px;
 }
 
+.clock {
+    color: white;
+    padding-top: 300px;
+}
+
 .center {
     margin: 0 auto;
     text-align: center;
+}
+
+.right {
+    text-align: end;
+    margin-right: 5px;
 }
 
 body {

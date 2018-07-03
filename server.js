@@ -1,6 +1,10 @@
-const express = require('express');
+const express = require('express'),
+      ejs     = require('ejs'),
+      mongoose = require('mongoose');
+      
 const app = express();
 app.use(express.json());
+
 
 app.use(express.static('public'));
 

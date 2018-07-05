@@ -1,6 +1,6 @@
 {
   "name": "writing-center-check-in",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "description": "check in for writing centers",
   "main": "server.js",
   "directories": {
@@ -25,7 +25,6 @@
   },
   "homepage": "https://github.com/maxemileffort/writing-center-check-in#readme",
   "dependencies": {
-    "ejs": "^2.6.1",
     "express": "^4.16.3",
     "express-sessions": "^1.0.6",
     "mongoose": "^5.1.7",

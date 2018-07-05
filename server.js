@@ -1,5 +1,4 @@
 const express = require('express'),
-      ejs     = require('ejs'),
       mongoose = require('mongoose');
       
 const app = express();
@@ -14,7 +13,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/", (req, res)=>{
-    console.log(res.body);
+    console.log('tried to submit some data');
     res.redirect("/")
 })
 

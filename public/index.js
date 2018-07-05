@@ -76,7 +76,7 @@ const MOCK_ENTRIES = {
             ]
         }
     ],
-    "consultants": [
+    "staff": [
         {
             "id": "aaaaa",
             "name": "Sam Steak",
@@ -145,7 +145,7 @@ const MOCK_ENTRIES = {
             ]
         }
     ],
-    "instructors": [
+    "sessions": [
         {
             "id": "1a1a1",
             "name": "Barry Allen",
@@ -170,22 +170,67 @@ const students = MOCK_ENTRIES.students;
 const consultants = MOCK_ENTRIES.consultants;
 const instructors = MOCK_ENTRIES.instructors;
 
+// TODO: 
+//     -navigational flow
+//     -grab vals from fields
+//     -ajax calls
+//     -rewrite mock data for students, staff, and sessions
+
+// begin button behaviors
+$('.btn').on('click', function (){
+    hideAll();
+})
+// student buttons
+//user clicks student button
 $('#student-btn').on('click', function (){
-    hideAll();
-    showStudentPage();
+    $('#student-page').removeClass('hidden');
 })
 
+//user wants to register as a student
+$('#student-register-btn').on('click', function (){
+    $('#student-register').removeClass('hidden');
+})
+
+// user wants to login as a student
+$('#student-login-btn').on('click', function (){
+    $('#student-login').removeClass('hidden');
+})
+
+// user attempts to register as a student
+$('#student-register-send').on('click', function (){
+    //make sure email and password fields contain something
+    //make sure passwords match
+    //grab values from each input
+    //ajax call to endpoint
+    //route to landing page
+})
+
+//user attempts to login as a student
+$('#student-login-send').on('click', function (){
+    //grab values
+    //ajax call
+})
+
+// staff buttons
+// user clicks staff button
 $('#staff-btn').on('click', function () {
-    hideAll();
-    showConsultantLogin();
+    $('#staff-login').removeClass('hidden');
 })
 
-$('.back').on('click', function () {
-    hideAll();
-    showLandingPage();
-    // console.log('clicked back')
+$('#staff-login-send').on('click', function () {
+    //grab values
+    //ajax call
 })
 
+// end button behaviors
+
+// begin navigation functions
+function hideAll(){
+    $('section').addClass('hidden');
+}
+// end navigation functions
+
+// begin render waitlist
 function getWaitingStudents (callbk){
     // console.log(students[0].currentlyWaiting);
     let waitingKids = students.filter(el=>el.currentlyWaiting === true);
@@ -199,7 +244,7 @@ function renderWaitlist(el) {
     Name: ${el.name} | 
     Walk-in time: ${el.recentTime} | 
     Requested Tutor: ${el.recentRequest} | 
-    <button class="btn start-btn-${el.id}">Start Session</button>
+    <button class="btn begin-btn-${el.id}">Start Session</button>
     </li>`);
     // console.log('rendered student entry')
     checkInStudent(el);
@@ -217,10 +262,13 @@ function checkInStudent(student){
         getWaitingStudents(renderWaitlist);
     })
 }
+// end render waitlist
 
+
+// begin aesthetic js
+let time; //need access to this for walk-in time
 function tellTime(){
-    let time, today;
-    today = new Date();
+    let today = new Date();
     let hh = today.getHours();
     let mm = today.getMinutes();
     let sec = today.getSeconds();
@@ -233,10 +281,10 @@ function tellTime(){
     if(sec<10){
         sec = '0'+sec;
     }
-    
     time = `${hh}:${mm}:${sec}`;
     $('.clock').html(`<h2>Current Time: ${time}</h2>`);
 
 }
 
 setInterval(tellTime, 1000); 
+// end aesthetic js

@@ -4,85 +4,138 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/main.css">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
     <title>Writing Center</title>
 </head>
 <body>
+    <!-- Top banner:
+    html done
+    css done
+    js done
+        -->
     <header role="banner">
         <div class="clock right">
-
         </div>
-
     </header>
+
+    <!-- landing page: 
+    html done
+    css done
+    js
+        -->
     <section id="landing-page" role="region">
         <div class="center">
-            <h1>Hello, writing center!</h1>
-            <h3>Are you a: </h3>
-            <button id="student-btn" class="btn">Student?</button>
-            <button id="consultant-btn" class="btn">Consultant?</button>
-            <button id="instructor-btn" class="btn">Instructor?</button>
-            <p>test test</p>
+            <h1>Welcome to the Writing Center!</h1>
+            <button id="student-btn" class="btn">Student, click here</button>
+            <button id="staff-btn" class="btn">Staff, click here</button>
         </div>
-        
     </section>
 
-    <section id="student-page" class="hidden" role="region">
+    <!-- Student page:
+    html done
+    css done
+    js
+    -->
+    <section id="student-page" role="region" class="hidden">
         <div class="center">
-            <h1>Hello, student!</h1>
-            <h3>Please Sign in</h3>
-            <form id="student-form" method="POST" action="#">
-                <label for="student-name">Full Name</label>
-                <input type="text" name="student-name" id="student-name">
-                <label for="student-teacher">Teacher</label>
-                <input type="text" name="student-teacher" id="student-teacher">
-                <label for="student-assignment">Assignment</label>
-                <input type="text" name="student-assignment" id="student-assignment">
-                <label for="student-tutor">Tutor</label>
-                <input type="text" name="student-tutor" id="student-tutor">
-                <input type="submit" value="Jump in line" class="btn">
-            </form>
-            <button class="back btn">Back</button>
-
+            <h1>Welcome, student!</h1>
+            <h3>If this is your first time here, make sure to register. </h3>
+            <h3>Returning students, welcome back! Please check-in and someone will be with you shortly. </h3>
+            <button id="student-register-btn" class="btn">Register</button>
+            <button id="student-login-btn" class="btn">Check-in</button>
         </div>
-        
     </section>
 
-    <section id="consultant-login" class="hidden" role="region">
-        <div class="center">
-            <h1>Hello, Consultant!</h1>
-            <h3>Please login</h3>
-            <form id="consultant-form" action="/dashboard1" method="post">
-                <label for="">Email Address</label>
-                <input type="email">
+    <!-- Student register 
+    html done
+    css
+    js
+    -->
+    <section id="student-register" role="region" class="hidden">
+        <div class="">
+            <h1>Register</h1>
+            <form class="form" action="#" method="post">
+                <label for="student-first-name">First Name</label>
+                <input type="text" name="" id="student-first-name">
+                <label for="">Last Name</label>
+                <input type="text" name="" id="">
+                <label for="">Email</label>
+                <input type="email" name="" id="">
                 <label for="">Password</label>
-                <input type="password">
-                <input type="submit" value="Login" class="btn">
+                <input type="password" name="" id="">
+                <label for="">Confirm Password</label>
+                <input type="password" name="" id="">
+                <button class="btn">Register</button>
             </form>
-            <button class="back btn">Back</button>
-            
         </div>
+    </section>
+
+    <!-- Student Login
+    html done
+    css
+    js
+    -->
+    <section id="student-login" role="region" class="hidden">
+        <div class="">
+            <h1>Welcome back, student!</h1>
+            <form class="form" action="#" method="post">
+                <label for="">Email</label>
+                <input type="email" name="" id="">
+                <label for="">Password</label>
+                <input type="password" name="" id="">
+                <button class="btn">Login</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Staff Login
+    html done
+    css
+    js  
+         -->
+    <section id="staff-login" role="region" class="hidden">
+        <div class="">
+            <h1>Staff Member Login</h1>
+            <form class="form" action="#" method="post">
+                <label for="">Email</label>
+                <input type="email" name="" id="">
+                <label for="">Password</label>
+                <input type="password" name="" id="">
+                <button class="btn">Login</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Dashboard - area that renders differently depending on role of user
+        html done
+        css
+        js  
+             -->
+    <section id="dashboard" role="region" class="hidden">
         
-        
+    </section>
+
+    <!-- Queue 
+    html done
+    css done
+    js
+        -->
+    <section class="hidden" role="region">
+        <h1 class="center">Waiting to be helped:</h1>
+        <ul class="waitlist">
+    
+        </ul>
+        <!-- Add field that: 
+                    -renders every db appointment entry for the day 
+                    -in order of created time, and 
+                    -only if they are still waiting to be helped  -->
     </section>
     
-    <section id="instructor-login" class="hidden" role="region">
-        <div class="center">
-            <h1>Hello, Instructor!</h1>
-            <h3>Please login</h3>
-            <form id="instructor-form" action="/dashboard2" method="post">
-                <label for="">Email Address</label>
-                <input type="email">
-                <label for="">Password</label>
-                <input type="password">
-                <input type="submit" value="Login" class="btn">
-            </form>
-            <button class="back btn">Back</button>
-        </div>
-        
-    </section>
 
+
+    <!-- Footer, for photo credits -->
     <footer role="contentinfo">
         <p class="center">
         Photo by Dylan Gillis on Unsplash

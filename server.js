@@ -9,19 +9,8 @@ app.use(express.json());
 app.use(express.static('public'));
 
 app.get("/", (req, res) => {
+    console.log('landed on /')
     res.sendFile(__dirname + "/public/index.html");
-});
-
-app.get("/queue", (req, res) => {
-    res.sendFile(__dirname + "/public/queue.html");
-});
-
-app.post("/dashboard1", (req, res) => {
-    res.sendFile(__dirname + "/public/dashboard-cons.html");
-});
-
-app.post("/dashboard2", (req, res) => {
-    res.sendFile(__dirname + "/public/dashboard-inst.html");
 });
 
 app.post("/", (req, res)=>{

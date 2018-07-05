@@ -170,39 +170,14 @@ const students = MOCK_ENTRIES.students;
 const consultants = MOCK_ENTRIES.consultants;
 const instructors = MOCK_ENTRIES.instructors;
 
-function hideAll (){
-    $('section').addClass('hidden');
-}
-
-function showLandingPage() {
-    $('#landing-page').removeClass('hidden');
-}
-
-function showStudentPage() {
-    $('#student-page').removeClass('hidden');
-}
-
-function showConsultantLogin() {
-    $('#consultant-login').removeClass('hidden');
-}
-
-function showInstructorLogin() {
-    $('#instructor-login').removeClass('hidden');
-}
-
 $('#student-btn').on('click', function (){
     hideAll();
     showStudentPage();
 })
 
-$('#consultant-btn').on('click', function () {
+$('#staff-btn').on('click', function () {
     hideAll();
     showConsultantLogin();
-})
-
-$('#instructor-btn').on('click', function () {
-    hideAll();
-    showInstructorLogin();
 })
 
 $('.back').on('click', function () {
@@ -217,7 +192,6 @@ function getWaitingStudents (callbk){
     for (let i = 0; i < waitingKids.length; i++){
         callbk(waitingKids[i]);
     }
-    
 }
 
 function renderWaitlist(el) {
@@ -265,6 +239,4 @@ function tellTime(){
 
 }
 
-tellTime();
-
-setInterval(tellTime(), 1000); 
+setInterval(tellTime, 1000); 

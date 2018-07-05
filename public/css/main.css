@@ -2,10 +2,23 @@
     display: none !important; 
 }
 
-#student-form {
-    display: flex;
-    flex-direction: column;
-    
+@media only screen 
+  and (max-device-width: 768px) 
+  and (-webkit-min-device-pixel-ratio: 1) {
+    .btn {
+    background-color: maroon;
+    color: white;
+    border: 1px white solid;
+    box-shadow: rgb(35, 35, 180) 2px 2px 2px;
+    cursor: pointer;
+    height: 40px;
+    width: 160px;
+    margin-top: 10px;
+    }
+
+    label, input {
+    max-width: 85%;
+    }
 }
 
 .btn {
@@ -17,6 +30,22 @@
     height: 40px;
     width: 22%;
     margin-top: 10px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+/* center in div */
+.cid { 
+    margin: 0 auto 5px auto;
+}
+
+
+label, input {
+    max-width: 25%;
 }
 
 .clock {
@@ -65,17 +94,20 @@ header {
     border-radius: 10px;
 }
 
-@media only screen 
-  and (max-device-width: 768px) 
-  and (-webkit-min-device-pixel-ratio: 1) {
-    .btn {
-    background-color: maroon;
-    color: white;
-    border: 1px white solid;
-    box-shadow: rgb(35, 35, 180) 2px 2px 2px;
-    cursor: pointer;
-    height: 40px;
-    width: 160px;
-    margin-top: 10px;
+li {
+    height: 80px;
+    width: 65%;
+    list-style-type: none;
+    border: 3px maroon solid;
+    margin: 5px auto;
+    border-radius: 18px;
+    padding: 5% 5%;
+    font-size: 2em;
+    text-align: center;
+    background: 
+        linear-gradient(
+            135deg,
+            rgb(124, 124, 230), white
+        );
 }
-}
+

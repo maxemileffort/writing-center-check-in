@@ -10,3 +10,4 @@ This project arose from my wife wanting to start a writing center at the school 
 and waitlisting students that arrive. That way, if teachers wanted records of which of their students were using this service, they could see that,
 as well as what was being talked about and the degree to which it was helping their students.
 
+![wireframe](https://raw.githubusercontent.com/maxemileffort/writing-center-check-in-node-capstone/master/public/img/IMG_0501.jpg)

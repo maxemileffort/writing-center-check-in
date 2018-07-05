@@ -197,9 +197,16 @@ $('#student-login-btn').on('click', function (){
 })
 
 // user attempts to register as a student
-$('#student-register-send').on('click', function (){
+$('#student-register-send').on('click', function (event){
+    event.preventDefault();
     //make sure email and password fields contain something
+    if ($('#student-email-reg').val() === '' || $('#student-password1').val() === '' || $('#student-password2').val() === '' ){
+        $('#student-reg-error').removeClass('hidden');
+        console.log("error, empty fields");
+        $('#student-register').removeClass('hidden');
+    } 
     //make sure passwords match
+    // if(){}
     //grab values from each input
     //ajax call to endpoint
     //route to landing page
@@ -255,13 +262,14 @@ getWaitingStudents(renderWaitlist);
 function checkInStudent(student){
     let el = student.id;
     // console.log(el);
-    $(`.start-btn-${el}`).on("click", function(event){
-        event.stopPropagation();
+    $(`.begin-btn-${el}`).on("click", function(){
         student.currentlyWaiting = false;
         $('.waitlist').html('');
         getWaitingStudents(renderWaitlist);
     })
 }
+
+
 // end render waitlist
 
 
@@ -275,6 +283,7 @@ function tellTime(){
     if(hh<10){
         hh = '0'+hh;
     }
+    
     if(mm<10){
         mm = '0'+mm;
     }
@@ -282,6 +291,10 @@ function tellTime(){
         sec = '0'+sec;
     }
     time = `${hh}:${mm}:${sec}`;
+    if (hh > 12) {
+        hh = '0' + (hh - 12);
+        time = `${hh}:${mm}:${sec} PM`;
+    }
     $('.clock').html(`<h2>Current Time: ${time}</h2>`);
 
 }

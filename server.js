@@ -12,6 +12,11 @@ app.get("/", (req, res) => {
     res.sendFile(__dirname + "/public/index.html");
 });
 
+app.get("/queue", (req, res) => {
+    console.log('landed on /queue')
+    res.sendFile(__dirname + "/public/queue.html");
+});
+
 app.post("/", (req, res)=>{
     console.log('tried to submit some data');
     res.redirect("/")

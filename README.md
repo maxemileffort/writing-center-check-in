@@ -1,8 +1,8 @@
 # Writing Center Check-in
 
-Sign in page: localhost:8080/
+Sign in page: https://writing-center-checkin.herokuapp.com/
 
-Waitinglist for checked-in students:  localhost:8080/queue
+Waitinglist for checked-in students:  https://writing-center-checkin.herokuapp.com/queue
 
 Technology used: HTML, CSS, Javascript, jQuery, Node, MongoDB
 

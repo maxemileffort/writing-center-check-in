@@ -1,185 +1,117 @@
-const MOCK_ENTRIES = {
-    "students": [
+const MOCK_USERS = {
+    "users": [
         {
             "id": "11111",
             "name": "John Doe",
             "currentlyWaiting": true,
+            "role": "student",
             "recentTime": "3:05",
             "recentRequest": "Jill",
             "email": "jd@ch.edu",
-            "previousSessions": [
-                {
-                    "date": "Aug 28,2018",
-                    "consultant": "Sam Steak",
-                    "notes": "talked about blah blah blah"
-                },
-                {
-                    "date": "Sep 5,2018",
-                    "consultant": "Jill Hill",
-                    "notes": "talked about blah blah blah"
-                },
-                {
-                    "date": "Nov 15,2018",
-                    "consultant": "Jack Squat",
-                    "notes": "talked about blah blah blah"
-                },
-            ]
         },
         {
             "id": "22222",
             "name": "Sally Student",
             "currentlyWaiting": false,
+            "role": "student",
             "recentTime": "3:10",
             "recentRequest": "Jack",
             "email": "sallystudent@ch.edu",
-            "previousSessions": [
-                {
-                    "date": "Aug 28,2018",
-                    "consultant": "Sam Steak",
-                    "notes": "talked about blah blah blah"
-                },
-                {
-                    "date": "Sep 5,2018",
-                    "consultant": "Jill Hill",
-                    "notes": "talked about blah blah blah"
-                },
-                {
-                    "date": "Nov 15,2018",
-                    "consultant": "Jack Squat",
-                    "notes": "talked about blah blah blah"
-                },
-            ]
         },
         {
             "id": "33333",
             "name": "Seymor Butts",
             "currentlyWaiting": true,
+            "role": "student",
             "recentTime": "3:15",
             "recentRequest": "Sam",
             "email": "butts@ch.edu",
-            "previousSessions": [
-                {
-                    "date": "Aug 28,2018",
-                    "consultant": "Sam Steak",
-                    "notes": "talked about blah blah blah"
-                },
-                {
-                    "date": "Sep 5,2018",
-                    "consultant": "Jill Hill",
-                    "notes": "talked about blah blah blah"
-                },
-                {
-                    "date": "Nov 15,2018",
-                    "consultant": "Jack Squat",
-                    "notes": "talked about blah blah blah"
-                },
-            ]
-        }
-    ],
-    "staff": [
+        },
         {
             "id": "aaaaa",
             "name": "Sam Steak",
             "email": "samsteak@ch.edu",
-            "previousSessions": [
-                {
-                    "date": "Aug 28,2018",
-                    "student": "John Doe",
-                    "notes": "talked about blah blah blah"
-                },
-                {
-                    "date": "Sep 5,2018",
-                    "student": "Sally Student",
-                    "notes": "talked about blah blah blah"
-                },
-                {
-                    "date": "Nov 15,2018",
-                    "student": "Seymor Butts",
-                    "notes": "talked about blah blah blah"
-                },
-            ]
-            
+            "role": "tutor",
         },
         {
             "id": "bbbbb",
             "name": "Jill Hill",
             "email": "jhill@ch.edu",
-            "previousSessions": [
-                {
-                    "date": "Aug 28,2018",
-                    "student": "John Doe",
-                    "notes": "talked about blah blah blah"
-                },
-                {
-                    "date": "Sep 5,2018",
-                    "student": "Sally Student",
-                    "notes": "talked about blah blah blah"
-                },
-                {
-                    "date": "Nov 15,2018",
-                    "student": "Seymor Butts",
-                    "notes": "talked about blah blah blah"
-                },
-            ]
+            "role": "tutor",
         },
         {
             "id": "ccccc",
             "name": "Jack Squat",
             "email": "js@ch.edu",
-            "previousSessions": [
-                {
-                    "date": "Aug 28,2018",
-                    "student": "John Doe",
-                    "notes": "talked about blah blah blah"
-                },
-                {
-                    "date": "Sep 5,2018",
-                    "student": "Sally Student",
-                    "notes": "talked about blah blah blah"
-                },
-                {
-                    "date": "Nov 15,2018",
-                    "student": "Seymor Butts",
-                    "notes": "talked about blah blah blah"
-                },
-            ]
-        }
-    ],
-    "sessions": [
+            "role": "tutor",
+        },
         {
             "id": "1a1a1",
             "name": "Barry Allen",
             "email": "theflash@ch.edu",
-            "days-in": [
-                "Sep 5, 2018"
-            ]
+            "role": "instructor",
         },
         {
             "id": "2b2b2",
             "name": "Clark Kent",
             "email": "redcape@ch.edu",
-            "days-in": [
-                "Aug 28, 2018",
-                "Nov 15, 2018"
-            ]         
+            "role": "instructor",         
         }
     ]
 }
 
-const students = MOCK_ENTRIES.students;
-const consultants = MOCK_ENTRIES.consultants;
-const instructors = MOCK_ENTRIES.instructors;
+const MOCK_SESSIONS = {
+    "sessions" : [
+        {
+            "date": "2018-11-08",
+            "time": "16:00",
+            "tutor": "Sam Steak",
+            "instructor": "Barry Allen",
+            "student": "John Doe",
+            "notes": "Talked to John about tractors",
+        },
+        {
+            "date": "2018-11-08",
+            "time": "13:00",
+            "tutor": "Jack Squat",
+            "instructor": "Clark Kent",
+            "student": "Seymour Butts",
+            "notes": "Talked to Seymour about donkeys",
+        },
+        {
+            "date": "2018-11-09",
+            "time": "14:03",
+            "tutor": "Sam Steak",
+            "instructor": "Barry Allen",
+            "student": "Sally Student",
+            "notes": "Talked to Sally about physics",
+        },
+        {
+            "date": "2018-11-29",
+            "time": "16:00",
+            "tutor": "Jill Hill",
+            "instructor": "Barry Allen",
+            "student": "Sally Student",
+            "notes": "Talked to Sally about Superman",
+        },
+    ]
+}
+
+let students = MOCK_USERS.users.filter(user => user.role === "student");
+let tutors = MOCK_USERS.users.filter(user => user.role === "tutor");
+let instructors = MOCK_USERS.users.filter(user => user.role === "instructor");
+let sessions = MOCK_SESSIONS.sessions;
 
 // TODO: 
 //     -navigational flow
 //     -grab vals from fields
 //     -ajax calls
-//     -rewrite mock data for students, staff, and sessions
 
 // begin button behaviors
 $('.btn').on('click', function (){
     hideAll();
 })
+
 // student buttons
 //user clicks student button
 $('#student-btn').on('click', function (){
@@ -199,17 +131,61 @@ $('#student-login-btn').on('click', function (){
 // user attempts to register as a student
 $('#student-register-send').on('click', function (event){
     event.preventDefault();
+    let msg;
     //make sure email and password fields contain something
-    if ($('#student-email-reg').val() === '' || $('#student-password1').val() === '' || $('#student-password2').val() === '' ){
-        $('#student-reg-error').removeClass('hidden');
+    if ($('#student-first-name-reg').val() === '' || $('#student-last-name-reg').val() === '' ||
+    $('#student-email-reg').val() === '' || $('#student-password1-reg').val() === '' ||
+    $('#student-password2-reg').val() === '' ){
+        msg = "All fields are required.";
+        $('#student-reg-error').html(`${msg}`);
         console.log("error, empty fields");
         $('#student-register').removeClass('hidden');
     } 
     //make sure passwords match
-    // if(){}
-    //grab values from each input
+    if ($('#student-password1-reg').val() !== $('#student-password2-reg').val()){
+        msg = "Passwords must match.";
+        $('#student-register').removeClass('hidden');
+        console.log('passwords do not match')
+        $('#student-reg-error').html(`${msg}`);
+    }
+    // Success, grab values from each input
+    let firstName = $('#student-first-name-reg').val();
+    let lastName = $('#student-last-name-reg').val();
+    let email = $('#student-email-reg').val();
+    let password = $('#student-password1-reg').val();
+    // console.log(firstName);
+    // console.log(lastName);
+    // console.log(email);
+    // console.log(password);
+    let newStudentObject = {
+        firstName: firstName,
+        lastName: lastName,
+        role: "student",
+        email: email,
+        password: password
+    }
+    // console.log(newStudentObject)
     //ajax call to endpoint
+    $.ajax({ // this ajax call gets randomly called again a minute later after it is called the first time
+        type: 'POST',
+        url: '/students/create',
+        dataType: 'json',
+        data: JSON.stringify(newStudentObject),
+        contentType: 'application/json'
+    })
+    //if call is succefull
+    .done(function (result) {
+        console.log(result);
+    })
+    //if the call is failing
+    .fail(function (jqXHR, error, errorThrown) {
+        console.log(jqXHR);
+        console.log(error);
+        console.log(errorThrown);
+    });
     //route to landing page
+    hideAll();
+    $('#landing-page').removeClass('hidden');
 })
 
 //user attempts to login as a student
@@ -224,10 +200,13 @@ $('#staff-btn').on('click', function () {
     $('#staff-login').removeClass('hidden');
 })
 
+//user tries to login as staff member
 $('#staff-login-send').on('click', function () {
     //grab values
     //ajax call
+    //render next page based on user role (instructor vs tutor)
 })
+
 
 // end button behaviors
 

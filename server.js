@@ -4,6 +4,11 @@ const express = require('express'),
 const app = express();
 app.use(express.json());
 
+mongoose.Promise = global.Promise;
+
+const { PORT, DATABASE_URL } = require('./config');
+const { Student, Staff, Session } = require('./models');
+
 
 app.use(express.static('public'));
 
@@ -17,9 +22,16 @@ app.get("/queue", (req, res) => {
     res.sendFile(__dirname + "/public/queue.html");
 });
 
-app.post("/", (req, res)=>{
-    console.log('tried to submit some data');
-    res.redirect("/")
+app.post('/students/create', (req, res)=>{
+    console.log('trying to create new student');
+    console.log(req.body);
+    
+})
+
+app.post('/students/login', (req, res)=>{
+    console.log('trying to login student');
+    console.log(req.body);
+    
 })
 
 // both runServer and closeServer need to access the same

@@ -12,6 +12,7 @@ const { Student, Staff, Session } = require('./models');
 
 app.use(express.static('public'));
 
+//Begin search features
 app.get("/", (req, res) => {
     console.log('landed on /')
     res.sendFile(__dirname + "/public/index.html");
@@ -21,62 +22,146 @@ app.get("/queue", (req, res) => {
     console.log('landed on /queue')
     res.sendFile(__dirname + "/public/queue.html");
 });
+//END search features
 
+//Begin creating new users
+//new student user
 app.post('/students/create', (req, res)=>{
     console.log('trying to create new student');
-    console.log(req.body);
-    
+    // console.log(req.body);
+    let firstName = req.body.firstName;
+    let lastName = req.body.lastName;
+    let role = "student";
+    let email = req.body.email;
+    let password = req.body.password;
+    let currentlWaiting = false;
+    let recentRequest = '';
+    let recentTime = '';
+    Student.create({
+        firstName,
+        lastName,
+        role,
+        email,
+        password,
+        currentlWaiting,
+        recentTime,
+        recentRequest
+    })
+    .then(student => {
+        res.status(201).json(student.serialize());
+        console.log(student.name + " created.")
+    })
+    .catch(err => {
+        console.error(err);
+        res.status(500).json({ message: "Couldn't create student." });
+    });
+
 })
 
+//new tutor user
+app.post('/tutors/create', (req, res)=>{
+    console.log('trying to create new tutor');
+    // console.log(req.body);
+    let firstName = req.body.firstName;
+    let lastName = req.body.lastName;
+    let role = "tutor";
+    let email = req.body.email;
+    let password = req.body.password;
+    Staff.create({
+        firstName,
+        lastName,
+        role,
+        email,
+        password,
+    })
+    .then(tutor => {
+        res.status(201).json(staff.serialize());
+        console.log(tutor.name + " created.")
+    })
+    .catch(err => {
+        console.error(err);
+        res.status(500).json({ message: "Couldn't create tutor." });
+    });
+
+})
+
+// new instructor user
+app.post('/instructors/create', (req, res)=>{
+    console.log('trying to create new instructor');
+    // console.log(req.body);
+    let firstName = req.body.firstName;
+    let lastName = req.body.lastName;
+    let role = "instructor";
+    let email = req.body.email;
+    let password = req.body.password;
+    Staff.create({
+        firstName,
+        lastName,
+        role,
+        email,
+        password,
+    })
+    .then(instructor => {
+        res.status(201).json(staff.serialize());
+        console.log(instructor.name + " created.")
+    })
+    .catch(err => {
+        console.error(err);
+        res.status(500).json({ message: "Couldn't create instructor." });
+    });
+
+})
+//End creating new users
+
+//Begin login users
 app.post('/students/login', (req, res)=>{
     console.log('trying to login student');
     console.log(req.body);
     
 })
 
-// both runServer and closeServer need to access the same
-// server object, so we declare `server` here, and then when
-// runServer runs, it assigns a value.
+app.post('/staff/login', (req, res)=>{
+    console.log('trying to login staff member');
+    console.log(req.body);
+    
+})
+
+
+//END Login users
+
 let server;
 
-// this function starts our server and returns a Promise.
-// In our test code, we need a way of asynchronously starting
-// our server, since we'll be dealing with promises there.
-function runServer() {
-    const port = process.env.PORT || 8080;
+function runServer(dbUrl, port) {
     return new Promise((resolve, reject) => {
-        server = app
-            .listen(port, () => {
-                console.log(`Your app is listening on port ${port}`);
-                resolve(server);
-            })
-            .on("error", err => {
+        mongoose.connect(dbUrl, err => {
+            if (err) {
+                return reject(err);
+            }
+            server = app.listen(port, () => {
+                console.log(`Listening on localhost:${port}`);
+                resolve();
+            }).on('error', err => {
+                mongoose.disconnect();
                 reject(err);
             });
-    });
-}
-
-// like `runServer`, this function also needs to return a promise.
-// `server.close` does not return a promise on its own, so we manually
-// create one.
-function closeServer() {
-    return new Promise((resolve, reject) => {
-        console.log("Closing server");
-        server.close(err => {
-            if (err) {
-                reject(err);
-                // so we don't also call `resolve()`
-                return;
-            }
-            resolve();
         });
     });
 }
 
-// if server.js is called directly (aka, with `node server.js`), this block
-// runs. but we also export the runServer command so other code (for instance, test code) can start the server as needed.
 if (require.main === module) {
-    runServer().catch(err => console.error(err));
+    runServer(DATABASE_URL, PORT).catch(err => console.error(err));
+}
+
+function closeServer() {
+    return mongoose.disconnect().then(() => new Promise((resolve, reject) => {
+        console.log('Closing server');
+        server.close(err => {
+            if (err) {
+                return reject(err);
+            }
+            resolve();
+        });
+    }));
 }
 
 module.exports = { app, runServer, closeServer };

@@ -7,7 +7,7 @@ const studentSchema = mongoose.Schema({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     currentlyWaiting: { type: Boolean },
-    role: { type: String, required: true },
+    role: { type: String },
     recentTime: {type: String},
     recentRequest: {type: String},
     email: {type: String, required: true},

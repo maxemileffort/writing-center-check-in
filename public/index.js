@@ -108,23 +108,22 @@ let sessions = MOCK_SESSIONS.sessions;
 //     -ajax calls
 
 // begin button behaviors
-$('.btn').on('click', function (){
-    hideAll();
-})
-
 // student buttons
 //user clicks student button
 $('#student-btn').on('click', function (){
+    hideAll();
     $('#student-page').removeClass('hidden');
 })
 
 //user wants to register as a student
 $('#student-register-btn').on('click', function (){
+    hideAll();
     $('#student-register').removeClass('hidden');
 })
 
 // user wants to login as a student
 $('#student-login-btn').on('click', function (){
+    hideAll();
     $('#student-login').removeClass('hidden');
 })
 
@@ -132,7 +131,7 @@ $('#student-login-btn').on('click', function (){
 $('#student-register-send').on('click', function (event){
     event.preventDefault();
     let msg;
-    //make sure email and password fields contain something
+    //make sure all fields contain something
     if ($('#student-first-name-reg').val() === '' || $('#student-last-name-reg').val() === '' ||
     $('#student-email-reg').val() === '' || $('#student-password1-reg').val() === '' ||
     $('#student-password2-reg').val() === '' ){
@@ -147,51 +146,93 @@ $('#student-register-send').on('click', function (event){
         $('#student-register').removeClass('hidden');
         console.log('passwords do not match')
         $('#student-reg-error').html(`${msg}`);
+    } 
+    else {
+        // Success, grab values from each input
+        let firstName = $('#student-first-name-reg').val();
+        let lastName = $('#student-last-name-reg').val();
+        let email = $('#student-email-reg').val();
+        let password = $('#student-password1-reg').val();
+        // console.log(firstName);
+        // console.log(lastName);
+        // console.log(email);
+        // console.log(password);
+        let newStudentObject = {
+            firstName: firstName,
+            lastName: lastName,
+            role: "student",
+            email: email,
+            password: password
+        }
+        // console.log(newStudentObject)
+        //ajax call to endpoint
+        $.ajax({ // this ajax call gets randomly called again a minute later after it is called the first time
+            type: 'POST',
+            url: '/students/create',
+            dataType: 'json',
+            data: JSON.stringify(newStudentObject),
+            contentType: 'application/json'
+        })
+            //if call is succefull
+            .done(function (result) {
+                console.log(result);
+                //route to landing page, temporarily --> needs to route to 
+                //check-in page after auto-logging in student
+                hideAll();
+                $('#landing-page').removeClass('hidden');
+            })
+            //if the call is failing
+            .fail(function (jqXHR, error, errorThrown) {
+                console.log(errorThrown);
+                console.log(error);
+                console.log(jqXHR.responseJSON.message);
+            });
+        
+        
     }
-    // Success, grab values from each input
-    let firstName = $('#student-first-name-reg').val();
-    let lastName = $('#student-last-name-reg').val();
-    let email = $('#student-email-reg').val();
-    let password = $('#student-password1-reg').val();
-    // console.log(firstName);
-    // console.log(lastName);
-    // console.log(email);
-    // console.log(password);
-    let newStudentObject = {
-        firstName: firstName,
-        lastName: lastName,
-        role: "student",
-        email: email,
-        password: password
-    }
-    // console.log(newStudentObject)
-    //ajax call to endpoint
-    $.ajax({ // this ajax call gets randomly called again a minute later after it is called the first time
-        type: 'POST',
-        url: '/students/create',
-        dataType: 'json',
-        data: JSON.stringify(newStudentObject),
-        contentType: 'application/json'
-    })
-    //if call is succefull
-    .done(function (result) {
-        console.log(result);
-    })
-    //if the call is failing
-    .fail(function (jqXHR, error, errorThrown) {
-        console.log(jqXHR);
-        console.log(error);
-        console.log(errorThrown);
-    });
-    //route to landing page
-    hideAll();
-    $('#landing-page').removeClass('hidden');
 })
 
 //user attempts to login as a student
 $('#student-login-send').on('click', function (){
     //grab values
+    let email = $('#student-email-login').val();
+    let password = $('#student-password-login').val();
+    let studentLoginObject = {
+        email: email,
+        password: password,
+    };
+    //make sure fields aren't blank
+    if (email === '' || password === ''){
+        let msg = "All fields are required.";
+        $('#student-login-error').html(msg);
+    } else {
     //ajax call
+        $.ajax({ 
+            type: 'POST',
+            url: '/students/login',
+            dataType: 'json',
+            data: JSON.stringify(newLoginObjects),
+            contentType: 'application/json'
+        })
+            //if call succeeds
+            .done(function (result) {
+                console.log(result);
+                //route to landing page, temporarily --> needs to route to 
+                //check-in page after auto-logging in student
+                hideAll();
+                $('#landing-page').removeClass('hidden');
+            })
+            //if the call fails
+            .fail(function (jqXHR, error, errorThrown) {
+                console.log(errorThrown);
+                console.log(error);
+                console.log(jqXHR.responseJSON.message);
+            });
+    //error
+    //success
+    }
+    
+    
 })
 
 // staff buttons

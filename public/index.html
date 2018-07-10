@@ -55,7 +55,7 @@
                 <label for="student-last-name-reg">Last Name</label>
                 <input type="text" name="studentLastName" id="student-last-name-reg" value="Doe">
                 <label for="student-email-reg">Email</label>
-                <input type="email" name="studentEmail" id="student-email-reg" value="asdf@asdf.com">
+                <input type="email" name="studentEmail" id="student-email-reg" value="abc@abc.com">
                 <label for="student-password1-reg">Password</label>
                 <input type="password" name="studentPassword1" id="student-password1-reg" value="123">
                 <label for="student-password2-reg">Confirm Password</label>
@@ -76,10 +76,31 @@
             <p id="student-login-error"></p>
             <form class="form" action="#" method="post">
                 <label for="student-email-login">Email</label>
-                <input type="email" name="studentEmailLogin" id="student-email-login">
+                <input type="email" name="studentEmailLogin" id="student-email-login" value="abc@abc.com">
                 <label for="student-password-login">Password</label>
-                <input type="password" name="studentPasswordLogin" id="student-password-login">
+                <input type="password" name="studentPasswordLogin" id="student-password-login" value="123">
                 <button id="student-login-send" class="btn">Login</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Student Check-in
+    html done
+    css
+    js
+	 -->
+    <section id="student-checkin-page" role="region" class="hidden">
+        <div class="">
+            <h1>Welcome back, <span id="returned-student-name">student</span>!</h1>
+            <p id="student-checkin-error"></p>
+            <form class="form" action="#" method="post">
+                <label for="student-teacher">Teacher</label>
+                <input type="text" name="studentTeacher" id="student-teacher" value="Mrs. Fakename">
+                <label for="student-assignment">Assignment</label>
+                <input type="text" name="studentAssignment" id="student-assignment" value="Fake paper">
+                <label for="requested-tutor">Request a tutor:</label>
+                <input type="text" name="requestedTutor" id="requested-tutor" value="Jill">
+                <button id="student-checkin-send" class="btn">Check-in</button>
             </form>
         </div>
     </section>

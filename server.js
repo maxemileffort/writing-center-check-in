@@ -18,6 +18,26 @@ app.get("/", (req, res) => {
     res.sendFile(__dirname + "/public/index.html");
 });
 
+app.get('/check-duplicate-email/:inputEmail', (req, res)=>{
+    let inputEmail = req.params.inputEmail;
+    console.log(inputEmail);
+    Student
+        .find({
+            "email": inputEmail
+        })
+        .then(function (entries) {
+            res.json({
+                entries
+            });
+        })
+        .catch(function (err) {
+            console.error(err);
+            res.status(500).json({
+                message: 'Internal server error'
+            });
+    });
+})
+
 app.get("/queue", (req, res) => {
     console.log('landed on /queue')
     res.sendFile(__dirname + "/public/queue.html");
@@ -26,9 +46,10 @@ app.get("/queue", (req, res) => {
 
 //Begin creating new users
 //new student user
-app.post('/students/create', (req, res)=>{
+app.post('/students/create/', (req, res)=>{
     console.log('trying to create new student');
     // console.log(req.body);
+    //grab values
     let firstName = req.body.firstName;
     let lastName = req.body.lastName;
     let role = "student";
@@ -37,29 +58,32 @@ app.post('/students/create', (req, res)=>{
     let currentlWaiting = false;
     let recentRequest = '';
     let recentTime = '';
-    Student.create({
-        firstName,
-        lastName,
-        role,
-        email,
-        password,
-        currentlWaiting,
-        recentTime,
-        recentRequest
-    })
-    .then(student => {
-        res.status(201).json(student.serialize());
-        console.log(student.name + " created.")
-    })
-    .catch(err => {
-        console.error(err);
-        res.status(500).json({ message: "Couldn't create student." });
-    });
+    
+        Student.create({
+            firstName,
+            lastName,
+            role,
+            email,
+            password,
+            currentlWaiting,
+            recentTime,
+            recentRequest
+        })
+        .then(student => {
+            res.status(201).json(student.serialize());
+            console.log(student.name + " created.")
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ message: "Couldn't create student." });
+        });
+    
+    
 
 })
 
 //new tutor user
-app.post('/tutors/create', (req, res)=>{
+app.post('/tutors/create/', (req, res)=>{
     console.log('trying to create new tutor');
     // console.log(req.body);
     let firstName = req.body.firstName;
@@ -86,7 +110,7 @@ app.post('/tutors/create', (req, res)=>{
 })
 
 // new instructor user
-app.post('/instructors/create', (req, res)=>{
+app.post('/instructors/create/', (req, res)=>{
     console.log('trying to create new instructor');
     // console.log(req.body);
     let firstName = req.body.firstName;
@@ -114,13 +138,28 @@ app.post('/instructors/create', (req, res)=>{
 //End creating new users
 
 //Begin login users
-app.post('/students/login', (req, res)=>{
+//Login student user
+app.post('/students/login/', (req, res)=>{
     console.log('trying to login student');
-    console.log(req.body);
-    
+    let email = req.body.email;
+    let password = req.body.password;
+	Student.findOne({
+        email: email,
+        password: password
+    })
+    .then(student=>{
+        console.log('Logged in as '+ student);
+        res.status(200).json(student.serialize());
+    })
+    .catch(err=>{
+        console.log(err);
+        res.status(500).json({message: "Couldn't log in as student. Please check email and password."})
+    })
 })
 
-app.post('/staff/login', (req, res)=>{
+
+//Login staff member
+app.post('/staff/login/', (req, res)=>{
     console.log('trying to login staff member');
     console.log(req.body);
     

@@ -101,11 +101,19 @@ let students = MOCK_USERS.users.filter(user => user.role === "student");
 let tutors = MOCK_USERS.users.filter(user => user.role === "tutor");
 let instructors = MOCK_USERS.users.filter(user => user.role === "instructor");
 let sessions = MOCK_SESSIONS.sessions;
+let time; //need access to this for walk-in time
+
 
 // TODO: 
-//     -navigational flow
-//     -grab vals from fields
-//     -ajax calls
+//     -user registration:
+            // students 
+            // tutors
+            // instructors
+    //    -user login:
+    //         students
+    //         tutors
+    //         instructors
+    //     encryption
 
 // begin button behaviors
 // student buttons
@@ -126,6 +134,37 @@ $('#student-login-btn').on('click', function (){
     hideAll();
     $('#student-login').removeClass('hidden');
 })
+
+function checkDuplicateEmail(inputEmail) {
+    $.ajax({
+        type: 'GET',
+        url: `/check-duplicate-email/${inputEmail}`,
+        dataType: 'json',
+        contentType: 'application/json'
+    })
+        //if call is succefull
+        .done(function (result) {
+            console.log(result);
+            if (result.entries.length !== 0){
+                alert("Email is in use already.")
+                
+            }
+            
+        })
+        //if the call is failing
+        .fail(function (jqXHR, error, errorThrown) {
+            console.log(jqXHR);
+            console.log(error);
+            console.log(errorThrown);
+        });
+}
+
+$("#student-email-reg").blur(function (event){
+    event.preventDefault();
+    let email = $('#student-email-reg').val();
+    console.log(email);
+    checkDuplicateEmail(email);
+});
 
 // user attempts to register as a student
 $('#student-register-send').on('click', function (event){
@@ -153,6 +192,8 @@ $('#student-register-send').on('click', function (event){
         let lastName = $('#student-last-name-reg').val();
         let email = $('#student-email-reg').val();
         let password = $('#student-password1-reg').val();
+        //check for duplicate email address
+        
         // console.log(firstName);
         // console.log(lastName);
         // console.log(email);
@@ -168,7 +209,7 @@ $('#student-register-send').on('click', function (event){
         //ajax call to endpoint
         $.ajax({ // this ajax call gets randomly called again a minute later after it is called the first time
             type: 'POST',
-            url: '/students/create',
+            url: '/students/create/',
             dataType: 'json',
             data: JSON.stringify(newStudentObject),
             contentType: 'application/json'
@@ -179,21 +220,21 @@ $('#student-register-send').on('click', function (event){
                 //route to landing page, temporarily --> needs to route to 
                 //check-in page after auto-logging in student
                 hideAll();
-                $('#landing-page').removeClass('hidden');
+                $('#student-checkin-page').removeClass('hidden');
             })
             //if the call is failing
             .fail(function (jqXHR, error, errorThrown) {
                 console.log(errorThrown);
                 console.log(error);
                 console.log(jqXHR.responseJSON.message);
+                $("#student-reg-error").html(jqXHR.responseJSON.message);
             });
-        
-        
     }
 })
 
 //user attempts to login as a student
-$('#student-login-send').on('click', function (){
+$('#student-login-send').on('click', function (event){
+    event.preventDefault();
     //grab values
     let email = $('#student-email-login').val();
     let password = $('#student-password-login').val();
@@ -209,40 +250,52 @@ $('#student-login-send').on('click', function (){
     //ajax call
         $.ajax({ 
             type: 'POST',
-            url: '/students/login',
+            url: '/students/login/',
             dataType: 'json',
-            data: JSON.stringify(newLoginObjects),
+            data: JSON.stringify(studentLoginObject),
             contentType: 'application/json'
         })
             //if call succeeds
             .done(function (result) {
-                console.log(result);
-                //route to landing page, temporarily --> needs to route to 
-                //check-in page after auto-logging in student
+                // console.log(result);
+                //route to checkin page
                 hideAll();
-                $('#landing-page').removeClass('hidden');
+                $('#student-checkin-page').removeClass('hidden');
+                $('#returned-student-name').html(result.name);
+                result.recentTime = time;
+                console.log(result);
             })
             //if the call fails
             .fail(function (jqXHR, error, errorThrown) {
                 console.log(errorThrown);
                 console.log(error);
                 console.log(jqXHR.responseJSON.message);
+                $("#student-login-error").html(jqXHR.responseJSON.message);
             });
-    //error
-    //success
     }
-    
-    
+})
+
+//user attempts to checkin as a student
+$('#student-checkin-send').on('click', function (event){
+    event.preventDefault();
+    console.log('student checked in');
+    // add to queue
+    // create session
+    // go back to landing page
+    hideAll();
+    $('#landing-page').removeClass('hidden');
 })
 
 // staff buttons
 // user clicks staff button
 $('#staff-btn').on('click', function () {
+    hideAll();
     $('#staff-login').removeClass('hidden');
 })
 
 //user tries to login as staff member
-$('#staff-login-send').on('click', function () {
+$('#staff-login-send').on('click', function (event) {
+    event.preventDefault();
     //grab values
     //ajax call
     //render next page based on user role (instructor vs tutor)
@@ -294,7 +347,6 @@ function checkInStudent(student){
 
 
 // begin aesthetic js
-let time; //need access to this for walk-in time
 function tellTime(){
     let today = new Date();
     let hh = today.getHours();
@@ -307,14 +359,25 @@ function tellTime(){
     if(mm<10){
         mm = '0'+mm;
     }
+
     if(sec<10){
         sec = '0'+sec;
     }
-    time = `${hh}:${mm}:${sec}`;
-    if (hh > 12) {
-        hh = '0' + (hh - 12);
+
+    if (hh === '00') {
+        hh = 12;
+    }
+
+    if (hh>12){
+        hh = hh - 12;
         time = `${hh}:${mm}:${sec} PM`;
     }
+	
+    else {
+        time = `${hh}:${mm}:${sec}`;
+    }
+
+    
     $('.clock').html(`<h2>Current Time: ${time}</h2>`);
 
 }

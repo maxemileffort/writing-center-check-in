@@ -51,9 +51,9 @@
             <p id="student-reg-error" class=""></p>
             <form class="form" action="#" method="post">
                 <label for="student-first-name-reg">First Name</label>
-                <input type="text" name="studentFirstName" id="student-first-name-reg" value="John">
+                <input type="text" name="studentFirstName" id="student-first-name-reg" value="Frodo">
                 <label for="student-last-name-reg">Last Name</label>
-                <input type="text" name="studentLastName" id="student-last-name-reg" value="Doe">
+                <input type="text" name="studentLastName" id="student-last-name-reg" value="Baggins">
                 <label for="student-email-reg">Email</label>
                 <input type="email" name="studentEmail" id="student-email-reg" value="abc@abc.com">
                 <label for="student-password1-reg">Password</label>
@@ -113,11 +113,17 @@
     <section id="staff-login" role="region" class="hidden">
         <div class="">
             <h1>Staff Member Login</h1>
+            <p id="staff-login-error"></p>
             <form class="form" action="#" method="post">
+                <label for="role-selector-login">Select your Title</label>
+                <select name="roleSelectorLogin" id="role-selector-login">
+                    <option value="tutor">Tutor</option>
+                    <option value="instructor">Instructor</option>
+                </select>
                 <label for="staff-email-login">Email</label>
-                <input type="email" name="staffEmailLogin" id="staff-email-login">
+                <input type="email" name="staffEmailLogin" id="staff-email-login" value="qwer@asdf.com">
                 <label for="staff-password-login">Password</label>
-                <input type="password" name="staffPasswordLogin" id="staff-password-login">
+                <input type="password" name="staffPasswordLogin" id="staff-password-login" value="123">
                 <button id="staff-login-send" class="btn">Login</button>
             </form>
         </div>
@@ -125,12 +131,36 @@
 
     <!-- Dashboard - area that renders differently depending on role of user, but only
         renders for staff users
-        html done
+        html
         css
         js  
              -->
     <section id="dashboard" role="region" class="hidden">
-        
+        <section id="instructor-dash" class="hidden">
+            <h1>Register New Staff Member</h1>
+            <p id="staff-reg-error" class=""></p>
+            <form class="form" action="#" method="post">
+                <label for="staff-first-name-reg">First Name</label>
+                <input type="text" name="staffFirstName" id="staff-first-name-reg" value="Jill">
+                <label for="staff-last-name-reg">Last Name</label>
+                <input type="text" name="staffLastName" id="staff-last-name-reg" value="Hill">
+                <label for="role-selector-reg">Select Title</label>
+                <select name="roleSelectorReg" id="role-selector-reg">
+                    <option value="tutor">Tutor</option>
+                    <option value="instructor">Instructor</option>
+                </select>
+                <label for="staff-email-reg">Email</label>
+                <input type="email" name="staffEmail" id="staff-email-reg" value="poiu@lkjh.com">
+                <label for="staff-password1-reg">Password</label>
+                <input type="password" name="staffPassword1" id="staff-password1-reg" value="123">
+                <label for="staff-password2-reg">Confirm Password</label>
+                <input type="password" name="staffPassword2" id="staff-password2-reg" value="123">
+                <button id="staff-register-send" class="btn">Register</button>
+            </form>
+        </section>
+        <section id="tutor-dash" class="hidden">
+            <h1>Waitlist</h1>
+        </section>
     </section>
 
     <!-- Footer, for photo credits -->

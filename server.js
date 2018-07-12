@@ -7,21 +7,24 @@ app.use(express.json());
 mongoose.Promise = global.Promise;
 
 const { PORT, DATABASE_URL } = require('./config');
-const { Student, Staff, Session } = require('./models');
+const { User, Session } = require('./models');
 
 
 app.use(express.static('public'));
+let instructor; //used for session creation
 
-//Begin search features
+//====================
+//GET endpoints
+//====================
 app.get("/", (req, res) => {
-    console.log('landed on /')
+    console.log('landed on /');
     res.sendFile(__dirname + "/public/index.html");
 });
 
 app.get('/check-duplicate-email/:inputEmail', (req, res)=>{
     let inputEmail = req.params.inputEmail;
     console.log(inputEmail);
-    Student
+    User
         .find({
             "email": inputEmail
         })
@@ -33,105 +36,119 @@ app.get('/check-duplicate-email/:inputEmail', (req, res)=>{
         .catch(function (err) {
             console.error(err);
             res.status(500).json({
-                message: 'Internal server error'
+                message: 'Unable to check for duplicate emails. User may already exist.'
             });
     });
 })
 
 app.get("/queue", (req, res) => {
-    console.log('landed on /queue')
+    console.log('landed on /queue');
     res.sendFile(__dirname + "/public/queue.html");
 });
 //END search features
 
-//Begin creating new users
-//new student user
-app.post('/students/create/', (req, res)=>{
-    console.log('trying to create new student');
-    // console.log(req.body);
+
+//====================
+//POST endpoints
+//====================
+//Create new user
+app.post('/users/create/:role/', (req, res)=>{
     //grab values
     let firstName = req.body.firstName;
     let lastName = req.body.lastName;
-    let role = "student";
+    let role = req.params.role;
     let email = req.body.email;
     let password = req.body.password;
     let currentlWaiting = false;
     let recentRequest = '';
     let recentTime = '';
-    
-        Student.create({
-            firstName,
-            lastName,
-            role,
-            email,
-            password,
-            currentlWaiting,
-            recentTime,
-            recentRequest
-        })
-        .then(student => {
-            res.status(201).json(student.serialize());
-            console.log(student.name + " created.")
-        })
-        .catch(err => {
-            console.error(err);
-            res.status(500).json({ message: "Couldn't create student." });
-        });
-    
-    
 
-})
+    console.log('trying to create new ' + role);
 
-//new tutor user
-app.post('/tutors/create/', (req, res)=>{
-    console.log('trying to create new tutor');
-    // console.log(req.body);
-    let firstName = req.body.firstName;
-    let lastName = req.body.lastName;
-    let role = "tutor";
-    let email = req.body.email;
-    let password = req.body.password;
-    Staff.create({
+    User.create({
         firstName,
         lastName,
         role,
         email,
         password,
+        currentlWaiting,
+        recentTime,
+        recentRequest
     })
-    .then(tutor => {
-        res.status(201).json(staff.serialize());
-        console.log(tutor.name + " created.")
+    .then(user => {
+        res.status(201).json(user.serialize());
+        console.log(user.name + " created.")
     })
     .catch(err => {
         console.error(err);
-        res.status(500).json({ message: "Couldn't create tutor." });
+        res.status(500).json({ message: "Couldn't create "+role });
     });
+    
+    
 
 })
 
-// new instructor user
-app.post('/instructors/create/', (req, res)=>{
-    console.log('trying to create new instructor');
+//Create new session
+app.post('/sessions/create/', (req, res)=>{
+    console.log('trying to create new session');
     // console.log(req.body);
-    let firstName = req.body.firstName;
-    let lastName = req.body.lastName;
-    let role = "instructor";
-    let email = req.body.email;
-    let password = req.body.password;
-    Staff.create({
-        firstName,
-        lastName,
-        role,
-        email,
-        password,
+    let today = new Date();
+    let time;
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1;
+    let yyyy = today.getFullYear();
+    let hh = today.getHours();
+    let min = today.getMinutes();
+    let sec = today.getSeconds();
+    today = `${mm}/${dd}/${yyyy}`
+
+    
+    if (hh < 10) {
+        hh = '0' + hh;
+    }
+
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+
+    if (sec < 10) {
+        sec = '0' + sec;
+    }
+
+    if (hh === '00') {
+        hh = 12;
+    }
+
+    if (hh > 12) {
+        hh = hh - 12;
+        time = `${hh}:${min}:${sec} PM`;
+    }
+
+    else {
+        time = `${hh}:${min}:${sec}`;
+    }
+
+    let student = req.body.name;
+    let tutor = req.body.recentRequest;
+    let getTodaysInstructor = instructor;
+    let date = today;
+    time = time;
+    let notes;
+    Session.create({
+        date,
+        time,
+        tutor,
+        getTodaysInstructor,
+        student,
+        notes,
     })
-    .then(instructor => {
-        res.status(201).json(staff.serialize());
-        console.log(instructor.name + " created.")
+    .then(session => {
+        res.status(201).json(session.serialize());
+        console.log("Session for " + session.student + " created.")
     })
     .catch(err => {
         console.error(err);
-        res.status(500).json({ message: "Couldn't create instructor." });
+        res.status(500).json({ message: "Couldn't create session." });
     });
 
 })
@@ -143,13 +160,13 @@ app.post('/students/login/', (req, res)=>{
     console.log('trying to login student');
     let email = req.body.email;
     let password = req.body.password;
-	Student.findOne({
+	User.findOne({
         email: email,
         password: password
     })
-    .then(student=>{
-        console.log('Logged in as '+ student);
-        res.status(200).json(student.serialize());
+    .then(user=>{
+        console.log('Logged in as '+ user);
+        res.status(200).json(user.serialize());
     })
     .catch(err=>{
         console.log(err);
@@ -159,10 +176,30 @@ app.post('/students/login/', (req, res)=>{
 
 
 //Login staff member
-app.post('/staff/login/', (req, res)=>{
+app.post('/staff/login/:role/', (req, res)=>{
     console.log('trying to login staff member');
-    console.log(req.body);
-    
+    let email = req.body.email;
+    let password = req.body.password;
+    let role = req.params.role;
+    console.log(email)
+    console.log(password)
+    console.log(role)
+    User.findOne({
+        email: email,
+        password: password,
+        role: role
+    })
+        .then(user => {
+            res.status(200).json(user.serialize());
+            console.log('Logged in as ' + user.name);
+            console.log(user);
+            
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ message: "Couldn't log in as staff member. Please check email and password." })
+        })
+       
 })
 
 

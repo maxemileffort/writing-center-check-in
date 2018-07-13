@@ -1,18 +1,16 @@
-// TODO: 
-//     -user registration:
-            // students done
-            // tutors
-            // instructors
-    //    -user login:
-    //         students
-    //         tutors
-    //         instructors
-    //     encryption
+//TODO:
+    // encryption
+    // polish
+    // staff tools
+    // waitlist => add student and tutor and instructor emails to session,
+    //             add intermediate "appointment" step that tutor clicks to start session 
+
 
 //==========================
 //VARIABLE DECLARATIONS
 //==========================
 let time; //need access to this for walk-in time
+let today;
 
 //==========================
 // FUNCTION DECLARATIONS
@@ -49,38 +47,71 @@ function hideAll() { //hides everything right before correct page is rendered
     $('section').addClass('hidden');
 }
 
-// //begin waitlist rendering functions
-// function getWaitingStudents(callbk) { //needs ajax call, probably similar to checkDuplicateEmail
-//     // console.log(students[0].currentlyWaiting);
-//     let waitingKids = students.filter(el => el.currentlyWaiting === true);
-//     for (let i = 0; i < waitingKids.length; i++) {
-//         callbk(waitingKids[i]);
-//     }
-// }
+//begin waitlist rendering functions
+function getWaitingStudents(callbk) { 
+    $.ajax({
+        type: 'GET',
+        url: `/get-waiting-students/`,
+        dataType: 'json',
+        contentType: 'application/json'
+    })
+        //if call is succefull
+        .done(function (result) {
+            console.log(result)
+            callbk(result);
+        })
+        //if the call is failing
+        .fail(function (jqXHR, error, errorThrown) {
+            console.log(jqXHR.responseJSON.message);
+            console.log(error);
+            console.log(errorThrown);
+        });
+}
 
-// function renderWaitlist(el) {
-//     $(".waitlist").append(`<li>
-//     Name: ${el.name} | 
-//     Walk-in time: ${el.recentTime} | 
-//     Requested Tutor: ${el.recentRequest} | 
-//     <button class="btn begin-btn-${el.id}">Start Session</button>
-//     </li>`);
-//     // console.log('rendered student entry')
-//     checkInStudent(el);
-// }
+function renderWaitlist(el) {
+    for (let i = 0; i < el.length; i++){
+        $(".waitlist").append(`<li>
+        Name: ${el[i].firstName} | 
+        Walk-in time: ${el[i].time} | 
+        Teacher: ${el[i].teacher} |
+        Assignment: ${el[i].assignment} |
+        Requested Tutor: ${el[i].tutor} | 
+        <button class="btn begin-btn-${el[i]._id}">Start Session</button>
+        </li>`);
+        checkInStudent(el[i]._id);
+    }
+    // console.log('rendered student entry')
+}
 
-// getWaitingStudents(renderWaitlist);
+getWaitingStudents(renderWaitlist);
 
-// function checkInStudent(student) { //may need a look after the ajax call for getWaitingStudents is written
-//     let el = student.id;
-//     // console.log(el);
-//     $(`.begin-btn-${el}`).on("click", function () {
-//         student.currentlyWaiting = false;
-//         $('.waitlist').html('');
-//         getWaitingStudents(renderWaitlist);
-//     })
-// }
-// //end waitlist rendering functions
+function checkInStudent(student) { 
+    // console.log(el);
+    $(`.begin-btn-${student}`).on("click", function (event) {
+        // event.preventDefault();
+        // console.log(event);
+        $.ajax({
+            type: 'PUT',
+            url: `/check-in-student/${student}/`,
+            dataType: 'json',
+            contentType: 'application/json'
+        })
+            //if call is succefull
+            .done(function (result) {
+                console.log(result);
+                $('.waitlist').html('');
+                getWaitingStudents(renderWaitlist);
+            })
+            //if the call is failing
+            .fail(function (jqXHR, error, errorThrown) {
+                console.log(jqXHR.responseJSON.message);
+                console.log(error);
+                console.log(errorThrown);
+            });
+        
+    })
+}
+//end waitlist rendering functions
 
 //begin clock
 function tellTime() {
@@ -106,6 +137,9 @@ function tellTime() {
 
     if (hh > 12) {
         hh = hh - 12;
+        if (hh < 10) {
+            hh = '0' + hh;
+        }
         time = `${hh}:${mm}:${sec} PM`;
     }
 
@@ -154,14 +188,6 @@ $("#student-email-reg").blur(function (event){
     checkDuplicateEmail(email, role);
 });
 
-$("#staff-email-reg").blur(function (event) {
-    event.preventDefault();
-    let email = $('#staff-email-reg').val();
-    let role = "staff"
-    console.log(email);
-    checkDuplicateEmail(email, role);
-});
-
 // user attempts to register as a student
 $('#student-register-send').on('click', function (event){ //refactor, setting vals to variables
     event.preventDefault();
@@ -195,18 +221,19 @@ $('#student-register-send').on('click', function (event){ //refactor, setting va
             lastName: lastName,
             role: "student",
             email: email,
-            password: password
+            currentlyWaiting: true,
+            password: password,
         }
         // console.log(newStudentObject)
         //ajax call to endpoint
-        $.ajax({ // this ajax call gets randomly called again a minute later after it is called the first time
+        $.ajax({ 
             type: 'POST',
             url: '/users/create/student/',
             dataType: 'json',
             data: JSON.stringify(newStudentObject),
             contentType: 'application/json'
         })
-            //if call is succefull
+            //if call succeeds
             .done(function (student) {
                 console.log(student);
                 //route to landing page, temporarily --> needs to route to 
@@ -215,7 +242,7 @@ $('#student-register-send').on('click', function (event){ //refactor, setting va
                 $('#student-checkin-page').removeClass('hidden');
                 readyToCheckin(student);
             })
-            //if the call is failing
+            //if the call fails
             .fail(function (jqXHR, error, errorThrown) {
                 console.log(errorThrown);
                 console.log(error);
@@ -272,15 +299,51 @@ $('#student-login-send').on('click', function (event){
 //user attempts to checkin as a student
 function readyToCheckin(student){
     $('#student-checkin-send').on('click', function (event) {
+        let today = new Date();
+        let time;
+        let dd = today.getDate();
+        let mm = today.getMonth() + 1;
+        let yyyy = today.getFullYear();
+        let hh = today.getHours();
+        let min = today.getMinutes();
+        let sec = today.getSeconds();
+        today = `${mm}/${dd}/${yyyy}`
+
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+
+        if (sec < 10) {
+            sec = '0' + sec;
+        }
+
+        if (hh === '00') {
+            hh = 12;
+        }
+
+        if (hh > 12) {
+            hh = hh - 12;
+            if (hh < 10) {
+                hh = '0' + hh;
+            }
+
+            time = `${hh}:${min}:${sec} PM`;
+        }
+
+        else {
+            time = `${hh}:${min}:${sec}`;
+        }
         event.preventDefault();
         let teacher = $('#student-teacher').val();
         let assignment = $('#student-assignment').val();
         let tutor = $('#requested-tutor').val();
         student.recentRequest = tutor;
-        student.currentlyWaiting = true;
-        student.teacher = teacher; // TODO: need to add teacher and assignment fields to model
+        student.teacher = teacher;
         student.assignment = assignment;
+        student.time = time;
+        student.date = today;
         console.log( student.name+' checked in');
+        console.log("Student object:");
         console.log(student);
         // create session
         $.ajax({
@@ -291,8 +354,10 @@ function readyToCheckin(student){
             contentType: 'application/json'
         })
             //if call succeeds
-            .done(function (student) {
+            .done(function (output) {
                 // go back to landing page
+                console.log("Session object:");
+                console.log(output);
                 hideAll();
                 $('#landing-page').removeClass('hidden');
             })
@@ -308,16 +373,27 @@ function readyToCheckin(student){
 }
 
 
-// staff buttons
+// STAFF buttons
 // user clicks staff button
 $('#staff-btn').on('click', function () {
     hideAll();
     $('#staff-login').removeClass('hidden');
+    let msg;
+    $('#staff-reg-error').html(msg);
 })
+
+$("#staff-email-reg").blur(function (event) { //used to prevent duplicate staff from being created
+    event.preventDefault();
+    let email = $('#staff-email-reg').val();
+    let role = "staff"
+    console.log(email);
+    checkDuplicateEmail(email, role);
+});
 
 //user tries to register as staff member
 $('#staff-register-send').on('click', function (event) {
     event.preventDefault();
+    let msg;
     let firstName = $('#staff-first-name-reg').val();
     let lastName = $('#staff-last-name-reg').val();
     let email = $('#staff-email-reg').val();
@@ -328,7 +404,10 @@ $('#staff-register-send').on('click', function (event) {
     
     //make sure fields aren't blank
     if (email === '' || password1 === '' || password2 === '' || lastName === '' || firstName === '') {
-        let msg = "All fields are required.";
+        msg = "All fields are required.";
+        $('#staff-reg-error').html(msg);
+    } else if (password1 !== password2){
+        msg = "Passwords must match."
         $('#staff-reg-error').html(msg);
     } else {
         
@@ -401,7 +480,7 @@ $('#staff-login-send').on('click', function (event) {
                 hideAll();
                 //take us to dashboard
                 $('#dashboard').removeClass('hidden');
-                
+                getWaitingStudents(renderWaitlist);
                 if (staff.role === "tutor"){
                     //render tutor specific tools
                     $('#tutor-dash').removeClass('hidden');
@@ -418,7 +497,6 @@ $('#staff-login-send').on('click', function (event) {
                 $("#staff-login-error").html(jqXHR.responseJSON.message);
             });
     }
-    //render next page based on user role (instructor vs tutor)
 })
 
 

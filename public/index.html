@@ -136,19 +136,20 @@
         js  
              -->
     <section id="dashboard" role="region" class="hidden">
+        
         <section id="instructor-dash" class="hidden">
             <h1>Register New Staff Member</h1>
             <p id="staff-reg-error" class=""></p>
             <form class="form" action="#" method="post">
-                <label for="staff-first-name-reg">First Name</label>
-                <input type="text" name="staffFirstName" id="staff-first-name-reg" value="Jill">
-                <label for="staff-last-name-reg">Last Name</label>
-                <input type="text" name="staffLastName" id="staff-last-name-reg" value="Hill">
                 <label for="role-selector-reg">Select Title</label>
                 <select name="roleSelectorReg" id="role-selector-reg">
                     <option value="tutor">Tutor</option>
                     <option value="instructor">Instructor</option>
                 </select>
+                <label for="staff-first-name-reg">First Name</label>
+                <input type="text" name="staffFirstName" id="staff-first-name-reg" value="Jill">
+                <label for="staff-last-name-reg">Last Name</label>
+                <input type="text" name="staffLastName" id="staff-last-name-reg" value="Hill">
                 <label for="staff-email-reg">Email</label>
                 <input type="email" name="staffEmail" id="staff-email-reg" value="poiu@lkjh.com">
                 <label for="staff-password1-reg">Password</label>
@@ -159,8 +160,9 @@
             </form>
         </section>
         <section id="tutor-dash" class="hidden">
-            <h1>Waitlist</h1>
         </section>
+        <h1>Waitlist</h1>
+        <div class="waitlist"></div>
     </section>
 
     <!-- Footer, for photo credits -->

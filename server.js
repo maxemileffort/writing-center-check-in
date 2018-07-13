@@ -29,7 +29,7 @@ app.get('/check-duplicate-email/:inputEmail', (req, res)=>{
             "email": inputEmail
         })
         .then(function (entries) {
-            res.json({
+            res.status(200).json({
                 entries
             });
         })
@@ -38,7 +38,28 @@ app.get('/check-duplicate-email/:inputEmail', (req, res)=>{
             res.status(500).json({
                 message: 'Unable to check for duplicate emails. User may already exist.'
             });
-    });
+        });
+})
+
+app.get('/get-waiting-students/', (req, res)=>{
+    User.find({
+        currentlyWaiting: true,
+    })
+    .then(user=>{
+        console.log(user);
+        Session.find({
+            _id: user._id
+        })
+        .then(session=>console.log(session))
+        res.status(200).json(user);
+    })
+    .catch((err)=>{
+        console.error(err);
+        res.status(500).json({
+            message: 'Something went wrong rendering the waitlist.'
+        });
+    })
+
 })
 
 app.get("/queue", (req, res) => {
@@ -59,9 +80,7 @@ app.post('/users/create/:role/', (req, res)=>{
     let role = req.params.role;
     let email = req.body.email;
     let password = req.body.password;
-    let currentlWaiting = false;
-    let recentRequest = '';
-    let recentTime = '';
+    let currentlyWaiting = req.body.currentlyWaiting;
 
     console.log('trying to create new ' + role);
 
@@ -70,10 +89,8 @@ app.post('/users/create/:role/', (req, res)=>{
         lastName,
         role,
         email,
+        currentlyWaiting,
         password,
-        currentlWaiting,
-        recentTime,
-        recentRequest
     })
     .then(user => {
         res.status(201).json(user.serialize());
@@ -91,54 +108,20 @@ app.post('/users/create/:role/', (req, res)=>{
 //Create new session
 app.post('/sessions/create/', (req, res)=>{
     console.log('trying to create new session');
-    // console.log(req.body);
-    let today = new Date();
-    let time;
-    let dd = today.getDate();
-    let mm = today.getMonth() + 1;
-    let yyyy = today.getFullYear();
-    let hh = today.getHours();
-    let min = today.getMinutes();
-    let sec = today.getSeconds();
-    today = `${mm}/${dd}/${yyyy}`
-
     
-    if (hh < 10) {
-        hh = '0' + hh;
-    }
-
-    if (mm < 10) {
-        mm = '0' + mm;
-    }
-
-    if (sec < 10) {
-        sec = '0' + sec;
-    }
-
-    if (hh === '00') {
-        hh = 12;
-    }
-
-    if (hh > 12) {
-        hh = hh - 12;
-        time = `${hh}:${min}:${sec} PM`;
-    }
-
-    else {
-        time = `${hh}:${min}:${sec}`;
-    }
-
     let student = req.body.name;
     let tutor = req.body.recentRequest;
-    let getTodaysInstructor = instructor;
-    let date = today;
-    time = time;
-    let notes;
+    let teacher = req.body.teacher;
+    let assignment = req.body.assignment;
+    let date = req.body.date;
+    let time = req.body.time;
+    let notes = "";
     Session.create({
         date,
         time,
         tutor,
-        getTodaysInstructor,
+        teacher,
+        assignment,
         student,
         notes,
     })
@@ -165,6 +148,8 @@ app.post('/students/login/', (req, res)=>{
         password: password
     })
     .then(user=>{
+        console.log(user);
+        user.currentlyWaiting = true;
         console.log('Logged in as '+ user);
         res.status(200).json(user.serialize());
     })
@@ -193,6 +178,9 @@ app.post('/staff/login/:role/', (req, res)=>{
             res.status(200).json(user.serialize());
             console.log('Logged in as ' + user.name);
             console.log(user);
+            if (user.role === "instructor"){
+                instructor = user.name;
+            }
             
         })
         .catch(err => {
@@ -201,9 +189,30 @@ app.post('/staff/login/:role/', (req, res)=>{
         })
        
 })
-
-
 //END Login users
+
+//====================
+//PUT endpoints
+//====================
+
+app.put('/check-in-student/:id/', (req,res)=>{
+    let id = req.params.id;
+    User.findOneAndUpdate(
+        {_id: id},
+        {$set: { currentlyWaiting: false }}
+    ).then(session=>{
+        res.status(200).json({session})
+        console.log(session);
+    }).catch(err => {
+            console.log(err);
+            res.status(500).json({ message: "Couldn't check in student. Please ask instructor for assistance." })
+        })
+})
+
+//====================
+//DELETE endpoints
+//====================
+
 
 let server;
 

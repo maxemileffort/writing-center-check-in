@@ -6,10 +6,10 @@ const mongoose = require('mongoose');
 const userSchema = mongoose.Schema({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
-    currentlyWaiting: { type: Boolean },
     role: { type: String },
     recentTime: {type: String},
     recentRequest: {type: String},
+    currentlyWaiting: {type: Boolean},
     email: {type: String, required: true},
     password: {type: String, required: true}
 });
@@ -23,10 +23,10 @@ userSchema.methods.serialize = function () {
     return {
         id: this._id,
         name: this.name,
-        currentlyWaiting: this.currentlyWaiting,
         role: this.role,
         recentTime: this.recentTime,
         recentRequest: this.recentRequest,
+        currentlyWaiting: this.currentlyWaiting,
         email: this.email,
         password: this.password
     };
@@ -40,7 +40,8 @@ const sessionSchema = mongoose.Schema({
     date: { type: String, required: true },
     time: { type: String, required: true },
     tutor: { type: String, required: true },
-    instructor: { type: String},
+    teacher: { type: String},
+    assignment: { type: String},
     student: { type: String, required: true },
     notes: { type: String }
 });
@@ -57,7 +58,8 @@ sessionSchema.methods.serialize = function () {
         date: this.date,
         time: this.time,
         tutor: this.tutor,
-        instructor: this.instructor,
+        teacher: this.teacher,
+        assignment: this.assignment,
         student: this.student,
         notes: this.notes
     };

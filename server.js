@@ -1,5 +1,6 @@
-const express = require('express'),
-      mongoose = require('mongoose');
+const express   = require('express'),
+      mongoose  = require('mongoose'),
+      bcrypt    = require('bcrypt');
       
 const app = express();
 app.use(express.json());
@@ -11,7 +12,6 @@ const { User, Session } = require('./models');
 
 
 app.use(express.static('public'));
-let instructor; //used for session creation
 
 //====================
 //GET endpoints
@@ -46,11 +46,6 @@ app.get('/get-waiting-students/', (req, res)=>{
         currentlyWaiting: true,
     })
     .then(user=>{
-        console.log(user);
-        Session.find({
-            _id: user._id
-        })
-        .then(session=>console.log(session))
         res.status(200).json(user);
     })
     .catch((err)=>{
@@ -73,123 +68,133 @@ app.get("/queue", (req, res) => {
 //POST endpoints
 //====================
 //Create new user
-app.post('/users/create/:role/', (req, res)=>{
-    //grab values
+app.post('/users/create/:role', (req, res) => {
+
+    //take the paylod from the ajax api call
     let firstName = req.body.firstName;
     let lastName = req.body.lastName;
-    let role = req.params.role;
     let email = req.body.email;
+    let role = req.params.role;
     let password = req.body.password;
     let currentlyWaiting = req.body.currentlyWaiting;
-
-    console.log('trying to create new ' + role);
-
-    User.create({
-        firstName,
-        lastName,
-        role,
-        email,
-        currentlyWaiting,
-        password,
-    })
-    .then(user => {
-        res.status(201).json(user.serialize());
-        console.log(user.name + " created.")
-    })
-    .catch(err => {
-        console.error(err);
-        res.status(500).json({ message: "Couldn't create "+role });
-    });
-    
-    
-
-})
-
-//Create new session
-app.post('/sessions/create/', (req, res)=>{
-    console.log('trying to create new session');
-    
-    let student = req.body.name;
-    let tutor = req.body.recentRequest;
-    let teacher = req.body.teacher;
-    let assignment = req.body.assignment;
-    let date = req.body.date;
+    let sessions = req.body.sessions;
     let time = req.body.time;
-    let notes = "";
-    Session.create({
-        date,
-        time,
-        tutor,
-        teacher,
-        assignment,
-        student,
-        notes,
-    })
-    .then(session => {
-        res.status(201).json(session.serialize());
-        console.log("Session for " + session.student + " created.")
-    })
-    .catch(err => {
-        console.error(err);
-        res.status(500).json({ message: "Couldn't create session." });
-    });
+    let request = req.body.request;
 
-})
+    //exclude extra spaces from the email and password
+    email = email.trim();
+    password = password.trim();
+
+    //create an encryption key
+    bcrypt.genSalt(10, (err, salt) => {
+
+        //if creating the key returns an error...
+        if (err) {
+
+            //display it
+            return res.status(500).json({
+                message: "Couldn't create salt."
+            });
+        }
+
+        //using the encryption key above generate an encrypted pasword
+        bcrypt.hash(password, salt, (err, hash) => {
+
+            //if creating the ncrypted pasword returns an error..
+            if (err) {
+
+                //display it
+                return res.status(500).json({
+                    message: "Couldn't create hash."
+                });
+            }
+
+            //using the mongoose DB schema, connect to the database and create the new user
+            User.create({
+                firstName,
+                lastName,
+                email,
+                password: hash,
+                currentlyWaiting,
+                role,
+                sessions,
+                time,
+                request
+            }, (err, item) => {
+
+                //if creating a new user in the DB returns an error..
+                if (err) {
+                    //display it
+                    return res.status(500).json({
+                        message: "Couldn't create user."
+                    });
+                }
+                //if creating a new user in the DB is succefull
+                if (item) {
+
+                    //display the new user
+                    console.log(`User \`${email}\` created.`);
+                    res.status(201).json(item);
+                }
+            });
+        });
+    });
+});
 //End creating new users
 
 //Begin login users
-//Login student user
-app.post('/students/login/', (req, res)=>{
-    console.log('trying to login student');
-    let email = req.body.email;
-    let password = req.body.password;
-	User.findOne({
-        email: email,
-        password: password
-    })
-    .then(user=>{
-        console.log(user);
-        user.currentlyWaiting = true;
-        console.log('Logged in as '+ user);
-        res.status(200).json(user.serialize());
-    })
-    .catch(err=>{
-        console.log(err);
-        res.status(500).json({message: "Couldn't log in as student. Please check email and password."})
-    })
-})
-
-
-//Login staff member
-app.post('/staff/login/:role/', (req, res)=>{
-    console.log('trying to login staff member');
+app.post('/user/login/:role/', (req, res) => {
     let email = req.body.email;
     let password = req.body.password;
     let role = req.params.role;
-    console.log(email)
-    console.log(password)
-    console.log(role)
-    User.findOne({
-        email: email,
-        password: password,
-        role: role
-    })
-        .then(user => {
-            res.status(200).json(user.serialize());
-            console.log('Logged in as ' + user.name);
-            console.log(user);
-            if (user.role === "instructor"){
-                instructor = user.name;
-            }
-            
+    console.log('trying to login ' + role + " user");
+
+    //login for students
+    if(role === "student"){
+        User.findOne(
+            {email: email},
+        )
+            .then(user=> {
+                let hash = user.password;
+                bcrypt.compare(password, hash, (err, result)=>{
+                    if (result){
+                        res.status(200).json(user);
+                    } else {
+                        console.log(err)
+                        res.status(500).json({message: "Please check email and password and try again."})
+                    }
+                })
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({ message: "Please ask instructor for assistance." })
+            })
+    }
+    
+    //login for staff
+    else {
+        User.findOne({
+            email: email,
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ message: "Couldn't log in as staff member. Please check email and password." })
-        })
-       
+            .then(user => {
+                hash = user.password
+                if (bcrypt.compare(password, hash)) {
+                    console.log("passwords match");
+                    res.status(200).json(user);
+                }
+                else {
+                    console.log("passwords don't match");
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({ message: "Couldn't log in as staff. Please check email and password." })
+            })
+    }
+
 })
 //END Login users
+
 
 //====================
 //PUT endpoints
@@ -200,19 +205,62 @@ app.put('/check-in-student/:id/', (req,res)=>{
     User.findOneAndUpdate(
         {_id: id},
         {$set: { currentlyWaiting: false }}
-    ).then(session=>{
-        res.status(200).json({session})
-        console.log(session);
+    ).then(user=>{
+        res.status(200).json({user})
+        console.log(user);
     }).catch(err => {
             console.log(err);
             res.status(500).json({ message: "Couldn't check in student. Please ask instructor for assistance." })
         })
 })
 
+// Create new session
+app.put('/sessions/create/', (req, res)=>{
+    console.log('trying to create new session');
+    let email = req.body.email
+    let tutor = req.body.request;
+    let teacher = req.body.teacher;
+    let assignment = req.body.assignment;
+    let date = req.body.date;
+    let time = req.body.time;
+    let sessions = req.body.sessions;
+    let notes = "";
+    let sessionObject = {
+        tutor: tutor,
+        teacher: teacher,
+        assignment: assignment,
+        date: date,
+        time: time,
+        notes: notes,
+    }
+    User.findOneAndUpdate(
+        { email: email },
+        { $push: {sessions: sessionObject},
+         $set: {currentlyWaiting: true}}
+    )
+    .then(user => {
+        res.status(201).json(user);
+        console.log("Session for " + user.email + " created.")
+    })
+    .catch(err => {
+        console.error(err);
+        res.status(500).json({ message: "Couldn't create session." });
+    });
+
+})
+//End creating new sessions
+
 //====================
 //DELETE endpoints
 //====================
 
+//====================
+//Catchall endpoint
+//====================
+app.get('*', function (req, res) {
+    let message = "Page not found."
+    res.status(404).send(message);
+});
 
 let server;
 

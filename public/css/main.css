@@ -83,13 +83,13 @@ header {
 }
 
 li {
-    height: 80px;
+    height: 180px;
     width: 65%;
     list-style-type: none;
     border: 3px maroon solid;
     margin: 5px auto;
+    padding: 5% 1% 0 1%;
     border-radius: 18px;
-    padding: 5% 5%;
     font-size: 2em;
     text-align: center;
     background: 

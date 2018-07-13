@@ -43,6 +43,49 @@ function checkDuplicateEmail(inputEmail, role) { //used in registration steps to
         });
 }
 
+function generateTime(){
+    let today = new Date();
+    let time;
+    let hh = today.getHours();
+    let min = today.getMinutes();
+    let sec = today.getSeconds();
+
+    if (min < 10) {
+        min = '0' + min;
+    }
+
+    if (sec < 10) {
+        sec = '0' + sec;
+    }
+
+    if (hh === '00') {
+        hh = 12;
+    }
+
+    if (hh > 12) {
+        hh = hh - 12;
+        if (hh < 10) {
+            hh = '0' + hh;
+        }
+
+        time = `${hh}:${min}:${sec} PM`;
+    }
+
+    else {
+        time = `${hh}:${min}:${sec}`;
+    }
+    return time
+}
+
+function generateDate(){
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1;
+    let yyyy = today.getFullYear();
+    today = `${mm}/${dd}/${yyyy}`;
+    return today;
+}
+
 function hideAll() { //hides everything right before correct page is rendered
     $('section').addClass('hidden');
 }
@@ -56,9 +99,9 @@ function getWaitingStudents(callbk) {
         contentType: 'application/json'
     })
         //if call is succefull
-        .done(function (result) {
-            console.log(result)
-            callbk(result);
+        .done(function (user) {
+            console.log(user)
+            callbk(user);
         })
         //if the call is failing
         .fail(function (jqXHR, error, errorThrown) {
@@ -68,27 +111,32 @@ function getWaitingStudents(callbk) {
         });
 }
 
-function renderWaitlist(el) {
-    for (let i = 0; i < el.length; i++){
+function renderWaitlist(user) {
+    for (let i = 0; i < user.length; i++){
+        let sessions = user[i].sessions;
+        let mostRecentSession = sessions.length-1;
+        console.log(user[i]);
+        $(".waitlist").html('');
         $(".waitlist").append(`<li>
-        Name: ${el[i].firstName} | 
-        Walk-in time: ${el[i].time} | 
-        Teacher: ${el[i].teacher} |
-        Assignment: ${el[i].assignment} |
-        Requested Tutor: ${el[i].tutor} | 
-        <button class="btn begin-btn-${el[i]._id}">Start Session</button>
+        Name: ${user[i].firstName} ${user[i].lastName} | 
+        Walk-in time: ${sessions[mostRecentSession].time} | 
+        Teacher: ${sessions[mostRecentSession].teacher} |
+        Assignment: ${sessions[mostRecentSession].assignment} |
+        Requested Tutor: ${sessions[mostRecentSession].tutor} | 
+        <button class="btn begin-btn-${user[i]._id}">Start Session</button>
         </li>`);
-        checkInStudent(el[i]._id);
+        checkInStudent(user[i]._id);
     }
-    // console.log('rendered student entry')
+    
 }
 
-getWaitingStudents(renderWaitlist);
+
 
 function checkInStudent(student) { 
     // console.log(el);
     $(`.begin-btn-${student}`).on("click", function (event) {
         // event.preventDefault();
+        $(`.begin-btn-${student}`).unbind();
         // console.log(event);
         $.ajax({
             type: 'PUT',
@@ -159,6 +207,12 @@ setInterval(tellTime, 1000);
 //==========================
 // BUTTON BEHAVIOR
 //==========================
+
+//waitlist refresh
+$('#waitlist-refresh').on('click', function () {
+    getWaitingStudents(renderWaitlist);
+})
+
 // STUDENT buttons
 //user clicks student button
 $('#student-btn').on('click', function (){
@@ -214,6 +268,7 @@ $('#student-register-send').on('click', function (event){ //refactor, setting va
         let lastName = $('#student-last-name-reg').val();
         let email = $('#student-email-reg').val();
         let password = $('#student-password1-reg').val();
+        let sessions = [];
         
         //create payload
         let newStudentObject = {
@@ -223,6 +278,9 @@ $('#student-register-send').on('click', function (event){ //refactor, setting va
             email: email,
             currentlyWaiting: true,
             password: password,
+            sessions: sessions,
+            time: generateTime(),
+            request: generateDate()
         }
         // console.log(newStudentObject)
         //ajax call to endpoint
@@ -235,7 +293,7 @@ $('#student-register-send').on('click', function (event){ //refactor, setting va
         })
             //if call succeeds
             .done(function (student) {
-                console.log(student);
+                console.log(student.firstName);
                 //route to landing page, temporarily --> needs to route to 
                 //check-in page after auto-logging in student
                 hideAll();
@@ -258,9 +316,13 @@ $('#student-login-send').on('click', function (event){
     //grab values
     let email = $('#student-email-login').val();
     let password = $('#student-password-login').val();
+    let role = "student";
+    let currentlyWaiting = true;
     let studentLoginObject = {
         email: email,
         password: password,
+        currentlyWaiting: currentlyWaiting,
+        role: role
     };
     //make sure fields aren't blank
     if (email === '' || password === ''){
@@ -270,7 +332,7 @@ $('#student-login-send').on('click', function (event){
     //ajax call
         $.ajax({ 
             type: 'POST',
-            url: '/students/login/',
+            url: `/user/login/${role}/`,
             dataType: 'json',
             data: JSON.stringify(studentLoginObject),
             contentType: 'application/json'
@@ -282,7 +344,6 @@ $('#student-login-send').on('click', function (event){
                 hideAll();
                 $('#student-checkin-page').removeClass('hidden');
                 $('#returned-student-name').html(student.name);
-                student.recentTime = time;
                 console.log(student);
                 readyToCheckin(student);
             })
@@ -297,60 +358,27 @@ $('#student-login-send').on('click', function (event){
 })
 
 //user attempts to checkin as a student
-function readyToCheckin(student){
+function readyToCheckin(session){
     $('#student-checkin-send').on('click', function (event) {
-        let today = new Date();
-        let time;
-        let dd = today.getDate();
-        let mm = today.getMonth() + 1;
-        let yyyy = today.getFullYear();
-        let hh = today.getHours();
-        let min = today.getMinutes();
-        let sec = today.getSeconds();
-        today = `${mm}/${dd}/${yyyy}`
-
-        if (mm < 10) {
-            mm = '0' + mm;
-        }
-
-        if (sec < 10) {
-            sec = '0' + sec;
-        }
-
-        if (hh === '00') {
-            hh = 12;
-        }
-
-        if (hh > 12) {
-            hh = hh - 12;
-            if (hh < 10) {
-                hh = '0' + hh;
-            }
-
-            time = `${hh}:${min}:${sec} PM`;
-        }
-
-        else {
-            time = `${hh}:${min}:${sec}`;
-        }
+        $("#student-checkin-send").unbind();
         event.preventDefault();
         let teacher = $('#student-teacher').val();
         let assignment = $('#student-assignment').val();
         let tutor = $('#requested-tutor').val();
-        student.recentRequest = tutor;
-        student.teacher = teacher;
-        student.assignment = assignment;
-        student.time = time;
-        student.date = today;
-        console.log( student.name+' checked in');
+        session.request = tutor;
+        session.teacher = teacher;
+        session.assignment = assignment;
+        session.time = generateTime();
+        session.date = generateDate();
+        console.log( session.firstName+' checked in');
         console.log("Student object:");
-        console.log(student);
+        console.log(session);
         // create session
         $.ajax({
-            type: 'POST',
+            type: 'PUT',
             url: '/sessions/create/',
             dataType: 'json',
-            data: JSON.stringify(student),
+            data: JSON.stringify(session),
             contentType: 'application/json'
         })
             //if call succeeds
@@ -365,8 +393,8 @@ function readyToCheckin(student){
             .fail(function (jqXHR, error, errorThrown) {
                 console.log(errorThrown);
                 console.log(error);
-                console.log(jqXHR.responseJSON.message);
-                $("#student-login-error").html(jqXHR.responseJSON.message);
+                console.log(jqXHR);
+                $("#student-login-error").html(jqXHR);
             });
         
     })
@@ -467,7 +495,7 @@ $('#staff-login-send').on('click', function (event) {
         //ajax call
         $.ajax({
             type: 'POST',
-            url: `/staff/login/${role}/`,
+            url: `/user/login/${role}/`,
             dataType: 'json',
             data: JSON.stringify(staffLoginObject),
             contentType: 'application/json'

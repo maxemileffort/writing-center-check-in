@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/maxemileffort/writing-center-check-in#readme",
   "dependencies": {
+    "bcrypt": "^3.0.0",
     "express": "^4.16.3",
     "express-sessions": "^1.0.6",
     "mongoose": "^5.1.7",

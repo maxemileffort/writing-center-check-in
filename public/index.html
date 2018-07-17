@@ -5,24 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
     <title>Writing Center</title>
 </head>
 <body>
-    <!-- Top banner: done... might try to make colons blink like a real clock
-    ===========================================================
+    <!-- 
     TODO:
         -add back buttons
         -->
-    <header role="banner">
-        <div class="clock right">
-        </div>
+    <header role="banner" class="inline">
+        <div class="home"><i class="fa fa-university home" aria-hidden="true">Home</i></div>
+        <div class="clock"></div>
     </header>
 
     <!-- landing page: done -->
     <section id="landing-page" role="region">
-        <div class="center">
+        <div class="">
             <h1>Welcome to the Writing Center!</h1>
             <button id="student-btn" class="btn">Students, click here</button>
             <button id="staff-btn" class="btn">Staff, click here</button>
@@ -31,7 +31,7 @@
 
     <!-- Student page: done -->
     <section id="student-page" role="region" class="hidden">
-        <div class="center">
+        <div class="">
             <h1>Welcome, student!</h1>
             <h3>If this is your first time here, make sure to register. </h3>
             <h3>Returning students, welcome back! Please check-in and someone will be with you shortly. </h3>
@@ -47,20 +47,42 @@
     -->
     <section id="student-register" role="region" class="hidden">
         <div class="">
-            <h1>Register</h1>
+            
             <p id="student-reg-error" class=""></p>
             <form class="form" action="#" method="post">
-                <label for="student-first-name-reg">First Name</label>
-                <input type="text" id="student-first-name-reg" value="Frodo">
-                <label for="student-last-name-reg">Last Name</label>
-                <input type="text" id="student-last-name-reg" value="Baggins">
-                <label for="student-email-reg">Email</label>
-                <input type="email" id="student-email-reg" value="abc@abc.com">
-                <label for="student-password1-reg">Password</label>
-                <input type="password" id="student-password1-reg" value="123">
-                <label for="student-password2-reg">Confirm Password</label>
-                <input type="password" id="student-password2-reg" value="123">
-                <button id="student-register-send" class="btn">Register</button>
+                <fieldset>
+                    <legend>Register</legend>
+                    <p class="center">
+                        <label for="student-first-name-reg">First Name</label>
+                        <br>
+                        <input type="text" id="student-first-name-reg" value="Frodo">
+                    </p>
+                    <p class="center">
+                        <label for="student-last-name-reg">Last Name</label>
+                        <br>
+                        <input type="text" id="student-last-name-reg" value="Baggins">
+                    </p>
+                    <p class="center">
+                        <label for="student-email-reg">Email</label>
+                        <br>
+                        <input type="email" id="student-email-reg" value="abc@abc.com">
+                    </p>
+                    <p class="center">
+                        <label for="student-password1-reg">Password</label>
+                        <br>
+                        <input type="password" id="student-password1-reg" value="123">
+                    </p>
+                    <p class="center">
+                        <label for="student-password2-reg">Confirm Password</label>
+                        <br>
+                        <input type="password" id="student-password2-reg" value="123">
+                    </p>
+                    <div class="inline">
+                        <button id="student-register-back" class="btn btn-left">Back</button>
+                        <button id="student-register-send" class="btn btn-right">Register</button>
+                    </div>
+                    
+                </fieldset>
             </form>
         </div>
     </section>
@@ -111,19 +133,19 @@
     js  
          -->
     <section id="staff-login" role="region" class="hidden">
-        <div class="">
+        <div class="cid">
             <h1>Staff Member Login</h1>
             <p id="staff-login-error"></p>
             <form class="form" action="#" method="post">
                 <label for="role-selector-login">Select your Title</label>
                 <select id="role-selector-login">
-                    <option value="tutor">Tutor</option>
                     <option value="instructor">Instructor</option>
+                    <option value="tutor">Tutor</option>
                 </select>
                 <label for="staff-email-login">Email</label>
-                <input type="email" id="staff-email-login" value="qwer@asdf.com">
+                <input type="email" id="staff-email-login" value="admin@admin.com">
                 <label for="staff-password-login">Password</label>
-                <input type="password" id="staff-password-login" value="123">
+                <input type="password" id="staff-password-login" value="supersecretpassword">
                 <button id="staff-login-send" class="btn">Login</button>
             </form>
         </div>
@@ -137,51 +159,133 @@
              -->
     <section id="dashboard" role="region" class="hidden">
         
-        <section id="instructor-dash" class="hidden">
-            <h1>Register New Staff Member</h1>
+        <section id="instructor-dash" class="hidden center">
+            <h3>What would you like to do?</h3>
+            <button id="show-search"class="btn">Search Sessions</button>
+            <button id="show-staff-reg" class="btn">Register Staff</button>
+            <button id="show-user-del" class="btn">Delete User</button>
             <p id="staff-reg-error" class=""></p>
-            <form class="form" action="#" method="post">
-                <label for="role-selector-reg">Select Title</label>
-                <select id="role-selector-reg">
-                    <option value="tutor">Tutor</option>
-                    <option value="instructor">Instructor</option>
-                </select>
-                <label for="staff-first-name-reg">First Name</label>
-                <input type="text" id="staff-first-name-reg" value="Jill">
-                <label for="staff-last-name-reg">Last Name</label>
-                <input type="text" id="staff-last-name-reg" value="Hill">
-                <label for="staff-email-reg">Email</label>
-                <input type="email" id="staff-email-reg" value="poiu@lkjh.com">
-                <label for="staff-password1-reg">Password</label>
-                <input type="password" id="staff-password1-reg" value="123">
-                <label for="staff-password2-reg">Confirm Password</label>
-                <input type="password" id="staff-password2-reg" value="123">
-                <button id="staff-register-send" class="btn">Register</button>
+
+            <!-- register staff users -->
+            <form id="staff-reg-form" class="form hidden" action="#" method="post">
+                <fieldset>
+                    <legend>Register New Staff Member</legend>
+                    <label for="role-selector-reg">Select Title</label>
+                    <p>
+                        <input type="radio" name="role-type" id="radio-tutor-reg" value="tutor" checked>
+                        <label for="radio-tutor-reg">Tutor</label>
+                    </p>
+                    <p>
+                        <input type="radio" name="role-type" id="radio-instructor-reg" value="instructor">
+                        <label for="radio-instructor-reg">Student User</label>
+                    </p>
+                    <p>
+                        <label for="staff-first-name-reg">First Name</label>
+                        <input type="text" id="staff-first-name-reg" value="Jill">
+                    </p>
+                    <p>
+                        <label for="staff-last-name-reg">Last Name</label>
+                        <input type="text" id="staff-last-name-reg" value="Hill">
+                    </p>
+                    <p>
+                        <label for="staff-email-reg">Email</label>
+                        <input type="email" id="staff-email-reg" value="poiu@lkjh.com">
+                    </p>
+                    <p>
+                        <label for="staff-password1-reg">Password</label>
+                        <input type="password" id="staff-password1-reg" value="123">
+                    </p>
+                    <p>
+                        <label for="staff-password2-reg">Confirm Password</label>
+                        <input type="password" id="staff-password2-reg" value="123">
+                    </p>
+                    <button id="staff-register-send" class="btn">Register</button>
+                </fieldset>
+                
             </form>
-        </section>
-        <section id="tutor-dash" class="hidden">
-            <div id="session-search">
-                <label for=""></label>
-                <input type="search" id="">
-                <input type="submit" id="">
+            
+            <!-- delete users -->
+            <form id="user-del-form" class="form hidden" action="#" method="delete">
+                <fieldset>
+                    <legend>Delete User</legend>
+                        <p>
+                            <label for="user-del-email">Email</label>
+                            <input type="text" id="user-del-email" value="abc@abc.com">
+                        </p>
+                        <p>
+                            <input type="checkbox" name="" id="del-confirm-check">
+                            <label for="del-confirm-check">Check here to confirm user deletion</label>
+                        </p>
+                        <p>
+                            WARNING! This cannot be undone. User will lose records of all previous sessions, if any.
+                        </p>
+                    <button id="user-del-send" class="btn">Delete</button>
+                </fieldset>
+            </form>
+
+            <!-- search sessions -->
+            <div id="session-search" class="hidden">
+                <form action="#" method="get">
+                    <fieldset>
+                        <legend>Search for a Session</legend>
+                        <p>
+                            <label for="session-search-bar" class="">Search</label>
+                            <input type="search" id="session-search-bar" class="">
+                            <button id="search-btn" class="search-btn ">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                        </p>
+                        <p>
+                            <input type="radio" name="search-user-type" id="radio-student" value="student" checked>
+                            <label for="radio-student">Student User</label>
+                        </p>
+                        <p>
+                            <input type="radio" name="search-user-type" id="radio-tutor" value="tutor">
+                            <label for="radio-tutor">Tutor User</label>
+                        </p>
+                    </fieldset>
+                </form>
+                <div id="search-results"></div>
+                
             </div>
+        </section>
+
+        <section id="tutor-dash" class="hidden">
             <div id="session-notes">
-                <label for="">Student Email</label>
-                <input type="text">
-                <label for="">Tutor Email</label>
-                <input type="text">
-                <label for="">Instructor</label>
-                <input type="text">
-                <label for="session-notes">Notes</label>
-                <input type="text" id="session-notes">
-                <input type="submit" value="Finished">
+                <form action="#" method="put">
+                    <fieldset>
+                        <legend>Session</legend>
+                        <p>
+                            <label for="session-student-email">Student Email</label>
+                            <input type="text" id="session-student-email" value="abc@abc.com">
+                        </p>
+                        <p>
+                            <label for="session-tutor-email">Tutor Email</label>
+                            <input type="text" id="session-tutor-email" value="poiu@lkjh.com">
+                        </p>
+                        <p>
+                            <label for="session-teacher">Teacher</label>
+                            <input type="text" id="session-teacher" value="Mrs. Fakename">
+                        </p>
+                        <p>
+                            <label for="session-assignment">Assigment</label>
+                            <input type="text" id="session-assignment" value="Fake Paper">
+                        </p>
+                        <p>
+                            <label for="session-notes-text">Notes</label>
+                            <textarea id="session-notes-text" cols="30" rows="10">fdasdfasdfadf</textarea>
+                        </p>
+                        <button id="session-notes-submit" class="btn">Finished</button>
+                    </fieldset>
+                </form>
+
             </div>
         </section>
         
-        <div class="">
-            <h1>Waitlist</h1>
-            <ul class="waitlist"></ul>
-            <button id="waitlist-refresh" class="btn">Refresh Waitlist</button>
+        <div class="center">
+            <h1 class="center">Waitlist</h1>
+            <ul class="waitlist center"></ul>
+            <button id="waitlist-refresh" class="btn center">Refresh Waitlist</button>
         </div>
     </section>
 

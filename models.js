@@ -37,37 +37,23 @@ const userSchema = mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 // end User schema
 
-// //begin session schema
-// const sessionSchema = mongoose.Schema({
-//     date: { type: String, required: true },
-//     time: { type: String, required: true },
-//     tutor: { type: String, required: true },
-//     teacher: { type: String},
-//     assignment: { type: String},
-//     student: { type: String, required: true },
-//     notes: { type: String }
-// });
 
-// //might need to add a date and time virtual
-// // sessionSchema.virtual('name').get(function () {
-// //     return `${this.firstName} ${this.lastName}`.trim()
-// // });
 
-// sessionSchema.methods.serialize = function () {
-    
-//     return {
-//         id: this._id,
-//         date: this.date,
-//         time: this.time,
-//         tutor: this.tutor,
-//         teacher: this.teacher,
-//         assignment: this.assignment,
-//         student: this.student,
-//         notes: this.notes
-//     };
-// }
+//begin Session schema
+const sessionSchema = mongoose.Schema({
+    studentName: { type: String, required: true },
+    studentEmail: { type: String, required: true },
+    tutorName: { type: String, required: true },
+    tutorEmail: { type: String, required: true },
+    date: { type: String, required: true },
+    time: { type: String, required: true},
+    assignment: { type: String, required: true},
+    teacher: { type: String, required: true},
+    notes: {type: String, required: true},
+});
 
-// const Session = mongoose.model('Session', sessionSchema);
-// //end session schema
 
-module.exports = { User };
+const Session = mongoose.model('Session', sessionSchema);
+// end Session schema
+
+module.exports = { User, Session };

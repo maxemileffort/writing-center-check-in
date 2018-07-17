@@ -1,6 +1,7 @@
 const express   = require('express'),
       mongoose  = require('mongoose'),
-      bcrypt    = require('bcrypt');
+      bcrypt    = require('bcrypt'),
+      async     = require('async');
       
 const app = express();
 app.use(express.json());
@@ -45,8 +46,8 @@ app.get('/get-waiting-students/', (req, res)=>{
     User.find({
         currentlyWaiting: true,
     })
-    .then(user=>{
-        res.status(200).json(user);
+    .then(users=>{
+        res.status(200).json(users);
     })
     .catch((err)=>{
         console.error(err);
@@ -54,6 +55,37 @@ app.get('/get-waiting-students/', (req, res)=>{
             message: 'Something went wrong rendering the waitlist.'
         });
     })
+
+})
+
+app.get('/user-search/:role/:query/', (req, res)=>{
+    let query = req.params.query;
+    let role = req.params.role;
+    console.log(query)
+    console.log(role)
+    if (role==="student"){
+        Session.find({
+            studentEmail: query,
+        }).then(session => {
+            console.log(session)
+            res.status(200).json(session);
+        }).catch(err => {
+            console.log(err);
+            res.status(500).json({ message: "Couldn't find session. Please check search term and try again." })
+        })
+    }
+    if (role==="tutor"){
+        Session.find({
+            tutorEmail: query,
+        }).then(session => {
+            console.log(session)
+            res.status(200).json(session);
+        }).catch(err => {
+            console.log(err);
+            res.status(500).json({ message: "Couldn't find session. Please check search term and try again, or register user." })
+        })
+    }
+    
 
 })
 
@@ -71,15 +103,15 @@ app.get("/queue", (req, res) => {
 app.post('/users/create/:role', (req, res) => {
 
     //take the paylod from the ajax api call
-    let firstName = req.body.firstName;
-    let lastName = req.body.lastName;
-    let email = req.body.email;
-    let role = req.params.role;
-    let password = req.body.password;
-    let currentlyWaiting = req.body.currentlyWaiting;
-    let sessions = req.body.sessions;
-    let time = req.body.time;
-    let request = req.body.request;
+    let firstName = req.body.firstName || "";
+    let lastName = req.body.lastName || "";
+    let email = req.body.email || "";
+    let role = req.params.role || "";
+    let password = req.body.password || "";
+    let currentlyWaiting = req.body.currentlyWaiting || false;
+    let sessions = req.body.sessions || [];
+    let time = req.body.time || "";
+    let request = req.body.request || "";
 
     //exclude extra spaces from the email and password
     email = email.trim();
@@ -173,22 +205,23 @@ app.post('/user/login/:role/', (req, res) => {
     
     //login for staff
     else {
-        User.findOne({
-            email: email,
-        })
+        User.findOne(
+            { email: email, role: role },
+        )
             .then(user => {
-                hash = user.password
-                if (bcrypt.compare(password, hash)) {
-                    console.log("passwords match");
-                    res.status(200).json(user);
-                }
-                else {
-                    console.log("passwords don't match");
-                }
+                let hash = user.password;
+                bcrypt.compare(password, hash, (err, result) => {
+                    if (result) {
+                        res.status(200).json(user);
+                    } else {
+                        console.log(err)
+                        res.status(500).json({ message: "Please check email and password and try again." })
+                    }
+                })
             })
             .catch(err => {
                 console.log(err);
-                res.status(500).json({ message: "Couldn't log in as staff. Please check email and password." })
+                res.status(500).json({ message: "Please ask instructor for assistance." })
             })
     }
 
@@ -250,9 +283,105 @@ app.put('/sessions/create/', (req, res)=>{
 })
 //End creating new sessions
 
+//update tutors sessions
+app.put('/sessions/update/', (req, res)=>{
+    console.log(req.body)
+    let studentEmail = req.body.studentEmail;
+    let tutorEmail = req.body.tutorEmail;
+    let notes = req.body.notes;
+    let time = req.body.time;
+    let date = req.body.date;
+    let teacher = req.body.teacher;
+    let assignment = req.body.assignment;
+    let studentName, tutorName;
+    
+
+    async.series([
+        function (callback) {
+            User.find({
+                email: studentEmail
+            }).then(user => {
+                console.log(user);
+                studentName = `${user[0].firstName} ${user[0].lastName}`
+                console.log(studentName);
+                callback(null, studentName);
+                res.status(200)
+            }).catch(err => {
+                console.log(err);
+            })
+        },
+        function (callback) {
+            User.find({
+                email: tutorEmail
+            }).then(user => {
+                console.log(user);
+                tutorName = `${user[0].firstName} ${user[0].lastName}`
+                console.log(tutorName);
+                callback(null, tutorName);
+                res.status(200)
+            }).catch(err => {
+                console.log(err);
+            })
+        },
+        function (callback) {
+            Session.create({
+                studentName,
+                studentEmail,
+                tutorName,
+                tutorEmail,
+                date,
+                time,
+                assignment,
+                teacher,
+                notes
+            }).then(()=>{
+                callback(null, "Created session")
+                res.status(201)
+            }).catch(err=>{
+                console.log(err);
+                res.status(500).json({message: "Unable to create session"})
+            })
+        },
+        function (callback) {
+            User.findOneAndUpdate({
+                email: studentEmail
+            }, {
+                $pop: {sessions: 1}
+            }).then(user => {
+                callback(null, user.sessions);
+                res.status(201)
+            }).catch(err => {
+                console.log(err);
+            })
+        }
+
+    ],
+        // optional callback
+        function (err, results) {
+            console.log(results);
+            res.status(201).json(results)
+        });
+})
+
+    
+
 //====================
 //DELETE endpoints
 //====================
+
+app.delete("/user-delete/:email", (req, res)=>{
+    let email = req.params.email
+    User.findOneAndRemove({
+        email: email
+    }).then(report=>{
+        report = "User deleted."
+        console.log(report)
+        res.status(200).json({message: report})
+    }).catch(err => {
+        console.error(err);
+        res.status(500).json({ message: "Couldn't delete user." });
+    });
+})
 
 //====================
 //Catchall endpoint

@@ -130,8 +130,6 @@ function renderWaitlist(user) {
     
 }
 
-
-
 function checkInStudent(student) { 
     // console.log(el);
     $(`.begin-btn-${student}`).on("click", function (event) {
@@ -202,6 +200,53 @@ function tellTime() {
 
 setInterval(tellTime, 1000); 
 //end clock
+
+//begin update session
+function updateStudentSessions(input) {
+    $.ajax({
+        type: 'PUT',
+        url: '/sessions/update/student/',
+        dataType: 'json',
+        data: JSON.stringify(input),
+        contentType: 'application/json'
+    })
+        //if call succeeds
+        .done(function (output) {
+            console.log(output)
+            updateTutorSessions(input)
+        })
+        //if the call fails
+        .fail(function (jqXHR, error, errorThrown) {
+            console.log(errorThrown);
+            console.log(error);
+            console.log(jqXHR);
+            $("#student-login-error").html(jqXHR);
+        });
+    
+ }
+
+function updateTutorSessions(input) {
+    $.ajax({
+        type: 'PUT',
+        url: '/sessions/update/tutor/',
+        dataType: 'json',
+        data: JSON.stringify(input),
+        contentType: 'application/json'
+    })
+        //if call succeeds
+        .done(function () {
+            console.log("finished updating student and tutor sessions")
+        })
+        //if the call fails
+        .fail(function (jqXHR, error, errorThrown) {
+            console.log(errorThrown);
+            console.log(error);
+            console.log(jqXHR);
+            $("#student-login-error").html(jqXHR);
+        });
+    
+ }
+//end session update
 
 
 //==========================
@@ -418,63 +463,6 @@ $("#staff-email-reg").blur(function (event) { //used to prevent duplicate staff 
     checkDuplicateEmail(email, role);
 });
 
-//user tries to register as staff member
-$('#staff-register-send').on('click', function (event) {
-    event.preventDefault();
-    let msg;
-    let firstName = $('#staff-first-name-reg').val();
-    let lastName = $('#staff-last-name-reg').val();
-    let email = $('#staff-email-reg').val();
-    let password1 = $('#staff-password1-reg').val();
-    let password2 = $('#staff-password2-reg').val();
-    let role = $('#role-selector-reg').val();
-    // console.log(role);
-    
-    //make sure fields aren't blank
-    if (email === '' || password1 === '' || password2 === '' || lastName === '' || firstName === '') {
-        msg = "All fields are required.";
-        $('#staff-reg-error').html(msg);
-    } else if (password1 !== password2){
-        msg = "Passwords must match."
-        $('#staff-reg-error').html(msg);
-    } else {
-        
-        //create payload
-
-        let newStaffObject = {
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            password: password1,
-            role: role,
-        };
-
-        //ajax call
-
-        $.ajax({
-            type: 'POST',
-            url: `/users/create/${role}`,
-            dataType: 'json',
-            data: JSON.stringify(newStaffObject),
-            contentType: 'application/json'
-        })
-            //if call succeeds
-            .done(function (staff) {
-                // console.log(staff);
-                console.log('Created ' + staff.name+' as '+staff.role);
-                hideAll();
-                $('#landing-page').removeClass('hidden');
-            })
-            //if the call fails
-            .fail(function (jqXHR, error, errorThrown) {
-                console.log(errorThrown);
-                console.log(error);
-                console.log(jqXHR.responseJSON.message);
-                $("#staff-reg-error").html(jqXHR.responseJSON.message);
-            });
-    }
-    //render next page based on user role (instructor vs tutor)
-})
 
 //user tries to login as staff member
 $('#staff-login-send').on('click', function (event) {
@@ -503,7 +491,7 @@ $('#staff-login-send').on('click', function (event) {
             //if call succeeds
             .done(function (staff) {
                 // console.log(staff);
-                console.log('logged in '+ staff.name+ " as "+ staff.role);
+                console.log('logged in '+ staff.firstName+ " as "+ staff.role);
 
                 hideAll();
                 //take us to dashboard
@@ -527,5 +515,193 @@ $('#staff-login-send').on('click', function (event) {
     }
 })
 
+//============================
+//instructor dashboard buttons
+//============================
+$('#show-search').on('click', function(){
+    $('#session-search').removeClass('hidden');
+    $('#staff-reg-form').addClass('hidden');
+    $('#user-del-form').addClass('hidden');
+    
+})
 
+$('#show-staff-reg').on('click', function () {
+    $('#staff-reg-form').removeClass('hidden');
+    $('#user-del-form').addClass('hidden');
+    $('#session-search').addClass('hidden');
+})
+
+$('#show-user-del').on('click', function () {
+    $('#user-del-form').removeClass('hidden');
+    $('#staff-reg-form').addClass('hidden');
+    $('#session-search').addClass('hidden');
+    
+})
+
+//instructor search for users
+$('#search-btn').on('click', function (event) {
+    event.preventDefault();
+    let query = $('#session-search-bar').val();
+    let role = $("input[name='search-user-type']:checked").val();
+    $.ajax({
+        type: 'GET',
+        url: `/user-search/${role}/${query}/`,
+        dataType: 'json',
+        contentType: 'application/json'
+    })
+        //if call succeeds
+        .done(function (session) {
+            // console.log(session);
+
+             let htmlOutput = ''; // clears it out for every search
+             session.map(el=>{
+                 console.log(el);
+                 htmlOutput += `<p>Student Name: ${el.studentName}</p>`
+                 htmlOutput += `<p>Tutor Name: ${el.tutorName}</p>`
+                 htmlOutput += `<p>Date: ${el.date}</p>`
+                 htmlOutput += `<p>Time: ${el.time}</p>`
+                 htmlOutput += `<p>Teacher: ${el.teacher}</p>`
+                 htmlOutput += `<p>Assignment: ${el.assignment}</p>`
+                 htmlOutput += `<p>Notes: ${el.notes}</p>`
+                 htmlOutput += `<hr>`
+             })
+            
+            $("#search-results").html(htmlOutput)
+        })
+        //if the call is failing
+        .fail(function (jqXHR, error, errorThrown) {
+            console.log(jqXHR.responseJSON.message);
+            console.log(error);
+            console.log(errorThrown);
+        });
+})
+
+//instructor tries to register new staff member
+$('#staff-register-send').on('click', function (event) {
+    event.preventDefault();
+    let msg;
+    let firstName = $('#staff-first-name-reg').val();
+    let lastName = $('#staff-last-name-reg').val();
+    let email = $('#staff-email-reg').val();
+    let password1 = $('#staff-password1-reg').val();
+    let password2 = $('#staff-password2-reg').val();
+    let role = $('#role-selector-reg').val();
+    // console.log(role);
+
+    //make sure fields aren't blank
+    if (email === '' || password1 === '' || password2 === '' || lastName === '' || firstName === '') {
+        msg = "All fields are required.";
+        $('#staff-reg-error').html(msg);
+    } else if (password1 !== password2) {
+        msg = "Passwords must match."
+        $('#staff-reg-error').html(msg);
+    } else {
+
+        //create payload
+
+        let newStaffObject = {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            password: password1,
+            role: role,
+        };
+
+        //ajax call
+
+        $.ajax({
+            type: 'POST',
+            url: `/users/create/${role}`,
+            dataType: 'json',
+            data: JSON.stringify(newStaffObject),
+            contentType: 'application/json'
+        })
+            //if call succeeds
+            .done(function (user) {
+                // console.log(user);
+                console.log('Created ' + user.firstName + ' as ' + user.role);
+                hideAll();
+                $('#landing-page').removeClass('hidden');
+            })
+            //if the call fails
+            .fail(function (jqXHR, error, errorThrown) {
+                console.log(errorThrown);
+                console.log(error);
+                console.log(jqXHR.responseJSON.message);
+                $("#staff-reg-error").html(jqXHR.responseJSON.message);
+            });
+    }
+})
+
+//instructor deletes user
+$('#user-del-send').on('click', function (event) {
+    event.preventDefault();
+    let email = $('#user-del-email').val();  
+    $.ajax({
+        type: 'DELETE',
+        url: `/user-delete/${email}/`,
+        dataType: 'json',
+        contentType: 'application/json'
+    })
+        //if call is succefull
+        .done(function (user) {
+            console.log("Deleted user with email address "+email)
+            $('#user-del-form').addClass('hidden');
+        })
+        //if the call is failing
+        .fail(function (jqXHR, error, errorThrown) {
+            console.log(jqXHR.responseJSON.message);
+            console.log(error);
+            console.log(errorThrown);
+        });  
+})
+
+//============================
+//tutor dashboard buttons
+//============================
+
+$('#session-notes-submit').on('click', function(event){ // call is timing out, not sure how to fix that. all the other endpoints work
+    event.preventDefault();
+    let studentEmail = $('#session-student-email').val();
+    let tutorEmail = $('#session-tutor-email').val();
+    let notes = $('#session-notes-text').val();
+    let teacher = $('#session-teacher').val();
+    let assignment = $('#session-assignment').val();
+    let date = generateDate();
+    let time = generateTime();
+
+    let sessionObject = {
+        studentEmail: studentEmail,
+        tutorEmail: tutorEmail,
+        notes: notes,
+        teacher: teacher,
+        assignment: assignment,
+        date: date,
+        time: time,
+    }
+    console.log('created session object')
+
+    $.ajax({
+        type: 'PUT',
+        url: '/sessions/update/',
+        dataType: 'json',
+        data: JSON.stringify(sessionObject),
+        contentType: 'application/json'
+    })
+        //if call succeeds
+        .done(function (output) {
+            console.log('call succeeded')
+        })
+        //if the call fails
+        .fail(function (jqXHR, error, errorThrown) {
+            console.log(errorThrown);
+            console.log(error);
+            console.log(jqXHR);
+        });
+    
+    hideAll();
+    $('#landing-page').removeClass('hidden');
+
+    
+})
 // end button behaviors

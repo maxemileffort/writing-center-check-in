@@ -2,69 +2,42 @@
     display: none !important; 
 }
 
-
-
-.btn {
-    background-color: maroon;
-    color: white;
-    border: 1px white solid;
-    box-shadow: rgb(35, 35, 180) 2px 2px 2px;
-    cursor: pointer;
-    height: 40px;
-    width: 15%;
-    margin-top: 10px;
-}
-
-[disabled=disabled] {
-    background-color: gray;
-    color: black;
-}
-
-.form {
-    display: flex;
+#session-notes, #tutor-dash {
+    /* display: flex;
     flex-direction: column;
-    margin: 0 auto;
+    margin: 5px; */
 }
 
-/* center in div */
-.cid { 
-    margin: 0 auto 5px auto;
+#session-notes-text {
+    /* height: 30%;
+    width: 400px; */
+}
+
+#session-search {
+    /* margin-left: 5px; */
 }
 
 
-label, input {
-    max-width: 25%;
-}
 
-.clock {
-    color: white;
-    padding-top: 300px;
-}
 
-.center {
-    margin: 0 auto;
-    text-align: center;
-}
-
-.right {
-    text-align: end;
-    margin-right: 5px;
+label, input, select {
+    /* max-width: 25%; */
 }
 
 body {
-    color: rgb(35, 35, 180);
+    /* color: rgb(35, 35, 180); */
 }
 
 input {
-    width: 65%;
+    /* width: 65%; */
 }
 
 section {
-    max-width: 85%;
+    /* max-width: 85%;
     margin: 0 auto;
     padding: 5% 5%;
     border-radius: 10px;
-    background-color: white;
+    background-color: white; */
 }
 
 header {
@@ -82,8 +55,12 @@ header {
     border-radius: 10px;
 }
 
+footer {
+    /* margin-top: 25%; */
+}
+
 li {
-    height: 180px;
+    /* height: 180px;
     width: 65%;
     list-style-type: none;
     border: 3px maroon solid;
@@ -96,7 +73,75 @@ li {
         linear-gradient(
             135deg,
             rgb(124, 124, 230), white
-        );
+        ); */
+}
+
+.btn {
+    /* background-color: maroon;
+    color: white;
+    border: 1px white solid;
+    box-shadow: rgb(35, 35, 180) 2px 2px 2px;
+    cursor: pointer;
+    height: 40px;
+    width: 15%;
+    margin-top: 10px;
+    border-radius: 10px; */
+}
+
+.search-btn {
+    /* background-color: maroon;
+    color: white;
+    border: 1px white solid;
+    box-shadow: rgb(35, 35, 180) 2px 2px 2px;
+    cursor: pointer;
+    height: 25px;
+    width: 25px;
+    margin-top: 10px;
+    border-radius: 10px;     */
+}
+
+[disabled=disabled] {
+    /* background-color: gray;
+    color: black; */
+}
+
+/* center in div */
+.cid { 
+    /* margin: 0 15% 5px 15%; */
+}
+
+.clock {
+    /* color: white;
+    margin-top: 21.5%;
+    margin-left: 72%; */
+}
+
+.home {
+    /* color: white;
+    margin-left:1%;
+    margin-top:21%;
+    font-size: 30px; */
+}
+
+.inline {
+    /* display: flex; */
+}
+
+.center {
+    /* margin: 0 0 0 35%; */
+}
+
+.right {
+    /* text-align: end;
+    margin-right: 5px; */
+}
+
+.btn-left {
+    /* margin-left: 29%; */
+}
+
+.btn-right {
+    /* margin-right: 35%; */
 }
 
 @media only screen 

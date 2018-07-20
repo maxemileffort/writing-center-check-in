@@ -2,42 +2,36 @@
     display: none !important; 
 }
 
-#session-notes, #tutor-dash {
-    /* display: flex;
-    flex-direction: column;
-    margin: 5px; */
-}
-
-#session-notes-text {
-    /* height: 30%;
-    width: 400px; */
-}
-
-#session-search {
-    /* margin-left: 5px; */
-}
-
-
-
-
-label, input, select {
-    /* max-width: 25%; */
-}
-
 body {
-    /* color: rgb(35, 35, 180); */
-}
-
-input {
-    /* width: 65%; */
+    color: rgb(35, 35, 180);
 }
 
 section {
-    /* max-width: 85%;
+    width: 85%;
+    padding: 5%;
     margin: 0 auto;
-    padding: 5% 5%;
+}
+
+fieldset {
+    border: none;
     border-radius: 10px;
-    background-color: white; */
+    background-image:  
+        linear-gradient(
+            180deg,
+            white,
+            rgba(0, 0, 0, 0.5)
+            );
+}
+
+.center {
+    margin: 0 auto;
+    text-align: center;
+
+}
+
+.back-btn {
+    text-align: left;
+    width: 60px;
 }
 
 header {
@@ -53,19 +47,19 @@ header {
     background-repeat: no-repeat;
     margin: 0 auto;
     border-radius: 10px;
+    color: white;
 }
 
 footer {
-    /* margin-top: 25%; */
+    margin-top: 15%;
 }
 
 li {
-    /* height: 180px;
-    width: 65%;
+    height: 180px;
+    width: 100%;
     list-style-type: none;
     border: 3px maroon solid;
     margin: 5px auto;
-    padding: 5% 1% 0 1%;
     border-radius: 18px;
     font-size: 2em;
     text-align: center;
@@ -73,81 +67,10 @@ li {
         linear-gradient(
             135deg,
             rgb(124, 124, 230), white
-        ); */
+        );
 }
 
-.btn {
-    /* background-color: maroon;
-    color: white;
-    border: 1px white solid;
-    box-shadow: rgb(35, 35, 180) 2px 2px 2px;
-    cursor: pointer;
-    height: 40px;
-    width: 15%;
-    margin-top: 10px;
-    border-radius: 10px; */
-}
-
-.search-btn {
-    /* background-color: maroon;
-    color: white;
-    border: 1px white solid;
-    box-shadow: rgb(35, 35, 180) 2px 2px 2px;
-    cursor: pointer;
-    height: 25px;
-    width: 25px;
-    margin-top: 10px;
-    border-radius: 10px;     */
-}
-
-[disabled=disabled] {
-    /* background-color: gray;
-    color: black; */
-}
-
-/* center in div */
-.cid { 
-    /* margin: 0 15% 5px 15%; */
-}
-
-.clock {
-    /* color: white;
-    margin-top: 21.5%;
-    margin-left: 72%; */
-}
-
-.home {
-    /* color: white;
-    margin-left:1%;
-    margin-top:21%;
-    font-size: 30px; */
-}
-
-.inline {
-    /* display: flex; */
-}
-
-.center {
-    /* margin: 0 0 0 35%; */
-}
-
-.right {
-    /* text-align: end;
-    margin-right: 5px; */
-}
-
-.btn-left {
-    /* margin-left: 29%; */
-}
-
-.btn-right {
-    /* margin-right: 35%; */
-}
-
-@media only screen 
-  and (max-device-width: 768px) 
-  and (-webkit-min-device-pixel-ratio: 1) {
-    .btn {
+button {
     background-color: maroon;
     color: white;
     border: 1px white solid;
@@ -156,9 +79,83 @@ li {
     height: 40px;
     width: 160px;
     margin-top: 10px;
+    border-radius: 10px;
+}
+
+[disabled=disabled] {
+    background-color: gray;
+    color: black;
+}
+
+.banner {
+    padding-top: 280px;
+}
+
+.home {
+    float: left;
+    margin-left: 1%;
+    font-size: 2em;
+}
+
+.clock {
+    float: right;
+    font-size: 2em;
+    font-weight: 900;
+    margin-right: 1%;
+}   
+
+.red {
+    color: red;
+}
+
+
+/*ipad potrait*/
+
+@media only screen 
+  and (max-width: 768px) {
+    header {
+        height: 200px;
     }
 
-    label, input {
-    max-width: 85%;
+    .banner {
+        font-size: 0.8em;
+        padding-top: 140px;
     }
+
+}
+
+
+/*iPhone landscape*/
+
+@media only screen and (max-width: 480px) {
+    .banner {
+        font-size: 0.6em;
+        padding-top: 155px;
+    } 
+
+    li {
+        height: 180px;
+        width: 100%;
+        list-style-type: none;
+        border: 3px maroon solid;
+        border-radius: 18px;
+        margin-left: -10%;
+        font-size: 1.1em;
+        text-align: center;
+        background: 
+            linear-gradient(
+                135deg,
+                rgb(124, 124, 230), white
+            );
+    }
+}
+
+
+/*iPhone portrait*/
+
+@media only screen and (max-width: 320px) {
+    .banner {
+        font-size: 0.6em;
+        padding-top: 155px;
+    }  
 }

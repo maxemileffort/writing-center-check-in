@@ -1,10 +1,5 @@
 //TODO:
-    // encryption
     // polish
-    // staff tools
-    // waitlist => add student and tutor and instructor emails to session,
-    //             add intermediate "appointment" step that tutor clicks to start session 
-
 
 //==========================
 //VARIABLE DECLARATIONS
@@ -26,11 +21,13 @@ function checkDuplicateEmail(inputEmail, role) { //used in registration steps to
         //if call is succefull
         .done(function (result) {
             console.log(result);
+            let msg = "Email is already in use."
             if (result.entries.length !== 0) {
-                alert("Email is in use already.")
+                $(`#${role}-reg-error`).html(msg);
                 $(`#${role}-register-send`).attr('disabled', "disabled");
                 
             } else {
+                $(`#${role}-reg-error`).html();
                 $(`#${role}-register-send`).attr('disabled', null);
             }
 
@@ -118,11 +115,11 @@ function renderWaitlist(user) {
         console.log(user[i]);
         $(".waitlist").html('');
         $(".waitlist").append(`<li>
-        Name: ${user[i].firstName} ${user[i].lastName} | 
-        Walk-in time: ${sessions[mostRecentSession].time} | 
-        Teacher: ${sessions[mostRecentSession].teacher} |
-        Assignment: ${sessions[mostRecentSession].assignment} |
-        Requested Tutor: ${sessions[mostRecentSession].tutor} | 
+        Name: ${user[i].firstName} ${user[i].lastName} || 
+        Walk-in time: ${sessions[mostRecentSession].time} || 
+        Teacher: ${sessions[mostRecentSession].teacher} ||
+        Assignment: ${sessions[mostRecentSession].assignment} ||
+        Requested Tutor: ${sessions[mostRecentSession].tutor} || 
         <button class="btn begin-btn-${user[i]._id}">Start Session</button>
         </li>`);
         checkInStudent(user[i]._id);
@@ -165,36 +162,37 @@ function tellTime() {
     let hh = today.getHours();
     let mm = today.getMinutes();
     let sec = today.getSeconds();
-    if (hh < 10) {
-        hh = '0' + hh;
+    let pmCheck;
+
+    if (sec < 10) {
+        sec = '0' + sec;
     }
 
     if (mm < 10) {
         mm = '0' + mm;
     }
 
-    if (sec < 10) {
-        sec = '0' + sec;
+    if (hh > 12) {
+        hh = hh - 12;
+        pmCheck = true;
+    } else {
+        pmCheck = false;
+    }
+    
+    if (hh < 10) {
+        hh = '0' + hh;
     }
 
     if (hh === '00') {
         hh = 12;
     }
 
-    if (hh > 12) {
-        hh = hh - 12;
-        if (hh < 10) {
-            hh = '0' + hh;
-        }
-        time = `${hh}:${mm}:${sec} PM`;
+    if (pmCheck){
+        time = `${hh}:${mm}:${sec} PM`
+    } else {
+        time = `${hh}:${mm}:${sec}`
     }
-
-    else {
-        time = `${hh}:${mm}:${sec}`;
-    }
-
-
-    $('.clock').html(`<h2>Current Time: ${time}</h2>`);
+    $('.clock').html(`${time}`);
 
 }
 
@@ -258,11 +256,18 @@ $('#waitlist-refresh').on('click', function () {
     getWaitingStudents(renderWaitlist);
 })
 
+//home button
+$(".home").on("click", function (){
+    hideAll();
+    $("input").val(""); //clear all the input values
+    $('#landing-page').removeClass("hidden"); //take user back to landing page
+})
+
 // STUDENT buttons
 //user clicks student button
 $('#student-btn').on('click', function (){
     hideAll();
-    $('#student-page').removeClass('hidden');
+    $('#student-login').removeClass('hidden');
 })
 
 //user wants to register as a student
@@ -271,10 +276,20 @@ $('#student-register-btn').on('click', function (){
     $('#student-register').removeClass('hidden');
 })
 
-// user wants to login as a student
-$('#student-login-btn').on('click', function (){
+//user clicks back button on student-register page
+$('#student-register-back').on('click', function (event){
+    event.preventDefault();
     hideAll();
+    //take student back to login
     $('#student-login').removeClass('hidden');
+})
+
+//user clicks back button on student-login page
+$('#student-login-back').on('click', function (event) {
+    event.preventDefault();
+    hideAll();
+    //take student back to login page
+    $('#landing-page').removeClass('hidden');
 })
 
 
@@ -343,6 +358,7 @@ $('#student-register-send').on('click', function (event){ //refactor, setting va
                 //check-in page after auto-logging in student
                 hideAll();
                 $('#student-checkin-page').removeClass('hidden');
+                $('#returned-student-name').html(student.firstName);
                 readyToCheckin(student);
             })
             //if the call fails
@@ -388,7 +404,7 @@ $('#student-login-send').on('click', function (event){
                 //route to checkin page
                 hideAll();
                 $('#student-checkin-page').removeClass('hidden');
-                $('#returned-student-name').html(student.name);
+                $('#returned-student-name').html(student.firstName);
                 console.log(student);
                 readyToCheckin(student);
             })
@@ -451,8 +467,13 @@ function readyToCheckin(session){
 $('#staff-btn').on('click', function () {
     hideAll();
     $('#staff-login').removeClass('hidden');
-    let msg;
-    $('#staff-reg-error').html(msg);
+})
+
+//user clicks back button on staff-login page
+$('#staff-login-back').on('click', function (event) {
+    event.preventDefault();
+    hideAll();
+    $('#landing-page').removeClass('hidden');
 })
 
 $("#staff-email-reg").blur(function (event) { //used to prevent duplicate staff from being created
@@ -554,6 +575,9 @@ $('#search-btn').on('click', function (event) {
             // console.log(session);
 
              let htmlOutput = ''; // clears it out for every search
+             if (session.length === 0) {
+                 htmlOutput = "No sessions yet."
+             }
              session.map(el=>{
                  console.log(el);
                  htmlOutput += `<p>Student Name: ${el.studentName}</p>`
@@ -570,7 +594,7 @@ $('#search-btn').on('click', function (event) {
         })
         //if the call is failing
         .fail(function (jqXHR, error, errorThrown) {
-            console.log(jqXHR.responseJSON.message);
+            console.log(jqXHR);
             console.log(error);
             console.log(errorThrown);
         });
@@ -585,7 +609,7 @@ $('#staff-register-send').on('click', function (event) {
     let email = $('#staff-email-reg').val();
     let password1 = $('#staff-password1-reg').val();
     let password2 = $('#staff-password2-reg').val();
-    let role = $('#role-selector-reg').val();
+    let role = $('input[name=role-type]').val();
     // console.log(role);
 
     //make sure fields aren't blank
@@ -634,26 +658,38 @@ $('#staff-register-send').on('click', function (event) {
 })
 
 //instructor deletes user
+
+$('#del-confirm-check').on('click', function () {
+    $('#del-confirm-check').attr("checked", true);
+})
+
 $('#user-del-send').on('click', function (event) {
     event.preventDefault();
-    let email = $('#user-del-email').val();  
-    $.ajax({
-        type: 'DELETE',
-        url: `/user-delete/${email}/`,
-        dataType: 'json',
-        contentType: 'application/json'
-    })
-        //if call is succefull
-        .done(function (user) {
-            console.log("Deleted user with email address "+email)
-            $('#user-del-form').addClass('hidden');
+    if ($('#del-confirm-check').attr('checked')){
+        let email = $('#user-del-email').val();
+        $.ajax({
+            type: 'DELETE',
+            url: `/user-delete/${email}/`,
+            dataType: 'json',
+            contentType: 'application/json'
         })
-        //if the call is failing
-        .fail(function (jqXHR, error, errorThrown) {
-            console.log(jqXHR.responseJSON.message);
-            console.log(error);
-            console.log(errorThrown);
-        });  
+            //if call succeeds
+            .done(function (user) {
+                console.log(user)
+                console.log("Deleted user with email address " + email)
+                $('#user-del-form').addClass('hidden');
+            })
+            //if the call is failing
+            .fail(function (jqXHR, error, errorThrown) {
+                console.log(jqXHR.responseJSON.message);
+                console.log(error);
+                console.log(errorThrown);
+            });
+    } else {
+        $("#user-del-error").html("Please check confirmation box.");
+        $("label[for=del-confirm-check]").addClass("red");
+    }
+      
 })
 
 //============================

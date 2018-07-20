@@ -18,16 +18,18 @@ app.use(express.static('public'));
 //GET endpoints
 //====================
 app.get("/", (req, res) => {
-    console.log('landed on /');
+    //serves landing page
     res.sendFile(__dirname + "/public/index.html");
 });
 
+
 app.get('/check-duplicate-email/:inputEmail', (req, res)=>{
+    //used to make email a unique identifier between users
     let inputEmail = req.params.inputEmail;
     console.log(inputEmail);
     User
         .find({
-            "email": inputEmail
+            email: inputEmail
         })
         .then(function (entries) {
             res.status(200).json({
@@ -43,6 +45,7 @@ app.get('/check-duplicate-email/:inputEmail', (req, res)=>{
 })
 
 app.get('/get-waiting-students/', (req, res)=>{
+    //filters user database for those that are currently waiting
     User.find({
         currentlyWaiting: true,
     })
@@ -59,6 +62,7 @@ app.get('/get-waiting-students/', (req, res)=>{
 })
 
 app.get('/user-search/:role/:query/', (req, res)=>{
+    //searches sessions based on role associated with input email
     let query = req.params.query;
     let role = req.params.role;
     console.log(query)
@@ -187,11 +191,13 @@ app.post('/user/login/:role/', (req, res) => {
             {email: email},
         )
             .then(user=> {
+                //validate password
                 let hash = user.password;
                 bcrypt.compare(password, hash, (err, result)=>{
                     if (result){
                         res.status(200).json(user);
                     } else {
+                        //if validation fails
                         console.log(err)
                         res.status(500).json({message: "Please check email and password and try again."})
                     }
@@ -209,11 +215,13 @@ app.post('/user/login/:role/', (req, res) => {
             { email: email, role: role },
         )
             .then(user => {
+                //validate password
                 let hash = user.password;
                 bcrypt.compare(password, hash, (err, result) => {
                     if (result) {
                         res.status(200).json(user);
                     } else {
+                        //if validation fails
                         console.log(err)
                         res.status(500).json({ message: "Please check email and password and try again." })
                     }
@@ -235,6 +243,7 @@ app.post('/user/login/:role/', (req, res) => {
 
 app.put('/check-in-student/:id/', (req,res)=>{
     let id = req.params.id;
+    //remove entry from waitlist
     User.findOneAndUpdate(
         {_id: id},
         {$set: { currentlyWaiting: false }}
@@ -247,7 +256,7 @@ app.put('/check-in-student/:id/', (req,res)=>{
         })
 })
 
-// Create new session
+// Create new appointment, kind of a placeholder, as student may not get requested tutor
 app.put('/sessions/create/', (req, res)=>{
     console.log('trying to create new session');
     let email = req.body.email
@@ -256,7 +265,6 @@ app.put('/sessions/create/', (req, res)=>{
     let assignment = req.body.assignment;
     let date = req.body.date;
     let time = req.body.time;
-    let sessions = req.body.sessions;
     let notes = "";
     let sessionObject = {
         tutor: tutor,
@@ -283,7 +291,7 @@ app.put('/sessions/create/', (req, res)=>{
 })
 //End creating new sessions
 
-//update tutors sessions
+//update actual session, creates record of actual sessions
 app.put('/sessions/update/', (req, res)=>{
     console.log(req.body)
     let studentEmail = req.body.studentEmail;
@@ -295,9 +303,10 @@ app.put('/sessions/update/', (req, res)=>{
     let assignment = req.body.assignment;
     let studentName, tutorName;
     
-
+    //downlaoded async module to get function to run sequentially
     async.series([
         function (callback) {
+            //find student's name
             User.find({
                 email: studentEmail
             }).then(user => {
@@ -311,6 +320,7 @@ app.put('/sessions/update/', (req, res)=>{
             })
         },
         function (callback) {
+            //find tutor's name
             User.find({
                 email: tutorEmail
             }).then(user => {
@@ -324,6 +334,7 @@ app.put('/sessions/update/', (req, res)=>{
             })
         },
         function (callback) {
+            //create sessions with names plus initial payload
             Session.create({
                 studentName,
                 studentEmail,
@@ -369,7 +380,8 @@ app.put('/sessions/update/', (req, res)=>{
 //DELETE endpoints
 //====================
 
-app.delete("/user-delete/:email", (req, res)=>{
+app.delete("/user-delete/:email/", (req, res)=>{
+    //delete user via email address
     let email = req.params.email
     User.findOneAndRemove({
         email: email

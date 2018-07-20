@@ -5,53 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ"
+        crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
-    <title>Writing Center</title>
+    <link rel="icon" type="image" href="./img/favicon-align-left.ico">
+    <title> Writing Center</title>
 </head>
 <body>
-    <!-- 
-    TODO:
-        -add back buttons
-        -->
-    <header role="banner" class="inline">
-        <div class="home"><i class="fa fa-university home" aria-hidden="true">Home</i></div>
-        <div class="clock"></div>
+    <!-- top banner -->
+    <header role="banner" class="">
+        <div class="banner">
+            <p class="home">
+                    <i class="fa fa-university" aria-hidden="true">Home</i>
+            </p>
+            <p class="clock">
+
+            </p>
+        </div>
     </header>
 
-    <!-- landing page: done -->
+    <!-- landing page -->
     <section id="landing-page" role="region">
-        <div class="">
+        <div class="center">
             <h1>Welcome to the Writing Center!</h1>
-            <button id="student-btn" class="btn">Students, click here</button>
-            <button id="staff-btn" class="btn">Staff, click here</button>
+            <button id="student-btn" class="btn">Student Area</button>
+            <button id="staff-btn" class="btn">Staff Area</button>
         </div>
     </section>
 
-    <!-- Student page: done -->
-    <section id="student-page" role="region" class="hidden">
-        <div class="">
-            <h1>Welcome, student!</h1>
-            <h3>If this is your first time here, make sure to register. </h3>
-            <h3>Returning students, welcome back! Please check-in and someone will be with you shortly. </h3>
-            <button id="student-register-btn" class="btn">Register</button>
-            <button id="student-login-btn" class="btn">Check-in</button>
-        </div>
-    </section>
-
-    <!-- Student register 
-    html done
-    css
-    js done
-    -->
+    <!-- Student register -->
     <section id="student-register" role="region" class="hidden">
-        <div class="">
-            
+        <button id="student-register-back" class="back-btn"><i class="fas fa-chevron-left"></i> Back</button>
+        <div class="center">
             <p id="student-reg-error" class=""></p>
             <form class="form" action="#" method="post">
                 <fieldset>
-                    <legend>Register</legend>
+                    <legend><h1>Create an Account</h1></legend>
                     <p class="center">
                         <label for="student-first-name-reg">First Name</label>
                         <br>
@@ -77,99 +67,125 @@
                         <br>
                         <input type="password" id="student-password2-reg" value="123">
                     </p>
-                    <div class="inline">
-                        <button id="student-register-back" class="btn btn-left">Back</button>
-                        <button id="student-register-send" class="btn btn-right">Register</button>
-                    </div>
-                    
+                        <button id="student-register-send" class="btn btn-right">Register <i class="fas fa-check"></i></button>
                 </fieldset>
             </form>
         </div>
     </section>
 
-    <!-- Student Login
-    html done
-    css
-    js
-    -->
+    <!-- Student Login -->
     <section id="student-login" role="region" class="hidden">
-        <div class="">
-            <h1>Welcome back, student!</h1>
+        <button id="student-login-back" class="back-btn"><i class="fas fa-chevron-left"></i> Back</button>
+        <div class="center">
             <p id="student-login-error"></p>
             <form class="form" action="#" method="post">
-                <label for="student-email-login">Email</label>
-                <input type="email" id="student-email-login" value="abc@abc.com">
-                <label for="student-password-login">Password</label>
-                <input type="password" id="student-password-login" value="123">
-                <button id="student-login-send" class="btn">Login</button>
+                <fieldset>
+                    <legend>
+                        <h3>Welcome back.</h3>
+                        <h3>Let's get settled in.</h3>
+                    </legend>
+                    <p class="center">
+                        <label for="student-email-login">Email</label>
+                        <br>
+                        <input type="email" id="student-email-login" value="abc@abc.com">
+                    </p>
+                    <p class="center">
+                        <label for="student-password-login">Password</label>
+                        <br>
+                        <input type="password" id="student-password-login" value="123">
+                    </p>
+                    <button id="student-login-send" class="btn">Login <i class="fas fa-check"></i></button>
+                </fieldset>
             </form>
+            <br>
+            <p class="center">First time here?</p>
+            <button id="student-register-btn" class="btn">Register</button>
         </div>
     </section>
 
-    <!-- Student Check-in
-    html done
-    css
-    js
-	 -->
+    <!-- Student Check-in -->
     <section id="student-checkin-page" role="region" class="hidden">
-        <div class="">
-            <h1>Welcome back, <span id="returned-student-name">student</span>!</h1>
+        <div class="center">
             <p id="student-checkin-error"></p>
             <form class="form" action="#" method="post">
-                <label for="student-teacher">Teacher</label>
-                <input type="text" id="student-teacher" value="Mrs. Fakename">
-                <label for="student-assignment">Assignment</label>
-                <input type="text" id="student-assignment" value="Fake paper">
-                <label for="requested-tutor">Request a tutor:</label>
-                <input type="text" id="requested-tutor" value="Jill">
-                <button id="student-checkin-send" class="btn">Check-in</button>
+                <fieldset>
+                    <legend>
+                        <h3>Hello, <span id="returned-student-name">student</span>.</h3>
+                    </legend>
+                    <p class="center">
+                        <label for="student-teacher">Teacher</label>
+                        <br>
+                        <input type="text" id="student-teacher" value="Mrs. Fakename">
+                    </p>
+                    <p class="center">
+                        <label for="student-assignment">Assignment</label>
+                        <br>
+                        <input type="text" id="student-assignment" value="Fake paper">
+                    </p>
+                    <p class="center">
+                        <label for="requested-tutor">Request a tutor:</label>
+                        <br>
+                        <input type="text" id="requested-tutor" value="Jill">
+                    </p>
+                    <button id="student-checkin-send" class="btn">Check-in <i class="fas fa-check"></i></button>
+                </fieldset>
             </form>
         </div>
     </section>
 
-    <!-- Staff Login
-    html done
-    css
-    js  
-         -->
+    <!-- Staff Login -->
     <section id="staff-login" role="region" class="hidden">
-        <div class="cid">
-            <h1>Staff Member Login</h1>
+        <button id="staff-login-back" class="back-btn"><i class="fas fa-chevron-left"></i> Back</button>
+        <div class="center">
             <p id="staff-login-error"></p>
             <form class="form" action="#" method="post">
-                <label for="role-selector-login">Select your Title</label>
-                <select id="role-selector-login">
-                    <option value="instructor">Instructor</option>
-                    <option value="tutor">Tutor</option>
-                </select>
-                <label for="staff-email-login">Email</label>
-                <input type="email" id="staff-email-login" value="admin@admin.com">
-                <label for="staff-password-login">Password</label>
-                <input type="password" id="staff-password-login" value="supersecretpassword">
-                <button id="staff-login-send" class="btn">Login</button>
+                <fieldset>
+                    <legend>
+                        <h1>Staff Member Login</h1>
+                    </legend>
+                    <p class="center">
+                        <label for="role-selector-login">Select your Title</label>
+                        <br>
+                        <select id="role-selector-login">
+                            <option value="instructor">Instructor</option>
+                            <option value="tutor">Tutor</option>
+                        </select>
+                    </p>
+                    <p class="center">
+                        <label for="staff-email-login">Email</label>
+                        <br>
+                        <input type="email" id="staff-email-login" value="admin@admin.com">
+                    </p>
+                    <p class="center">
+                        <label for="staff-password-login">Password</label>
+                        <br>
+                        <input type="password" id="staff-password-login" value="supersecretpassword">
+                    </p>
+                    <button id="staff-login-send" class="btn">Login <i class="fas fa-check"></i></button>
+                </fieldset>
             </form>
         </div>
     </section>
 
     <!-- Dashboard - area that renders differently depending on role of user, but only
         renders for staff users
-        html
-        css
-        js  
              -->
     <section id="dashboard" role="region" class="hidden">
         
         <section id="instructor-dash" class="hidden center">
             <h3>What would you like to do?</h3>
-            <button id="show-search"class="btn">Search Sessions</button>
-            <button id="show-staff-reg" class="btn">Register Staff</button>
-            <button id="show-user-del" class="btn">Delete User</button>
+            <p class="center">
+                <button id="show-search" class="btn">Search Sessions</button>
+                <button id="show-staff-reg" class="btn">Register Staff</button>
+                <button id="show-user-del" class="btn">Delete User</button>
+            </p>
+            
             <p id="staff-reg-error" class=""></p>
 
             <!-- register staff users -->
             <form id="staff-reg-form" class="form hidden" action="#" method="post">
                 <fieldset>
-                    <legend>Register New Staff Member</legend>
+                    <legend><h3>Register New Staff Member</h3></legend>
                     <label for="role-selector-reg">Select Title</label>
                     <p>
                         <input type="radio" name="role-type" id="radio-tutor-reg" value="tutor" checked>
@@ -177,37 +193,43 @@
                     </p>
                     <p>
                         <input type="radio" name="role-type" id="radio-instructor-reg" value="instructor">
-                        <label for="radio-instructor-reg">Student User</label>
+                        <label for="radio-instructor-reg">Instructor</label>
                     </p>
                     <p>
                         <label for="staff-first-name-reg">First Name</label>
+                        <br>
                         <input type="text" id="staff-first-name-reg" value="Jill">
                     </p>
                     <p>
                         <label for="staff-last-name-reg">Last Name</label>
+                        <br>
                         <input type="text" id="staff-last-name-reg" value="Hill">
                     </p>
                     <p>
                         <label for="staff-email-reg">Email</label>
+                        <br>
                         <input type="email" id="staff-email-reg" value="poiu@lkjh.com">
                     </p>
                     <p>
                         <label for="staff-password1-reg">Password</label>
+                        <br>
                         <input type="password" id="staff-password1-reg" value="123">
                     </p>
                     <p>
                         <label for="staff-password2-reg">Confirm Password</label>
+                        <br>
                         <input type="password" id="staff-password2-reg" value="123">
                     </p>
-                    <button id="staff-register-send" class="btn">Register</button>
+                    <button id="staff-register-send" class="btn">Register <i class="fas fa-check"></i></button>
                 </fieldset>
                 
             </form>
             
             <!-- delete users -->
             <form id="user-del-form" class="form hidden" action="#" method="delete">
+                <p id="user-del-error"></p>
                 <fieldset>
-                    <legend>Delete User</legend>
+                    <legend><h3>Delete User</h3></legend>
                         <p>
                             <label for="user-del-email">Email</label>
                             <input type="text" id="user-del-email" value="abc@abc.com">
@@ -227,13 +249,10 @@
             <div id="session-search" class="hidden">
                 <form action="#" method="get">
                     <fieldset>
-                        <legend>Search for a Session</legend>
+                        <legend><h3>Search for a Session</h3></legend>
                         <p>
                             <label for="session-search-bar" class="">Search</label>
                             <input type="search" id="session-search-bar" class="">
-                            <button id="search-btn" class="search-btn ">
-                                <i class="fa fa-search" aria-hidden="true"></i>
-                            </button>
                         </p>
                         <p>
                             <input type="radio" name="search-user-type" id="radio-student" value="student" checked>
@@ -243,6 +262,9 @@
                             <input type="radio" name="search-user-type" id="radio-tutor" value="tutor">
                             <label for="radio-tutor">Tutor User</label>
                         </p>
+                        <button id="search-btn" class="search-btn ">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
                     </fieldset>
                 </form>
                 <div id="search-results"></div>
@@ -250,38 +272,45 @@
             </div>
         </section>
 
+        <!-- tutor dashboard -->
         <section id="tutor-dash" class="hidden">
-            <div id="session-notes">
+            <div id="session-notes" class="center">
                 <form action="#" method="put">
                     <fieldset>
-                        <legend>Session</legend>
+                        <legend><h3>Session</h3></legend>
                         <p>
                             <label for="session-student-email">Student Email</label>
+                            <br>
                             <input type="text" id="session-student-email" value="abc@abc.com">
                         </p>
                         <p>
                             <label for="session-tutor-email">Tutor Email</label>
+                            <br>
                             <input type="text" id="session-tutor-email" value="poiu@lkjh.com">
                         </p>
                         <p>
                             <label for="session-teacher">Teacher</label>
+                            <br>
                             <input type="text" id="session-teacher" value="Mrs. Fakename">
                         </p>
                         <p>
                             <label for="session-assignment">Assigment</label>
+                            <br>
                             <input type="text" id="session-assignment" value="Fake Paper">
                         </p>
                         <p>
                             <label for="session-notes-text">Notes</label>
-                            <textarea id="session-notes-text" cols="30" rows="10">fdasdfasdfadf</textarea>
+                            <br>
+                            <textarea id="session-notes-text" cols="45" rows="15">fdasdfasdfadf</textarea>
                         </p>
                         <button id="session-notes-submit" class="btn">Finished</button>
                     </fieldset>
                 </form>
-
             </div>
         </section>
         
+
+        <!-- waitlist, rendererd to tutor and instructor -->
         <div class="center">
             <h1 class="center">Waitlist</h1>
             <ul class="waitlist center"></ul>
@@ -292,8 +321,12 @@
     <!-- Footer, for photo credits -->
     <footer role="contentinfo">
         <p class="center">
-        Photo by Dylan Gillis on Unsplash
-        </p>  
+            Photo by Dylan Gillis on Unsplash
+        </p>
+        <p class="center">
+            Icons provided by Font Awesome <a href="https://fontawesome.com/license/free" target="_blank">(License)</a>
+        </p>
+        
     </footer>
 
     <script src="index.js"></script>

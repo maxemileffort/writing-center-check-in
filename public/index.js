@@ -11,6 +11,34 @@ let today;
 // FUNCTION DECLARATIONS
 //==========================
 
+function checkEmailExists (inputEmail){
+    $.ajax({
+        type: 'GET',
+        url: `/check-email-exists/${inputEmail}`,
+        dataType: 'json',
+        contentType: 'application/json'
+    })
+        //if call succeeds
+        .done(function (result) {
+            console.log(result);
+            if (result.entries.length == 0){
+              msg = "One email above doesn't exist."
+              $("#session-error").html(msg);
+              $("#session-notes-submit").attr("disabled", "disabled")  
+            } else {
+                msg = '';
+                $("#session-error").html(msg);  
+                $("#session-notes-submit").attr("disabled", false)
+            }
+        })
+        //if the call fails
+        .fail(function (jqXHR, error, errorThrown) {
+            console.log(jqXHR);
+            console.log(error);
+            console.log(errorThrown);
+        });
+}
+
 function checkDuplicateEmail(inputEmail, role) { //used in registration steps to prevent duplicate ussers
     $.ajax({
         type: 'GET',
@@ -113,13 +141,13 @@ function renderWaitlist(user) {
         let sessions = user[i].sessions;
         let mostRecentSession = sessions.length-1;
         console.log(user[i]);
-        $(".waitlist").html('');
         $(".waitlist").append(`<li>
         Name: ${user[i].firstName} ${user[i].lastName} || 
         Walk-in time: ${sessions[mostRecentSession].time} || 
         Teacher: ${sessions[mostRecentSession].teacher} ||
         Assignment: ${sessions[mostRecentSession].assignment} ||
-        Requested Tutor: ${sessions[mostRecentSession].tutor} || 
+        Requested Tutor: ${sessions[mostRecentSession].tutor}
+        <br> 
         <button class="btn begin-btn-${user[i]._id}">Start Session</button>
         </li>`);
         checkInStudent(user[i]._id);
@@ -253,6 +281,7 @@ function updateTutorSessions(input) {
 
 //waitlist refresh
 $('#waitlist-refresh').on('click', function () {
+    $('.waitlist').html('');
     getWaitingStudents(renderWaitlist);
 })
 
@@ -539,6 +568,7 @@ $('#staff-login-send').on('click', function (event) {
 //============================
 //instructor dashboard buttons
 //============================
+//session search function
 $('#show-search').on('click', function(){
     $('#session-search').removeClass('hidden');
     $('#staff-reg-form').addClass('hidden');
@@ -546,12 +576,14 @@ $('#show-search').on('click', function(){
     
 })
 
+//add new staff member
 $('#show-staff-reg').on('click', function () {
     $('#staff-reg-form').removeClass('hidden');
     $('#user-del-form').addClass('hidden');
     $('#session-search').addClass('hidden');
 })
 
+//delete user
 $('#show-user-del').on('click', function () {
     $('#user-del-form').removeClass('hidden');
     $('#staff-reg-form').addClass('hidden');
@@ -579,15 +611,15 @@ $('#search-btn').on('click', function (event) {
                  htmlOutput = "No sessions yet."
              }
              session.map(el=>{
-                 console.log(el);
-                 htmlOutput += `<p>Student Name: ${el.studentName}</p>`
-                 htmlOutput += `<p>Tutor Name: ${el.tutorName}</p>`
-                 htmlOutput += `<p>Date: ${el.date}</p>`
-                 htmlOutput += `<p>Time: ${el.time}</p>`
-                 htmlOutput += `<p>Teacher: ${el.teacher}</p>`
-                 htmlOutput += `<p>Assignment: ${el.assignment}</p>`
-                 htmlOutput += `<p>Notes: ${el.notes}</p>`
-                 htmlOutput += `<hr>`
+                console.log(el);
+                htmlOutput += `<p>Student Name: ${el.studentName}</p>`
+                htmlOutput += `<p>Tutor Name: ${el.tutorName}</p>`
+                htmlOutput += `<p>Date: ${el.date}</p>`
+                htmlOutput += `<p>Time: ${el.time}</p>`
+                htmlOutput += `<p>Teacher: ${el.teacher}</p>`
+                htmlOutput += `<p>Assignment: ${el.assignment}</p>`
+                htmlOutput += `<p>Notes: ${el.notes}</p>`
+                htmlOutput += `<hr>`
              })
             
             $("#search-results").html(htmlOutput)
@@ -695,6 +727,20 @@ $('#user-del-send').on('click', function (event) {
 //============================
 //tutor dashboard buttons
 //============================
+
+//make sure student email exists
+$("#session-student-email").blur(function (event) {
+    event.preventDefault();
+    let inputEmail = $("#session-student-email").val();
+    checkEmailExists(inputEmail);
+});
+
+//make sure tutor email exists
+$("#session-tutor-email").blur(function (event) {
+    event.preventDefault();
+    let inputEmail = $("#session-tutor-email").val();
+    checkEmailExists(inputEmail);
+});
 
 $('#session-notes-submit').on('click', function(event){ // call is timing out, not sure how to fix that. all the other endpoints work
     event.preventDefault();

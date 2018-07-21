@@ -19,7 +19,7 @@ app.use(express.static('public'));
 //====================
 app.get("/", (req, res) => {
     //serves landing page
-    res.sendFile(__dirname + "/public/index.html");
+    res.status(200).sendFile(__dirname + "/public/index.html");
 });
 
 
@@ -40,6 +40,27 @@ app.get('/check-duplicate-email/:inputEmail', (req, res)=>{
             console.error(err);
             res.status(500).json({
                 message: 'Unable to check for duplicate emails. User may already exist.'
+            });
+        });
+})
+
+app.get('/check-email-exists/:inputEmail', (req, res)=>{
+    //makes sure that emails entered in the sessions are valid
+    let inputEmail = req.params.inputEmail;
+    console.log(inputEmail);
+    User
+        .find({
+            email: inputEmail
+        })
+        .then(function (entries) {
+            res.status(200).json({
+                entries
+            });
+        })
+        .catch(function (err) {
+            console.error(err);
+            res.status(500).json({
+                message: 'Error checking for those addresses. One or more user may not exist.'
             });
         });
 })
@@ -354,6 +375,7 @@ app.put('/sessions/update/', (req, res)=>{
             })
         },
         function (callback) {
+            //remove requested appointment, for waitlist rendering purposes
             User.findOneAndUpdate({
                 email: studentEmail
             }, {
@@ -369,9 +391,15 @@ app.put('/sessions/update/', (req, res)=>{
     ],
         // optional callback
         function (err, results) {
-            console.log(results);
-            res.status(201).json(results)
-        });
+            if (err) {
+                console.log(err);
+                res.status(500).json({message: "Something went wrong trying to create your session."})
+            } else {
+                console.log(results);
+                res.status(201).json(results)    
+            }
+        }
+    );
 })
 
     
@@ -398,7 +426,7 @@ app.delete("/user-delete/:email/", (req, res)=>{
 //====================
 //Catchall endpoint
 //====================
-app.get('*', function (req, res) {
+app.get('/*', function (req, res) {
     let message = "Page not found."
     res.status(404).send(message);
 });

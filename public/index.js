@@ -14,7 +14,7 @@ let today;
 function checkEmailExists (inputEmail){
     $.ajax({
         type: 'GET',
-        url: `/check-email-exists/${inputEmail}`,
+        url: `/check-duplicate-email/${inputEmail}`,
         dataType: 'json',
         contentType: 'application/json'
     })
@@ -742,7 +742,7 @@ $("#session-tutor-email").blur(function (event) {
     checkEmailExists(inputEmail);
 });
 
-$('#session-notes-submit').on('click', function(event){ // call is timing out, not sure how to fix that. all the other endpoints work
+$('#session-notes-submit').on('click', function(event){ 
     event.preventDefault();
     let studentEmail = $('#session-student-email').val();
     let tutorEmail = $('#session-tutor-email').val();

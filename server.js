@@ -24,9 +24,10 @@ app.get("/", (req, res) => {
 
 
 app.get('/check-duplicate-email/:inputEmail', (req, res)=>{
-    //used to make email a unique identifier between users
+    //used to make sure email is a unique identifier between users
+    //used to make sure email exists in during sessions
     let inputEmail = req.params.inputEmail;
-    console.log(inputEmail);
+    // console.log(inputEmail);
     User
         .find({
             email: inputEmail
@@ -39,28 +40,7 @@ app.get('/check-duplicate-email/:inputEmail', (req, res)=>{
         .catch(function (err) {
             console.error(err);
             res.status(500).json({
-                message: 'Unable to check for duplicate emails. User may already exist.'
-            });
-        });
-})
-
-app.get('/check-email-exists/:inputEmail', (req, res)=>{
-    //makes sure that emails entered in the sessions are valid
-    let inputEmail = req.params.inputEmail;
-    console.log(inputEmail);
-    User
-        .find({
-            email: inputEmail
-        })
-        .then(function (entries) {
-            res.status(200).json({
-                entries
-            });
-        })
-        .catch(function (err) {
-            console.error(err);
-            res.status(500).json({
-                message: 'Error checking for those addresses. One or more user may not exist.'
+                message: 'Unable to check for duplicate emails.'
             });
         });
 })
@@ -85,14 +65,14 @@ app.get('/get-waiting-students/', (req, res)=>{
 app.get('/user-search/:role/:query/', (req, res)=>{
     //searches sessions based on role associated with input email
     let query = req.params.query;
-    let role = req.params.role;
-    console.log(query)
-    console.log(role)
+    let role = req.params.role; //tells us which email address to search for in the sessions object
+    // console.log(query)
+    // console.log(role)
     if (role==="student"){
         Session.find({
             studentEmail: query,
         }).then(session => {
-            console.log(session)
+            // console.log(session)
             res.status(200).json(session);
         }).catch(err => {
             console.log(err);
@@ -103,7 +83,7 @@ app.get('/user-search/:role/:query/', (req, res)=>{
         Session.find({
             tutorEmail: query,
         }).then(session => {
-            console.log(session)
+            // console.log(session)
             res.status(200).json(session);
         }).catch(err => {
             console.log(err);
@@ -270,7 +250,7 @@ app.put('/check-in-student/:id/', (req,res)=>{
         {$set: { currentlyWaiting: false }}
     ).then(user=>{
         res.status(200).json({user})
-        console.log(user);
+        //console.log(user);
     }).catch(err => {
             console.log(err);
             res.status(500).json({ message: "Couldn't check in student. Please ask instructor for assistance." })
@@ -286,14 +266,12 @@ app.put('/sessions/create/', (req, res)=>{
     let assignment = req.body.assignment;
     let date = req.body.date;
     let time = req.body.time;
-    let notes = "";
     let sessionObject = {
         tutor: tutor,
         teacher: teacher,
         assignment: assignment,
         date: date,
         time: time,
-        notes: notes,
     }
     User.findOneAndUpdate(
         { email: email },
@@ -314,7 +292,6 @@ app.put('/sessions/create/', (req, res)=>{
 
 //update actual session, creates record of actual sessions
 app.put('/sessions/update/', (req, res)=>{
-    console.log(req.body)
     let studentEmail = req.body.studentEmail;
     let tutorEmail = req.body.tutorEmail;
     let notes = req.body.notes;
@@ -331,11 +308,10 @@ app.put('/sessions/update/', (req, res)=>{
             User.find({
                 email: studentEmail
             }).then(user => {
-                console.log(user);
+                // console.log(user);
                 studentName = `${user[0].firstName} ${user[0].lastName}`
-                console.log(studentName);
+                // console.log(studentName);
                 callback(null, studentName);
-                res.status(200)
             }).catch(err => {
                 console.log(err);
             })
@@ -345,11 +321,10 @@ app.put('/sessions/update/', (req, res)=>{
             User.find({
                 email: tutorEmail
             }).then(user => {
-                console.log(user);
+                // console.log(user);
                 tutorName = `${user[0].firstName} ${user[0].lastName}`
-                console.log(tutorName);
+                // console.log(tutorName);
                 callback(null, tutorName);
-                res.status(200)
             }).catch(err => {
                 console.log(err);
             })
@@ -368,7 +343,6 @@ app.put('/sessions/update/', (req, res)=>{
                 notes
             }).then(()=>{
                 callback(null, "Created session")
-                res.status(201)
             }).catch(err=>{
                 console.log(err);
                 res.status(500).json({message: "Unable to create session"})
@@ -382,7 +356,6 @@ app.put('/sessions/update/', (req, res)=>{
                 $pop: {sessions: 1}
             }).then(user => {
                 callback(null, user.sessions);
-                res.status(201)
             }).catch(err => {
                 console.log(err);
             })
@@ -395,7 +368,7 @@ app.put('/sessions/update/', (req, res)=>{
                 console.log(err);
                 res.status(500).json({message: "Something went wrong trying to create your session."})
             } else {
-                console.log(results);
+                // console.log(results);
                 res.status(201).json(results)    
             }
         }
@@ -411,16 +384,41 @@ app.put('/sessions/update/', (req, res)=>{
 app.delete("/user-delete/:email/", (req, res)=>{
     //delete user via email address
     let email = req.params.email
-    User.findOneAndRemove({
-        email: email
-    }).then(report=>{
-        report = "User deleted."
-        console.log(report)
-        res.status(200).json({message: report})
-    }).catch(err => {
-        console.error(err);
-        res.status(500).json({ message: "Couldn't delete user." });
-    });
+
+    async.series([
+        function (callback) {
+            //find and remove user
+            User.findOneAndRemove({
+                email: email
+            }).then(() => {
+                // console.log(user);
+                callback(null, "Deleted user");
+            }).catch(err => {
+                console.log(err);
+            })
+        },
+        function (callback) {
+            //remove sessions associated with email
+            Session.deleteMany({
+                studentEmail: email
+            }).then(() => {
+                callback(null, "Deleted sessions.");
+            }).catch(err => {
+                console.log(err);
+            })
+        },
+    ],
+        // optional callback
+        function (err, results) {
+            if (err) {
+                console.log(err);
+                res.status(500).json({ message: "Something went wrong trying to create your session." })
+            } else {
+                // console.log(results);
+                res.status(204).json(results)
+            }
+        }
+    );
 })
 
 //====================

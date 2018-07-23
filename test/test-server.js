@@ -1,9 +1,8 @@
 const chai                              = require('chai');
 const chaiHttp                          = require('chai-http');
-const mongoose                          = require('mongoose');
 
 const { TEST_DATABASE_URL, PORT }       = require("../config");
-const { User, Session }                 = require("../models");
+const { User }                 = require("../models");
 const { app, runServer, closeServer }   = require('../server');
 
 let id; //used in some tests later
@@ -290,7 +289,7 @@ describe("Writing center node capstone", function(){
 
             let newSessionObj = {
                 studentEmail,
-                tutorEmail, //returns a null tutor since we arent creating a 
+                tutorEmail, //using a demo-generated tutor for testing reasons
                 notes,
                 time,
                 date,

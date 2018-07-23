@@ -142,13 +142,17 @@ function renderWaitlist(user) {
         let mostRecentSession = sessions.length-1;
         console.log(user[i]);
         $(".waitlist").append(`<li>
-        Name: ${user[i].firstName} ${user[i].lastName} || 
-        Walk-in time: ${sessions[mostRecentSession].time} || 
-        Teacher: ${sessions[mostRecentSession].teacher} ||
-        Assignment: ${sessions[mostRecentSession].assignment} ||
-        Requested Tutor: ${sessions[mostRecentSession].tutor}
-        <br> 
-        <button class="btn begin-btn-${user[i]._id}">Start Session</button>
+        <div id="li-1">
+            Name: ${user[i].firstName} ${user[i].lastName} || 
+            Walk-in time: ${sessions[mostRecentSession].time} || 
+            Teacher: ${sessions[mostRecentSession].teacher} ||
+            Assignment: ${sessions[mostRecentSession].assignment} ||
+            Requested Tutor: ${sessions[mostRecentSession].tutor}
+        </div>
+        <div id="li-2">
+            <button id="make-apt-btn" class="btn begin-btn-${user[i]._id}"><i class="fas fa-angle-double-right"></i></button>
+        </div>
+        
         </li>`);
         checkInStudent(user[i]._id);
     }

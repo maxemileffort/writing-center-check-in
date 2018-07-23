@@ -56,7 +56,7 @@ footer {
 
 li {
     height: 110px;
-    padding-top: 10px;
+    padding-left: 10px;
     width: 100%;
     list-style-type: none;
     border: 3px maroon solid;
@@ -64,7 +64,6 @@ li {
     margin-left: -3%;
     border-radius: 18px;
     font-size: 1.5em;
-    text-align: center;
     background: 
         linear-gradient(
             135deg,
@@ -85,19 +84,42 @@ button {
     border-radius: 10px;
 }
 
+#make-apt-btn {
+    width: 40px;
+    height: 110px;
+    margin-top: 0;
+}
+
+#li-1 {
+    float: left;
+    max-width: 92%;
+}
+
+#li-2 {
+    float: right;
+}
+
 [disabled=disabled] {
     background-color: gray;
     color: black;
 }
 
 .banner {
-    padding-top: 280px;
+    padding-top: 270px;
 }
 
 .home {
     float: left;
     margin-left: 1%;
     font-size: 2em;
+}
+
+.home:hover {
+    color: rgb(0, 153, 255);
+    cursor: pointer;
+    border: 2px solid rgb(0, 153, 255);
+    border-radius: 5px;
+    padding: 2px;
 }
 
 .clock {
@@ -138,14 +160,21 @@ input:focus, textarea:focus {
 
     li {
         font-size: 1.2em;
-        padding-top: 15px;
         height: 120px;
         margin-left: -4%;
     }
 
+    #make-apt-btn {
+        height: 120px;
+    }
+
     .banner {
         font-size: 0.8em;
-        padding-top: 140px;
+        padding-top: 130px;
+    }
+
+    #li-1 {
+    max-width: 85%;
     }
 
 }
@@ -156,23 +185,27 @@ input:focus, textarea:focus {
 @media only screen and (max-width: 480px) {
     .banner {
         font-size: 0.6em;
-        padding-top: 155px;
+        padding-top: 145px;
     } 
 
     li {
-        height: 150px;
+        height: 165px;
         width: 100%;
-        list-style-type: none;
-        border: 3px maroon solid;
-        border-radius: 18px;
         margin-left: -7%;
         font-size: 1.1em;
-        text-align: center;
         background: 
             linear-gradient(
                 135deg,
                 rgb(124, 124, 230), white
             );
+    }
+
+    #make-apt-btn {
+        height: 165px;
+    }
+
+    #li-1 {
+        max-width: 80%;
     }
 }
 
@@ -182,15 +215,24 @@ input:focus, textarea:focus {
 @media only screen and (max-width: 320px) {
     .banner {
         font-size: 0.6em;
-        padding-top: 155px;
+        padding-top: 145px;
     }  
 
     li {
-        height: 160px;
+        height: 165px;
         margin-left: -10%;
+    }
+
+    #make-apt-btn {
+        height: 165px;
     }
 
     .back-btn {
         margin-left: -40px;
     }
+
+    #li-1 {
+        max-width: 75%;
+    }
+    
 }

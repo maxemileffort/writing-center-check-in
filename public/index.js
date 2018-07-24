@@ -600,6 +600,7 @@ $('#search-btn').on('click', function (event) {
     event.preventDefault();
     let query = $('#session-search-bar').val();
     let role = $("input[name='search-user-type']:checked").val();
+    let htmlOutput = ''; // clears it out for every search
     $.ajax({
         type: 'GET',
         url: `/user-search/${role}/${query}/`,
@@ -610,7 +611,6 @@ $('#search-btn').on('click', function (event) {
         .done(function (session) {
             // console.log(session);
 
-             let htmlOutput = ''; // clears it out for every search
              if (session.length === 0) {
                  htmlOutput = "No sessions yet."
              }

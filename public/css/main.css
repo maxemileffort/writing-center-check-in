@@ -13,7 +13,6 @@ section {
 }
 
 fieldset {
-    border: 1px solid gray;
     border-radius: 10px;
     background-image:  
         linear-gradient(
@@ -23,7 +22,6 @@ fieldset {
             );
     background-repeat: no-repeat;
     background-position: center top;
-    /* background-attachment: fixed; */
     background-width: 100% auto;
 }
 
@@ -45,6 +43,9 @@ header {
         rgba(0, 0, 0, 0.5)
         ),
         url('../img/dylan-gillis-533818-unsplash.jpg');
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-width: 100% auto;
     height: 350px;
     width: 100%;
     background-size: cover;
@@ -74,6 +75,9 @@ li {
             rgb(124, 124, 230), 
             white
         );
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-width: 100% auto;
 }
 
 button {

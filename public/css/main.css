@@ -86,8 +86,11 @@ button {
 
 #make-apt-btn {
     width: 40px;
-    height: 110px;
-    margin-top: 0;
+    height: 114px;
+    margin-top: -3px;
+    border: none;
+    box-shadow: none;
+    border-radius: 0 10px 10px 0;
 }
 
 #li-1 {
@@ -165,7 +168,7 @@ input:focus, textarea:focus {
     }
 
     #make-apt-btn {
-        height: 120px;
+        height: 124px;
     }
 
     .banner {
@@ -201,7 +204,7 @@ input:focus, textarea:focus {
     }
 
     #make-apt-btn {
-        height: 165px;
+        height: 169px;
     }
 
     #li-1 {
@@ -224,7 +227,7 @@ input:focus, textarea:focus {
     }
 
     #make-apt-btn {
-        height: 165px;
+        height: 169px;
     }
 
     .back-btn {
@@ -234,5 +237,28 @@ input:focus, textarea:focus {
     #li-1 {
         max-width: 75%;
     }
+    
+}
+
+@media only screen and (min-width: 1024px) {
+    .banner {
+        padding-top: 280px;
+    }  
+
+    li {
+        height: 165px;
+        font-size: 2.1em;
+    }
+
+    #li-1 {
+        text-align: center;
+        margin: 10px auto;
+    }
+
+    #make-apt-btn {
+        height: 169px;
+    }
+
+    
     
 }

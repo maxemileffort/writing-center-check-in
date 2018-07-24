@@ -7,7 +7,42 @@ Waitinglist for checked-in students:  https://writing-center-checkin.herokuapp.c
 Technology used: HTML, CSS, Javascript, jQuery, Node, MongoDB
 
 ## Images
-Coming soon...
+
+![landing-page](https://raw.githubusercontent.com/maxemileffort/writing-center-check-in-node-capstone/master/public/img/landing.PNG)
+*Landing page.*
+
+![student-login](https://raw.githubusercontent.com/maxemileffort/writing-center-check-in-node-capstone/master/public/img/student-login.PNG)
+*Student login.*
+
+![student-reg](https://raw.githubusercontent.com/maxemileffort/writing-center-check-in-node-capstone/master/public/img/student-reg.PNG)
+*Student registration.*
+
+![student-checkin](https://raw.githubusercontent.com/maxemileffort/writing-center-check-in-node-capstone/master/public/img/student-checkin.PNG)
+*Student check in.*
+
+![queue](https://raw.githubusercontent.com/maxemileffort/writing-center-check-in-node-capstone/master/public/img/queue.PNG)
+*Queue*
+
+![staff-login](https://raw.githubusercontent.com/maxemileffort/writing-center-check-in-node-capstone/master/public/img/staff-login.PNG)
+*Staff login.*
+
+![instructor-dash-landing](https://raw.githubusercontent.com/maxemileffort/writing-center-check-in-node-capstone/master/public/img/instructor-dash-landing.PNG)
+*Instructor dashboard.*
+
+![instructor-pre-search](https://raw.githubusercontent.com/maxemileffort/writing-center-check-in-node-capstone/master/public/img/instructor-pre-search.PNG)
+*Instructor session search.*
+
+![instructor-post-search](https://raw.githubusercontent.com/maxemileffort/writing-center-check-in-node-capstone/master/public/img/instructor-post-search.PNG)
+*Session search results.*
+
+![instructor-staff-reg](https://raw.githubusercontent.com/maxemileffort/writing-center-check-in-node-capstone/master/public/img/instructor-staff-reg.PNG)
+*Staff registration.*
+
+![instructor-user-del](https://raw.githubusercontent.com/maxemileffort/writing-center-check-in-node-capstone/master/public/img/instructor-user-del.PNG)
+*User delete.*
+
+![tutor-session](https://raw.githubusercontent.com/maxemileffort/writing-center-check-in-node-capstone/master/public/img/tutor-session.PNG)
+*Tutor session.*
 
 ## Idea
 
@@ -18,7 +53,7 @@ as well as what was being talked about and the degree to which it was helping th
 ## Planning
 
 ![wireframe](https://raw.githubusercontent.com/maxemileffort/writing-center-check-in-node-capstone/master/public/img/wireframe.jpg)
-*Basic wireframe.*
+*Basic wireframe. Sorry for using notebook paper.*
 
 ### First, some context: 
 There would be a tablet kiosk that people would have access to when they walk-in.
@@ -31,7 +66,7 @@ Instructors have access to school computers as well as their IT department.
 Students can either login or register.
 From there, they get taken to a check-in, where they can input their teacher, the assignment they are working on,
 and request a specific tutor if they are available.
-From their, the information populates a waitlist with entries based on login info and student input.
+From their, the information populates a waitlist with entries based on login info and student input. Tutors and instructors can see the waitlist, and the waitlist may also be on another screen somewhere in the room where it is visible to people waiting in line.
 
 **Staff:**
 Staff comes in and logs in, and then the next screen differs depending on their role (admin or tutor).

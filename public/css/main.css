@@ -21,12 +21,16 @@ fieldset {
             white,
             rgba(0, 0, 0, 0.5)
             );
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: fixed;
+    background-width: 100% auto;
 }
 
 .center {
     margin: 0 auto;
     text-align: center;
-
+    display: block;
 }
 
 .back-btn {

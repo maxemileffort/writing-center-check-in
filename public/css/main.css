@@ -13,7 +13,7 @@ section {
 }
 
 fieldset {
-    border: none;
+    border: 1px solid gray;
     border-radius: 10px;
     background-image:  
         linear-gradient(
@@ -23,7 +23,7 @@ fieldset {
             );
     background-repeat: no-repeat;
     background-position: center top;
-    background-attachment: fixed;
+    /* background-attachment: fixed; */
     background-width: 100% auto;
 }
 

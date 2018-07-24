@@ -13,6 +13,7 @@ section {
 }
 
 fieldset {
+    border: none;
     border-radius: 10px;
     background-image:  
         linear-gradient(

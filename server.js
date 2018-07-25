@@ -65,7 +65,7 @@ app.get('/get-waiting-students/', (req, res)=>{
 app.get('/user-search/:role/:query/', (req, res)=>{
     //searches sessions based on role associated with input email
     let query = req.params.query;
-    let role = req.params.role; //tells us which email address to search for in the sessions object
+    let role = req.params.role; //specifies which email address to search for in the sessions object
     // console.log(query)
     // console.log(role)
     if (role==="student"){
@@ -341,8 +341,8 @@ app.put('/sessions/update/', (req, res)=>{
                 assignment,
                 teacher,
                 notes
-            }).then(()=>{
-                callback(null, "Created session")
+            }).then((session)=>{
+                callback(null, session)
             }).catch(err=>{
                 console.log(err);
                 res.status(500).json({message: "Unable to create session"})
@@ -353,6 +353,7 @@ app.put('/sessions/update/', (req, res)=>{
             User.findOneAndUpdate({
                 email: studentEmail
             }, {
+                $set: {currentlyWaiting: false},
                 $pop: {sessions: 1}
             }).then(user => {
                 callback(null, user.sessions);
@@ -366,7 +367,7 @@ app.put('/sessions/update/', (req, res)=>{
         function (err, results) {
             if (err) {
                 console.log(err);
-                res.status(500).json({message: "Something went wrong trying to create your session."})
+                res.status(500).json({message: "Something went wrong trying to create this session."})
             } else {
                 // console.log(results);
                 res.status(201).json(results)    
@@ -412,7 +413,7 @@ app.delete("/user-delete/:email/", (req, res)=>{
         function (err, results) {
             if (err) {
                 console.log(err);
-                res.status(500).json({ message: "Something went wrong trying to create your session." })
+                res.status(500).json({ message: "Something went wrong trying to delete the user." })
             } else {
                 // console.log(results);
                 res.status(204).json(results)

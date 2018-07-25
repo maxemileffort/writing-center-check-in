@@ -68,36 +68,43 @@ function checkDuplicateEmail(inputEmail, role) { //used in registration steps to
         });
 }
 
-function generateTime(){
+function generateTime(){  //specifically for generating object payloads in ajax calls
     let today = new Date();
-    let time;
     let hh = today.getHours();
-    let min = today.getMinutes();
+    let mm = today.getMinutes();
     let sec = today.getSeconds();
-
-    if (min < 10) {
-        min = '0' + min;
-    }
+    let pmCheck;
 
     if (sec < 10) {
         sec = '0' + sec;
+    }
+
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+
+    if (hh >= 12) {
+        pmCheck = true;
+    } else {
+        pmCheck = false;
+    }
+
+    if (hh > 12) {
+        hh = hh - 12;
+    }
+
+    if (hh < 10) {
+        hh = '0' + hh;
     }
 
     if (hh === '00') {
         hh = 12;
     }
 
-    if (hh > 12) {
-        hh = hh - 12;
-        if (hh < 10) {
-            hh = '0' + hh;
-        }
-
-        time = `${hh}:${min}:${sec} PM`;
-    }
-
-    else {
-        time = `${hh}:${min}:${sec}`;
+    if (pmCheck) {
+        time = `${hh}:${mm}:${sec} PM`
+    } else {
+        time = `${hh}:${mm}:${sec}`
     }
     return time
 }
@@ -189,7 +196,7 @@ function checkInStudent(student) {
 //end waitlist rendering functions
 
 //begin clock
-function tellTime() {
+function tellTime() { //generates clock in header
     let today = new Date();
     let hh = today.getHours();
     let mm = today.getMinutes();
@@ -233,54 +240,6 @@ function tellTime() {
 
 setInterval(tellTime, 1000); 
 //end clock
-
-//begin update session
-function updateStudentSessions(input) {
-    $.ajax({
-        type: 'PUT',
-        url: '/sessions/update/student/',
-        dataType: 'json',
-        data: JSON.stringify(input),
-        contentType: 'application/json'
-    })
-        //if call succeeds
-        .done(function (output) {
-            console.log(output)
-            updateTutorSessions(input)
-        })
-        //if the call fails
-        .fail(function (jqXHR, error, errorThrown) {
-            console.log(errorThrown);
-            console.log(error);
-            console.log(jqXHR);
-            $("#student-login-error").html(jqXHR);
-        });
-    
- }
-
-function updateTutorSessions(input) {
-    $.ajax({
-        type: 'PUT',
-        url: '/sessions/update/tutor/',
-        dataType: 'json',
-        data: JSON.stringify(input),
-        contentType: 'application/json'
-    })
-        //if call succeeds
-        .done(function () {
-            console.log("finished updating student and tutor sessions")
-        })
-        //if the call fails
-        .fail(function (jqXHR, error, errorThrown) {
-            console.log(errorThrown);
-            console.log(error);
-            console.log(jqXHR);
-            $("#student-login-error").html(jqXHR);
-        });
-    
- }
-//end session update
-
 
 //==========================
 // BUTTON BEHAVIOR
@@ -342,38 +301,33 @@ $("#student-email-reg").blur(function (event){
 $('#student-register-send').on('click', function (event){ //refactor, setting vals to variables
     event.preventDefault();
     let msg;
+    let firstName = $('#student-first-name-reg').val();
+    let lastName = $('#student-last-name-reg').val();
+    let email = $('#student-email-reg').val();
+    let password1 = $('#student-password1-reg').val();
+    let password2 = $('#student-password2-reg').val();
+    let sessions = [];
     //make sure all fields contain something
-    if ($('#student-first-name-reg').val() === '' || $('#student-last-name-reg').val() === '' ||
-    $('#student-email-reg').val() === '' || $('#student-password1-reg').val() === '' ||
-    $('#student-password2-reg').val() === '' ){
+    if (firstName === '' || lastName === '' || email === '' || password1 === '' || password2 === '' ){
         msg = "All fields are required.";
         $('#student-reg-error').html(`${msg}`);
         console.log("error, empty fields");
-        $('#student-register').removeClass('hidden');
     } 
     //make sure passwords match
-    if ($('#student-password1-reg').val() !== $('#student-password2-reg').val()){
+    if (password1 !== password2){
         msg = "Passwords must match.";
-        $('#student-register').removeClass('hidden');
         console.log('passwords do not match')
         $('#student-reg-error').html(`${msg}`);
     } 
     else {
-        // Success, grab values from each input
-        let firstName = $('#student-first-name-reg').val();
-        let lastName = $('#student-last-name-reg').val();
-        let email = $('#student-email-reg').val();
-        let password = $('#student-password1-reg').val();
-        let sessions = [];
-        
-        //create payload
+        //On success, create payload
         let newStudentObject = {
             firstName: firstName,
             lastName: lastName,
             role: "student",
             email: email,
             currentlyWaiting: true,
-            password: password,
+            password: password1,
             sessions: sessions,
             time: generateTime(),
             request: generateDate()

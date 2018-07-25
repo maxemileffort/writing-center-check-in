@@ -26,17 +26,6 @@ fieldset {
     background-width: 100% auto;
 }
 
-.center {
-    margin: 0 auto;
-    text-align: center;
-    display: block;
-}
-
-.back-btn {
-    text-align: left;
-    width: 60px;
-}
-
 header {
     background-image: 
         linear-gradient(
@@ -56,8 +45,51 @@ header {
     color: white;
 }
 
-footer {
-    margin-top: 15%;
+.banner {
+    padding-top: 200px;
+}
+
+.logo {
+    margin-bottom: -2%;
+    font-size: 84px;
+    text-align: center;
+}
+
+.home {
+    float: left;
+    margin-left: 1%;
+    font-size: 2em;
+}
+
+.home:hover {
+    color: rgb(0, 153, 255);
+    cursor: pointer;
+    border: 2px solid rgb(0, 153, 255);
+    border-radius: 5px;
+    padding: 2px;
+}
+
+.clock {
+    float: right;
+    font-size: 2em;
+    font-weight: 900;
+    margin-right: 1%;
+} 
+
+input, textarea, select {
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+input::selection {
+    background: maroon;
+    color: white;
+}
+
+input:focus, textarea:focus {
+    box-shadow: 0 0 5px rgb(35, 35, 180);
+    border: 1px solid rgb(35, 35, 180);
 }
 
 li {
@@ -116,49 +148,44 @@ button {
     color: black;
 }
 
-.banner {
-    padding-top: 270px;
-}
-
-.home {
-    float: left;
-    margin-left: 1%;
-    font-size: 2em;
-}
-
-.home:hover {
-    color: rgb(0, 153, 255);
-    cursor: pointer;
-    border: 2px solid rgb(0, 153, 255);
-    border-radius: 5px;
-    padding: 2px;
-}
-
-.clock {
-    float: right;
-    font-size: 2em;
-    font-weight: 900;
-    margin-right: 1%;
-}   
-
 .red {
     color: red;
 }
 
-input, textarea, select {
-    border: none;
-    border-radius: 5px;
-    padding: 5px;
+.center {
+    margin: 0 auto;
+    text-align: center;
+    display: block;
 }
 
-input::selection {
-    background: maroon;
-    color: white;
+.back-btn {
+    text-align: left;
+    width: 60px;
 }
 
-input:focus, textarea:focus {
-    box-shadow: 0 0 5px rgb(35, 35, 180);
-    border: 1px solid rgb(35, 35, 180);
+
+
+footer {
+    margin-top: 15%;
+}
+
+#contact-info-ul,
+.contact-info {
+    padding: .5rem 0;
+    margin: 0 .25rem;
+    display: inline-block;
+}
+
+.contact-info {
+    width: auto;
+    height: auto;
+}
+
+#contact-info-ul {
+    vertical-align: middle;
+    width: 100%;
+    text-align: center;
+    font-size: 1.5em;
 }
 
 
@@ -182,7 +209,11 @@ input:focus, textarea:focus {
 
     .banner {
         font-size: 0.8em;
-        padding-top: 130px;
+        padding-top: 80px;
+    }
+
+    .logo {
+        font-size: 64px;
     }
 
     #li-1 {
@@ -197,8 +228,12 @@ input:focus, textarea:focus {
 @media only screen and (max-width: 480px) {
     .banner {
         font-size: 0.6em;
-        padding-top: 145px;
+        padding-top: 110px;
     } 
+
+    .logo {
+        font-size: 44px;
+    }
 
     li {
         height: 165px;
@@ -227,8 +262,12 @@ input:focus, textarea:focus {
 @media only screen and (max-width: 320px) {
     .banner {
         font-size: 0.6em;
-        padding-top: 145px;
+        padding-top: 110px;
     }  
+
+    .logo {
+        font-size: 44px;
+    }
 
     li {
         height: 165px;
@@ -251,7 +290,7 @@ input:focus, textarea:focus {
 
 @media only screen and (min-width: 1024px) {
     .banner {
-        padding-top: 280px;
+        padding-top: 200px;
     }  
 
     li {
@@ -268,6 +307,4 @@ input:focus, textarea:focus {
         height: 169px;
     }
 
-    
-    
 }

@@ -204,11 +204,14 @@ function tellTime() {
         mm = '0' + mm;
     }
 
-    if (hh > 12) {
-        hh = hh - 12;
+    if (hh >= 12) {
         pmCheck = true;
     } else {
         pmCheck = false;
+    }
+
+    if (hh > 12) {
+        hh = hh - 12;
     }
     
     if (hh < 10) {

@@ -4,71 +4,163 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- font awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ"
     crossorigin="anonymous">
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <!-- tab icon -->
     <link rel="icon" type="image" href="./img/favicon-align-left.ico">
+    <!-- rest of css -->
     <link rel="stylesheet" href="css/main.css">
     <title> Writing Center</title>
 </head>
 <body>
+    <div id="page-mask" class="hidden"></div> <!-- darkens page for demo button -->
     <!-- top banner -->
     <header role="banner">
         <div class="logo">
             <i class="fab fa-cloudversify"></i>
         </div>
-
-        <div class="banner">
-            <p class="home">
-                    <i class="fa fa-university" aria-hidden="true">Home</i>
-            </p>
-            <p class="clock">
-
-            </p>
+        <div class="logo-text">
+            <h3>Hooligan High</h3> <!-- placeholder logo and text --> 
         </div>
     </header>
+
+    <!-- navbar -->
+    <nav class="container">
+        <div class="navbar-item home-btn"><a><i class="fa fa-university" aria-hidden="true"></i> Home</a></div>
+        <div class="navbar-item student-btn"><a>Student Area</a></div>
+        <div class="navbar-item staff-btn"><a>Staff Area</a></div>
+        <div class="navbar-item demo-btn"><a><i class="far fa-question-circle"></i> Info</a></div>
+        <div class="navbar-item clock"></div>
+    </nav>
+
+
 
     <!-- landing page -->
     <section id="landing-page" role="region">
         <div class="center">
             <h1>Welcome to the Writing Center!</h1>
-            <button id="student-btn" class="btn">Student Area</button>
-            <button id="staff-btn" class="btn">Staff Area</button>
+            <button id="student-btn" class="btn student-btn">Student Area</button>
+            <button id="staff-btn" class="btn staff-btn">Staff Area</button>
+            <br>
+            <button id="demo-btn" class="btn demo-btn"><i class="far fa-question-circle"></i> Info</button>
         </div>
+    </section>
+
+    <!-- demo modal -->
+    <section id="demo-modal" class="hidden">
+        <h1 class="center">Some information to get you started...</h1>
+        <hr>
+        <div class="container">
+            <div class="modal-left">
+                <h3>
+                    Students:
+                </h3>
+                <p>
+                    Arriving students should go to the student area. From there, you can login in if you have been here already.
+                    If this is the first visit, then you can scroll to the bottom of the page and click "Register".
+                </p>
+                <p>
+                    Registering let's us track whether or not you have been here and what has been discussed, in the event your
+                    teacher decides to reward students seeking help on their own.
+                </p>
+                <p>
+                    Logging in let's us keep track of what order students arrive. Please login promptly on each arrival so we can
+                    better know in what order to help everyone.
+                </p>
+            </div>
+            <div class="modal-right">
+                <h3>
+                    Demo student login:
+                </h3>
+                <p>
+                    Email: abc@abc.com
+                </p>
+                <p>
+                    Password: 123
+                </p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="modal-left">
+                <h3>
+                    Staff:
+                </h3>
+                <p>
+                    In order to login, go to the staff area. From there, staff can only login. 
+                    Only instructors can register new staff members.
+                </p>
+                <p>
+                    If you would like to become a tutor, please see the instructor for the day about getting registered.
+                </p>
+            </div>
+            <div class="modal-right">
+                <h3>
+                    Demo staff logins:
+                </h3>
+                <p>
+                    Instructor:
+                </p>
+                <p>
+                    Email: qwer@asdf.com
+                </p>
+                <p>
+                    Password: 123
+                </p>
+                <p>
+                    Tutor:
+                </p>
+                <p>
+                    Email: poiu@lkjh.com
+                </p>
+                <p>
+                    Password: 123
+                </p>
+            </div>
+        </div>
+            <hr>
+            <p class="center">Alternatively, you can just hit home to clear all the fields and start from the beginning.</p>
+            <p class="center">Feel free to come back here to copy and paste login credentials if you get stuck.</p>
+            <p class="center">Click outside the popup to dismiss</p>
     </section>
 
     <!-- Student register -->
     <section id="student-register" role="region" class="hidden">
-        <button id="student-register-back" class="back-btn"><i class="fas fa-chevron-left"></i> Back</button>
+        <div class="container">
+            <button id="student-register-back" class="back-btn"><i class="fas fa-chevron-left"></i> Back</button>
+        </div>
         <div class="center">
             <p id="student-reg-error" class=""></p>
             <form class="form" action="#" method="post">
                 <fieldset>
                     <legend><h1>Create an Account</h1></legend>
-                    <p class="center">
+                    <div class="center">
                         <label for="student-first-name-reg">First Name</label>
                         <br>
                         <input type="text" id="student-first-name-reg" value="Frodo">
-                    </p>
-                    <p class="center">
+                    </div>
+                    <div class="center">
                         <label for="student-last-name-reg">Last Name</label>
                         <br>
                         <input type="text" id="student-last-name-reg" value="Baggins">
-                    </p>
-                    <p class="center">
+                    </div>
+                    <div class="center">
                         <label for="student-email-reg">Email</label>
                         <br>
                         <input type="email" id="student-email-reg" value="abc@abc.com">
-                    </p>
-                    <p class="center">
+                    </div>
+                    <div class="center">
                         <label for="student-password1-reg">Password</label>
                         <br>
                         <input type="password" id="student-password1-reg" value="123">
-                    </p>
-                    <p class="center">
+                    </div>
+                    <div class="center">
                         <label for="student-password2-reg">Confirm Password</label>
                         <br>
                         <input type="password" id="student-password2-reg" value="123">
-                    </p>
+                    </div>
                         <button id="student-register-send" class="btn btn-right">Register <i class="fas fa-check"></i></button>
                 </fieldset>
             </form>
@@ -77,7 +169,9 @@
 
     <!-- Student Login -->
     <section id="student-login" role="region" class="hidden">
-        <button id="student-login-back" class="back-btn"><i class="fas fa-chevron-left"></i> Back</button>
+        <div class="container">
+            <button id="student-login-back" class="back-btn"><i class="fas fa-chevron-left"></i> Back</button>
+        </div>
         <div class="center">
             <p id="student-login-error"></p>
             <form class="form" action="#" method="post">
@@ -86,16 +180,16 @@
                         <h3>Welcome back.</h3>
                         <h3>Let's get settled in.</h3>
                     </legend>
-                    <p class="center">
+                    <div class="center">
                         <label for="student-email-login">Email</label>
                         <br>
                         <input type="email" id="student-email-login" value="abc@abc.com">
-                    </p>
-                    <p class="center">
+                    </div>
+                    <div class="center">
                         <label for="student-password-login">Password</label>
                         <br>
                         <input type="password" id="student-password-login" value="123">
-                    </p>
+                    </div>
                     <button id="student-login-send" class="btn">Login <i class="fas fa-check"></i></button>
                 </fieldset>
             </form>
@@ -114,21 +208,21 @@
                     <legend>
                         <h3>Hello, <span id="returned-student-name">student</span>.</h3>
                     </legend>
-                    <p class="center">
+                    <div class="center">
                         <label for="student-teacher">Teacher</label>
                         <br>
                         <input type="text" id="student-teacher" value="Mrs. Fakename">
-                    </p>
-                    <p class="center">
+                    </div>
+                    <div class="center">
                         <label for="student-assignment">Assignment</label>
                         <br>
                         <input type="text" id="student-assignment" value="Fake paper">
-                    </p>
-                    <p class="center">
+                    </div>
+                    <div class="center">
                         <label for="requested-tutor">Request a tutor:</label>
                         <br>
                         <input type="text" id="requested-tutor" value="Jill">
-                    </p>
+                    </div>
                     <button id="student-checkin-send" class="btn">Check-in <i class="fas fa-check"></i></button>
                 </fieldset>
             </form>
@@ -137,7 +231,9 @@
 
     <!-- Staff Login -->
     <section id="staff-login" role="region" class="hidden">
-        <button id="staff-login-back" class="back-btn"><i class="fas fa-chevron-left"></i> Back</button>
+        <div class="container">
+            <button id="staff-login-back" class="back-btn"><i class="fas fa-chevron-left"></i> Back</button>
+        </div>
         <div class="center">
             <p id="staff-login-error"></p>
             <form class="form" action="#" method="post">
@@ -145,24 +241,24 @@
                     <legend>
                         <h1>Staff Member Login</h1>
                     </legend>
-                    <p class="center">
+                    <div class="center">
                         <label for="role-selector-login">Select your Title</label>
                         <br>
                         <select id="role-selector-login">
                             <option value="instructor">Instructor</option>
                             <option value="tutor">Tutor</option>
                         </select>
-                    </p>
-                    <p class="center">
+                    </div>
+                    <div class="center">
                         <label for="staff-email-login">Email</label>
                         <br>
-                        <input type="email" id="staff-email-login" value="admin@admin.com">
-                    </p>
-                    <p class="center">
+                        <input type="email" id="staff-email-login" value="qwer@asdf.com">
+                    </div>
+                    <div class="center">
                         <label for="staff-password-login">Password</label>
                         <br>
-                        <input type="password" id="staff-password-login" value="supersecretpassword">
-                    </p>
+                        <input type="password" id="staff-password-login" value="123">
+                    </div>
                     <button id="staff-login-send" class="btn">Login <i class="fas fa-check"></i></button>
                 </fieldset>
             </form>
@@ -176,11 +272,11 @@
         
         <section id="instructor-dash" class="hidden center">
             <h3>What would you like to do?</h3>
-            <p class="center">
-                <button id="show-search" class="btn">Search Sessions</button>
+            <div class="center">
+                <button id="show-search" class="btn">Search Users</button>
                 <button id="show-staff-reg" class="btn">Register Staff</button>
                 <button id="show-user-del" class="btn">Delete User</button>
-            </p>
+            </div>
             
             <p id="staff-reg-error" class=""></p>
 
@@ -189,39 +285,39 @@
                 <fieldset>
                     <legend><h3>Register New Staff Member</h3></legend>
                     <label for="role-selector-reg">Select Title</label>
-                    <p>
+                    <div>
                         <input type="radio" name="role-type" id="radio-tutor-reg" value="tutor" checked>
                         <label for="radio-tutor-reg">Tutor</label>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                         <input type="radio" name="role-type" id="radio-instructor-reg" value="instructor">
                         <label for="radio-instructor-reg">Instructor</label>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                         <label for="staff-first-name-reg">First Name</label>
                         <br>
                         <input type="text" id="staff-first-name-reg" value="Jill">
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                         <label for="staff-last-name-reg">Last Name</label>
                         <br>
                         <input type="text" id="staff-last-name-reg" value="Hill">
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                         <label for="staff-email-reg">Email</label>
                         <br>
                         <input type="email" id="staff-email-reg" value="poiu@lkjh.com">
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                         <label for="staff-password1-reg">Password</label>
                         <br>
                         <input type="password" id="staff-password1-reg" value="123">
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                         <label for="staff-password2-reg">Confirm Password</label>
                         <br>
                         <input type="password" id="staff-password2-reg" value="123">
-                    </p>
+                    </div>
                     <button id="staff-register-send" class="btn">Register <i class="fas fa-check"></i></button>
                 </fieldset>
             </form>
@@ -231,17 +327,17 @@
                 <p id="user-del-error"></p>
                 <fieldset>
                     <legend><h3>Delete User</h3></legend>
-                        <p>
+                        <div>
                             <label for="user-del-email">Email</label>
-                            <input type="text" id="user-del-email" value="abc@abc.com">
-                        </p>
-                        <p>
+                            <input type="text" id="user-del-email" value="">
+                        </div>
+                        <div>
                             <input type="checkbox" name="" id="del-confirm-check">
                             <label for="del-confirm-check">Check here to confirm user deletion</label>
-                        </p>
-                        <p>
+                        </div>
+                        <div>
                             WARNING! This cannot be undone. User will lose records of all previous sessions, if any.
-                        </p>
+                        </div>
                     <button id="user-del-send" class="btn">Delete</button>
                 </fieldset>
             </form>
@@ -251,18 +347,17 @@
                 <form action="#" method="get">
                     <fieldset>
                         <legend><h3>Search for a Session</h3></legend>
-                        <p>
-                            <label for="session-search-bar" class="">Search</label>
-                            <input type="search" id="session-search-bar" class="">
-                        </p>
-                        <p>
+                        <div>
+                            <label for="session-search-bar">Email</label>
+                            <input type="search" id="session-search-bar">
+                        </div>
+                        <div>
                             <input type="radio" name="search-user-type" id="radio-student" value="student" checked>
                             <label for="radio-student">Student User</label>
-                        </p>
-                        <p>
+                            <br>
                             <input type="radio" name="search-user-type" id="radio-tutor" value="tutor">
                             <label for="radio-tutor">Tutor User</label>
-                        </p>
+                        </div>
                         <button id="search-btn" class="search-btn ">
                             <i class="fa fa-search" aria-hidden="true"></i>
                         </button>
@@ -278,31 +373,31 @@
                 <form action="#" method="put">
                     <fieldset>
                         <legend><h3>Session</h3></legend>
-                        <p>
+                        <div>
                             <label for="session-student-email">Student Email</label>
                             <br>
                             <input type="text" id="session-student-email" value="abc@abc.com">
-                        </p>
-                        <p>
+                        </div>
+                        <div>
                             <label for="session-tutor-email">Tutor Email</label>
                             <br>
                             <input type="text" id="session-tutor-email" value="poiu@lkjh.com">
-                        </p>
-                        <p>
+                        </div>
+                        <div>
                             <label for="session-teacher">Teacher</label>
                             <br>
                             <input type="text" id="session-teacher" value="Mrs. Fakename">
-                        </p>
-                        <p>
+                        </div>
+                        <div>
                             <label for="session-assignment">Assigment</label>
                             <br>
                             <input type="text" id="session-assignment" value="Fake Paper">
-                        </p>
-                        <p>
+                        </div>
+                        <div>
                             <label for="session-notes-text">Notes</label>
                             <br>
                             <textarea id="session-notes-text" cols="45" rows="15">fdasdfasdfadf</textarea>
-                        </p>
+                        </div>
                         <p id="session-error"></p>
                         <button id="session-notes-submit" class="btn">Finished</button>
                     </fieldset>
@@ -315,22 +410,22 @@
         <div class="center">
             <h1 class="center">Waitlist</h1>
             <ul class="waitlist center"></ul>
-            <button id="waitlist-refresh" class="btn center">Refresh Waitlist</button>
+            <button id="waitlist-refresh" class="btn center">Refresh</button>
         </div>
     </section>
 
     <!-- Footer, for photo credits -->
     <footer role="contentinfo">
-        <p class="center">
+        <div class="center">
             Photo by Dylan Gillis on Unsplash
-        </p>
-        <p class="center">
+        </div>
+        <div class="center">
             Icons provided by Font Awesome
             <a href="https://fontawesome.com/license/free" target="_blank">(License)</a>
-        </p>
-        <p class="center">
+        </div>
+        <div class="center">
             © 2018 Max Wood
-        </p>
+        </div>
     
         <div id="contact-info-ul">
             <div class="contact-info">

@@ -2,14 +2,54 @@
     display: none !important; 
 }
 
+#page-mask {
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 4;
+}
+
 body {
     color: rgb(35, 35, 180);
+    font-size: 20px;
+    font-family: 'Open Sans', sans-serif;
 }
 
 section {
-    width: 85%;
+    width: 50%;
     padding: 5%;
     margin: 0 auto;
+}
+
+#demo-modal {
+    position: absolute;
+    top: 25%;
+    left: 10%;
+    right: 10%;
+    z-index: 5;
+    box-shadow: 20px 20px 10px 5px #6b7ea9;    
+    background: white;
+    border-radius: 5px;
+}
+
+.modal-left {
+    float: left;
+    width: 49%;
+    margin: 2px;
+}
+
+.modal-right {
+    float: right;
+    width: 49%;
+    margin: 2px;
+}
+ 
+.container {
+    width: 100%;
+    float: left;
 }
 
 fieldset {
@@ -40,17 +80,57 @@ header {
     width: 100%;
     background-size: cover;
     margin: 0 auto;
-    border-radius: 10px;
+    border-radius: 10px 10px 0 0;
     color: white;
 }
 
+nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    border-radius: 0 0 10px 10px;
+}
+
+div.navbar-item {
+    float: left;
+    cursor: pointer;
+}
+
+div.navbar-item a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+div.navbar-item a:hover {
+    background-color: #111;
+}
+
+div.clock {
+    float: right;
+    font-size: 2em;
+    font-weight: 900;
+    margin-right: 1%;
+    color: white;
+} 
+
 .banner {
-    padding-top: 205px;
+    padding-top: 35px;
 }
 
 .logo {
     margin-bottom: -2%;
     font-size: 84px;
+    text-align: center;
+}
+
+.logo-text {
+    font-size: 42px;
     text-align: center;
 }
 
@@ -68,17 +148,13 @@ header {
     padding: 2px;
 }
 
-.clock {
-    float: right;
-    font-size: 2em;
-    font-weight: 900;
-    margin-right: 1%;
-} 
+
 
 input, textarea, select {
     border: none;
     border-radius: 5px;
     padding: 5px;
+    font-size: 1em;
 }
 
 input::selection {
@@ -122,6 +198,12 @@ button {
     width: 160px;
     margin-top: 10px;
     border-radius: 10px;
+    font-size: 1.1em;
+}
+
+.back-btn {
+    text-align: left;
+    width: 90px;
 }
 
 #make-apt-btn {
@@ -133,14 +215,22 @@ button {
     border-radius: 0 10px 10px 0;
 }
 
-#li-1 {
+#waitlist-left {
     float: left;
     max-width: 92%;
     text-align: center;
     margin: 10px auto;
 }
 
-#li-2 {
+#waitlist-right {
+    float: right;
+}
+
+.modal-left {
+    float: left;
+}
+
+.modal-right {
     float: right;
 }
 
@@ -158,13 +248,6 @@ button {
     text-align: center;
     display: block;
 }
-
-.back-btn {
-    text-align: left;
-    width: 60px;
-}
-
-
 
 footer {
     margin-top: 15%;
@@ -210,11 +293,15 @@ footer {
 
     .banner {
         font-size: 0.8em;
-        padding-top: 80px;
+        margin-top: -80px;
     }
 
     .logo {
         font-size: 64px;
+    }
+
+    .logo-text {
+        font-size: 32px;
     }
 
     #li-1 {
@@ -229,11 +316,25 @@ footer {
 @media only screen and (max-width: 480px) {
     .banner {
         font-size: 0.6em;
-        padding-top: 110px;
+        padding-top: 20px;
+        margin-top: 0;
     } 
 
     .logo {
         font-size: 44px;
+    }
+
+    section {
+        width: 85%;
+    }
+
+    #demo-modal {
+        width: 50%;
+        font-size: 0.7em;
+    }
+
+    .logo-text {
+        font-size: 22px;
     }
 
     li {
@@ -257,24 +358,20 @@ footer {
 @media only screen and (max-width: 320px) {
     .banner {
         font-size: 0.6em;
-        padding-top: 110px;
+        padding-top: 20px;
     }  
-
-    .logo {
-        font-size: 44px;
-    }
 
     li {
         height: 165px;
         margin-left: -10%;
     }
 
-    #make-apt-btn {
-        height: 169px;
+    input, textarea, select {
+        font-size: 0.75em;
     }
 
-    .back-btn {
-        margin-left: -40px;
+    #make-apt-btn {
+        height: 169px;
     }
 
     #li-1 {
@@ -284,12 +381,16 @@ footer {
 }
 
 /* for XL screens */
-@media only screen and (min-width: 1441px) {
+@media only screen and (min-width: 1441px) { /* gets clock to render in correct spot on large screens */
     .banner {
-        padding-top: 215px;
+        padding-top: 40px;
     }  
+}
 
-    
+@media only screen and (min-width: 2001px) { /* gets clock to render in correct spot on large screens */
+    .banner {
+        padding-top: 55px;
+    }  
 }
 
 

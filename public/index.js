@@ -149,14 +149,14 @@ function renderWaitlist(user) {
         let mostRecentSession = sessions.length-1;
         console.log(user[i]);
         $(".waitlist").append(`<li>
-        <div id="li-1">
+        <div id="waitlist-left">
             Name: ${user[i].firstName} ${user[i].lastName} || 
             Walk-in time: ${sessions[mostRecentSession].time} || 
             Teacher: ${sessions[mostRecentSession].teacher} ||
             Assignment: ${sessions[mostRecentSession].assignment} ||
             Requested Tutor: ${sessions[mostRecentSession].tutor}
         </div>
-        <div id="li-2">
+        <div id="waitlist-right">
             <button id="make-apt-btn" class="btn begin-btn-${user[i]._id}"><i class="fas fa-angle-double-right"></i></button>
         </div>
         
@@ -245,6 +245,18 @@ setInterval(tellTime, 1000);
 // BUTTON BEHAVIOR
 //==========================
 
+//demo button
+$('.demo-btn').on('click', function (){
+    $('#page-mask').removeClass("hidden");
+    $('#demo-modal').removeClass("hidden");
+})
+
+//ways to end demo mode
+$('#page-mask').on("click", function (){
+    $('#page-mask').addClass("hidden");
+    $('#demo-modal').addClass("hidden");
+});
+
 //waitlist refresh
 $('#waitlist-refresh').on('click', function () {
     $('.waitlist').html('');
@@ -252,7 +264,7 @@ $('#waitlist-refresh').on('click', function () {
 })
 
 //home button
-$(".home").on("click", function (){
+$(".home-btn").on("click", function (){
     hideAll();
     $("input").val(""); //clear all the input values
     $('#landing-page').removeClass("hidden"); //take user back to landing page
@@ -260,7 +272,7 @@ $(".home").on("click", function (){
 
 // STUDENT buttons
 //user clicks student button
-$('#student-btn').on('click', function (){
+$('.student-btn').on('click', function (){
     hideAll();
     $('#student-login').removeClass('hidden');
 })
@@ -454,7 +466,7 @@ function readyToCheckin(session){
 
 // STAFF buttons
 // user clicks staff button
-$('#staff-btn').on('click', function () {
+$('.staff-btn').on('click', function () {
     hideAll();
     $('#staff-login').removeClass('hidden');
 })
@@ -602,7 +614,7 @@ $('#staff-register-send').on('click', function (event) {
     let email = $('#staff-email-reg').val();
     let password1 = $('#staff-password1-reg').val();
     let password2 = $('#staff-password2-reg').val();
-    let role = $('input[name=role-type]').val();
+    let role = $('input[name=role-type]:checked').val();
     // console.log(role);
 
     //make sure fields aren't blank

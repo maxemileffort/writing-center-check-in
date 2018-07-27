@@ -19,7 +19,7 @@ body {
 }
 
 section {
-    width: 70%;
+    width: 90%;
     padding: 5%;
     margin: 0 auto;
 }
@@ -29,8 +29,9 @@ section {
     top: 25%;
     left: 10%;
     right: 10%;
+    width: 60%;
     z-index: 5;
-    box-shadow: 20px 20px 10px 5px #6b7ea9;    
+    box-shadow: 20px 20px 10px 5px #333;    
     background: white;
     border-radius: 5px;
 }
@@ -59,7 +60,7 @@ fieldset {
         linear-gradient(
             180deg,
             white,
-            rgba(0, 0, 0, 0.5)
+            #333
             );
     background-repeat: no-repeat;
     background-position: center top;
@@ -104,14 +105,12 @@ nav {
     max-height: 0;
     overflow: hidden;
     padding: 0 0 0 50px;
-    transition: max-height 0.5s ease-in-out;
 }
 
 .collapsible-menu {
     color: white;
     padding: 0px 30px;
     float: left;
-    transition: max-height 0.5s ease-in-out;
 }
 
 .collapsible-menu a {
@@ -124,8 +123,7 @@ nav {
     text-transform: uppercase;
     display: block;
     cursor: pointer;
-    padding: 10px 0 10px 50px;
-    transition: max-height 0.5s ease-in-out;
+    padding: 5px 0 5px 5px;
 }
 
 input#menu {
@@ -134,7 +132,6 @@ input#menu {
 
 input:checked ~ .menu-content {
     max-height: 100%;
-    transition: max-height 0.5s ease-in-out;
 }
 
 .navbar-item:hover {
@@ -175,6 +172,15 @@ li {
     margin-left: -3%;
     border-radius: 18px;
     font-size: 1em;
+    background-image:  
+        linear-gradient(
+            180deg,
+            white,
+            #777
+            );
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-width: 100% auto; /* corrects issues in safari */
 }
 
 button {
@@ -188,6 +194,27 @@ button {
     margin-top: 10px;
     border-radius: 10px;
     font-size: 1em;
+}
+
+.cta {
+    border: rgb(35, 35, 180) solid 1px;
+    border-radius: 10px;
+    height: 200px;
+    margin: 1%;
+    width: 25%;
+    font-size: 1em;
+    display: inline-block;
+    cursor: pointer;
+    background-color: #333;
+    color: white;
+}
+
+.cta i {
+    font-size: 1.25em;
+}
+
+.cta:hover {
+    background-color: #111;
 }
 
 .back-btn {
@@ -216,14 +243,6 @@ button {
 }
 
 #waitlist-right {
-    float: right;
-}
-
-.modal-left {
-    float: left;
-}
-
-.modal-right {
     float: right;
 }
 
@@ -270,6 +289,10 @@ footer {
 
 @media only screen 
   and (max-width: 768px) {
+    .cta {
+        display: block;
+        width: 100%;
+    }
 
     header {
         height: 200px;
@@ -281,15 +304,6 @@ footer {
 
     .logo-text {
         font-size: 32px;
-    }
-
-    .navbar-item {
-        display: none;
-    }
-
-    .hamburger-menu {
-        display: block;
-        float: left;
     }
 
     .clock {
@@ -308,15 +322,31 @@ footer {
     }
 
     #waitlist-left {
-    max-width: 85%;
+        max-width: 85%;
     }
-
+    
+    .modal-left {
+        max-width: 100%;
+        float: none;
+        display: block;
+        margin: 2px auto;
+    }
+    
+    .modal-right {
+        float: none;
+        display: block;
+        margin: 2px auto;
+    }
 }
 
 
 /*iPhone landscape*/
 
 @media only screen and (max-width: 480px) {
+
+    .cta {
+        height: 120px;
+    }
 
     body {
         font-size: 0.9em;
@@ -362,6 +392,8 @@ footer {
 /*iPhone portrait*/
 
 @media only screen and (max-width: 320px) {
+    
+
     li {
         height: 270px;
     }

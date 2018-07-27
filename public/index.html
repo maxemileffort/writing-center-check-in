@@ -30,7 +30,6 @@
     <!-- navbar -->
     <nav class="container">
         <!-- navigation -->
-        
         <div class="collapsible-menu">
             <input type="checkbox" id="menu">
             <label for="menu"><i class="fas fa-bars"></i> Menu</label>
@@ -39,10 +38,10 @@
                     <a><i class="fa fa-university" aria-hidden="true"></i> Home</a>
                 </div>
                 <div class="navbar-item student-btn">
-                    <a>Student Area</a>
+                    <a><i class="fas fa-user-alt"></i> Student Area</a>
                 </div>
                 <div class="navbar-item staff-btn">
-                    <a>Staff Area</a>
+                    <a><i class="fas fa-pen-nib"></i> Staff Area</a>
                 </div>
                 <div class="navbar-item demo-btn">
                     <a><i class="far fa-question-circle"></i> Info</a>
@@ -50,24 +49,30 @@
             </div>
         </div>
         
-        
         <!-- clock -->
         <div class="navbar-item clock"></div>
     </nav>
-
-
-    
-
 
 
     <!-- landing page -->
     <section id="landing-page" role="region">
         <div class="center">
             <h1>Welcome to the Writing Center!</h1>
-            <button id="student-btn" class="btn student-btn">Student Area</button>
-            <button id="staff-btn" class="btn staff-btn">Staff Area</button>
-            <br>
-            <button id="demo-btn" class="btn demo-btn"><i class="far fa-question-circle"></i> Info</button>
+            <div id="student-btn" class="cta student-btn">
+                <p>Student Area</p>
+                <p><i class="fas fa-user-alt"></i></p>
+                <p>Appointments</p>
+            </div>
+            <div id="staff-btn" class="cta staff-btn">
+                <p>Staff Area</p>
+                <p><i class="fas fa-pen-nib"></i></p>
+                <p>Operations</p>
+            </div>
+            <div id="demo-btn" class="cta demo-btn">
+                <p>Info</p>
+                <p><i class="far fa-question-circle"></i></p>
+                <p>Tips and Hints</p>
+            </div>
         </div>
     </section>
 

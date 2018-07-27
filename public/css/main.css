@@ -14,12 +14,12 @@
 
 body {
     color: rgb(35, 35, 180);
-    font-size: 20px;
+    font-size: 24px;
     font-family: 'Open Sans', sans-serif;
 }
 
 section {
-    width: 50%;
+    width: 70%;
     padding: 5%;
     margin: 0 auto;
 }
@@ -84,45 +84,6 @@ header {
     color: white;
 }
 
-nav {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #333;
-    border-radius: 0 0 10px 10px;
-}
-
-div.navbar-item {
-    float: left;
-    cursor: pointer;
-}
-
-div.navbar-item a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-/* Change the link color to #111 (black) on hover */
-div.navbar-item a:hover {
-    background-color: #111;
-}
-
-div.clock {
-    float: right;
-    font-size: 2em;
-    font-weight: 900;
-    margin-right: 1%;
-    color: white;
-} 
-
-.banner {
-    padding-top: 35px;
-}
-
 .logo {
     margin-bottom: -2%;
     font-size: 84px;
@@ -134,21 +95,58 @@ div.clock {
     text-align: center;
 }
 
-.home {
+nav {
+    background-color: #333;
+    border-radius: 0 0 10px 10px;
+}
+
+.menu-content {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 0 0 50px;
+    transition: max-height 0.5s ease-in-out;
+}
+
+.collapsible-menu {
+    color: white;
+    padding: 0px 30px;
     float: left;
-    margin-left: 1%;
-    font-size: 2em;
+    transition: max-height 0.5s ease-in-out;
 }
 
-.home:hover {
-    color: rgb(0, 153, 255);
+.collapsible-menu a {
+    display:block;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.collapsible-menu label {
+    text-transform: uppercase;
+    display: block;
     cursor: pointer;
-    border: 2px solid rgb(0, 153, 255);
-    border-radius: 5px;
-    padding: 2px;
+    padding: 10px 0 10px 50px;
+    transition: max-height 0.5s ease-in-out;
 }
 
+input#menu {
+    display: none;
+}
 
+input:checked ~ .menu-content {
+    max-height: 100%;
+    transition: max-height 0.5s ease-in-out;
+}
+
+.navbar-item:hover {
+    background-color: #111;
+}
+
+div.clock {
+    float: right;
+    font-weight: 900;
+    color: white;
+    padding: 10px;
+} 
 
 input, textarea, select {
     border: none;
@@ -176,16 +174,7 @@ li {
     margin: 5px auto;
     margin-left: -3%;
     border-radius: 18px;
-    font-size: 2.1em;
-    background: 
-        linear-gradient(
-            135deg,
-            rgb(124, 124, 230), 
-            white
-        );
-    background-repeat: no-repeat;
-    background-position: center top;
-    background-width: 100% auto;
+    font-size: 1em;
 }
 
 button {
@@ -198,7 +187,7 @@ button {
     width: 160px;
     margin-top: 10px;
     border-radius: 10px;
-    font-size: 1.1em;
+    font-size: 1em;
 }
 
 .back-btn {
@@ -213,6 +202,10 @@ button {
     border: none;
     box-shadow: none;
     border-radius: 0 10px 10px 0;
+}
+
+.waitlist {
+    width: 100%;
 }
 
 #waitlist-left {
@@ -269,7 +262,7 @@ footer {
     vertical-align: middle;
     width: 100%;
     text-align: center;
-    font-size: 1.5em;
+    font-size: 1em;
 }
 
 
@@ -277,23 +270,9 @@ footer {
 
 @media only screen 
   and (max-width: 768px) {
+
     header {
         height: 200px;
-    }
-
-    li {
-        font-size: 1.2em;
-        height: 120px;
-        margin-left: -4%;
-    }
-
-    #make-apt-btn {
-        height: 124px;
-    }
-
-    .banner {
-        font-size: 0.8em;
-        margin-top: -80px;
     }
 
     .logo {
@@ -304,7 +283,31 @@ footer {
         font-size: 32px;
     }
 
-    #li-1 {
+    .navbar-item {
+        display: none;
+    }
+
+    .hamburger-menu {
+        display: block;
+        float: left;
+    }
+
+    .clock {
+        display: block;
+        float: right;
+    }
+
+    li {
+        font-size: 0.85em;
+        height: 160px;
+        margin-left: -10%;
+    }
+
+    #make-apt-btn {
+        height: 164px;
+    }
+
+    #waitlist-left {
     max-width: 85%;
     }
 
@@ -314,41 +317,44 @@ footer {
 /*iPhone landscape*/
 
 @media only screen and (max-width: 480px) {
-    .banner {
-        font-size: 0.6em;
-        padding-top: 20px;
-        margin-top: 0;
-    } 
+
+    body {
+        font-size: 0.9em;
+    }
 
     .logo {
         font-size: 44px;
-    }
-
-    section {
-        width: 85%;
-    }
-
-    #demo-modal {
-        width: 50%;
-        font-size: 0.7em;
     }
 
     .logo-text {
         font-size: 22px;
     }
 
+    section {
+        width: 90%;
+    }
+
+    #demo-modal {
+        width: 50%;
+    }
+
+    input, textarea, select {
+        font-size: 0.9em;
+    }
+
     li {
-        height: 165px;
-        margin-left: -7%;
-        font-size: 1.1em;
+        height: 200px;
+        margin-left: -13%;
+        font-size: 1.2em;
+        width: 90%;
     }
 
     #make-apt-btn {
-        height: 169px;
+        height: 204px;
     }
 
-    #li-1 {
-        max-width: 80%;
+    #waitlist-left {
+        max-width: 75%;
     }
 }
 
@@ -356,41 +362,23 @@ footer {
 /*iPhone portrait*/
 
 @media only screen and (max-width: 320px) {
-    .banner {
-        font-size: 0.6em;
-        padding-top: 20px;
-    }  
-
     li {
-        height: 165px;
-        margin-left: -10%;
+        height: 270px;
     }
 
-    input, textarea, select {
-        font-size: 0.75em;
+    .modal-left {
+        width: 100%
+    }
+
+    .modal-right {
+        width: 100%
     }
 
     #make-apt-btn {
-        height: 169px;
+        height: 274px;
     }
 
-    #li-1 {
-        max-width: 75%;
-    }
-    
 }
 
-/* for XL screens */
-@media only screen and (min-width: 1441px) { /* gets clock to render in correct spot on large screens */
-    .banner {
-        padding-top: 40px;
-    }  
-}
-
-@media only screen and (min-width: 2001px) { /* gets clock to render in correct spot on large screens */
-    .banner {
-        padding-top: 55px;
-    }  
-}
 
 

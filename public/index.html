@@ -29,12 +29,34 @@
 
     <!-- navbar -->
     <nav class="container">
-        <div class="navbar-item home-btn"><a><i class="fa fa-university" aria-hidden="true"></i> Home</a></div>
-        <div class="navbar-item student-btn"><a>Student Area</a></div>
-        <div class="navbar-item staff-btn"><a>Staff Area</a></div>
-        <div class="navbar-item demo-btn"><a><i class="far fa-question-circle"></i> Info</a></div>
+        <!-- navigation -->
+        
+        <div class="collapsible-menu">
+            <input type="checkbox" id="menu">
+            <label for="menu"><i class="fas fa-bars"></i> Menu</label>
+            <div class="menu-content">
+                <div class="navbar-item home-btn">
+                    <a><i class="fa fa-university" aria-hidden="true"></i> Home</a>
+                </div>
+                <div class="navbar-item student-btn">
+                    <a>Student Area</a>
+                </div>
+                <div class="navbar-item staff-btn">
+                    <a>Staff Area</a>
+                </div>
+                <div class="navbar-item demo-btn">
+                    <a><i class="far fa-question-circle"></i> Info</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        <!-- clock -->
         <div class="navbar-item clock"></div>
     </nav>
+
+
+    
 
 
 
@@ -409,7 +431,7 @@
         <!-- waitlist, rendererd to tutor and instructor -->
         <div class="center">
             <h1 class="center">Waitlist</h1>
-            <ul class="waitlist center"></ul>
+            <ul class="waitlist"></ul>
             <button id="waitlist-refresh" class="btn center">Refresh</button>
         </div>
     </section>

@@ -105,6 +105,11 @@ nav {
     max-height: 0;
     overflow: hidden;
     padding: 0 0 0 30px;
+    -webkit-transition: all 0.6s ease;
+    -moz-transition: all 0.6s ease;
+    -ms-transition: all 0.6s ease;
+    -o-transition: all 0.6s ease;
+    transition: all 0.6s ease;
 }
 
 .collapsible-menu {
@@ -131,7 +136,7 @@ input#menu {
 }
 
 input:checked ~ .menu-content {
-    max-height: 100%;
+    max-height: 400px;
 }
 
 .navbar-item:hover {

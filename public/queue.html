@@ -5,23 +5,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- font awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ"
-    crossorigin="anonymous">
+        crossorigin="anonymous">
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <!-- tab icon -->
     <link rel="icon" type="image" href="./img/favicon-align-left.ico">
+    <!-- rest of css -->
     <link rel="stylesheet" href="css/main.css">
-    <title>Writing Center</title>
+    <title> Writing Center</title>
 </head>
 
 <body>
-    
     <header role="banner">
-        <div class="banner">
-            
-            <p class="clock">
-        
-            </p>
+        <div class="logo">
+            <i class="fab fa-cloudversify"></i>
+        </div>
+        <div class="logo-text">
+            <h3>Hooligan High</h3>
+            <!-- placeholder logo and text -->
         </div>
     </header>
+    
+            
+    <!-- navbar -->
+    <nav class="container">
+        <!-- navigation -->
+        <div class="collapsible-menu">
+            <input type="checkbox" id="menu">
+            <label for="menu">
+                <i class="fas fa-bars"></i> Menu</label>
+            <div class="menu-content">
+                <div class="navbar-item home-btn">
+                    <a>
+                        <i class="fa fa-university" aria-hidden="true"></i> Home</a>
+                </div>
+                <div class="navbar-item student-btn">
+                    <a>
+                        <i class="fas fa-user-alt"></i> Student Area</a>
+                </div>
+                <div class="navbar-item staff-btn">
+                    <a>
+                        <i class="fas fa-pen-nib"></i> Staff Area</a>
+                </div>
+                <div class="navbar-item demo-btn">
+                    <a>
+                        <i class="far fa-question-circle"></i> Info</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- clock -->
+        <div class="navbar-item clock"></div>
+    </nav>
+
+
 
 <!-- Queue -->
 <section class="center" role="region">

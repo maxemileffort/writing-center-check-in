@@ -18,55 +18,6 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
-section {
-    width: 90%;
-    padding: 5%;
-    margin: 0 auto;
-}
-
-#demo-modal {
-    position: absolute;
-    top: 25%;
-    left: 10%;
-    right: 10%;
-    width: 60%;
-    z-index: 5;
-    box-shadow: 20px 20px 10px 5px #333;    
-    background: white;
-    border-radius: 5px;
-}
-
-.modal-left {
-    float: left;
-    width: 49%;
-    margin: 2px;
-}
-
-.modal-right {
-    float: right;
-    width: 49%;
-    margin: 2px;
-}
- 
-.container {
-    width: 100%;
-    float: left;
-}
-
-fieldset {
-    border: none;
-    border-radius: 10px;
-    background-image:  
-        linear-gradient(
-            180deg,
-            white,
-            #333
-            );
-    background-repeat: no-repeat;
-    background-position: center top;
-    background-width: 100% auto; /* corrects issues in safari */
-}
-
 header {
     background-image: 
         linear-gradient(
@@ -143,12 +94,71 @@ input:checked ~ .menu-content {
     background-color: #111;
 }
 
-div.clock {
+.clock {
     float: right;
     font-weight: 900;
     color: white;
     padding: 10px;
 } 
+
+.queue-clock {
+    float: none;
+    text-align: center;
+    width: 100%;
+    padding: 0;
+    font-size: 2em;
+}
+
+section {
+    width: 90%;
+    padding: 5%;
+    margin: 0 auto;
+}
+
+#demo-modal {
+    position: absolute;
+    top: 25%;
+    left: 10%;
+    right: 10%;
+    width: 60%;
+    z-index: 5;
+    box-shadow: 20px 20px 10px 5px #333;    
+    background: white;
+    border-radius: 5px;
+}
+
+.modal-left {
+    float: left;
+    width: 49%;
+    margin: 2px;
+}
+
+.modal-right {
+    float: right;
+    width: 49%;
+    margin: 2px;
+}
+ 
+.container {
+    width: 100%;
+    float: left;
+}
+
+fieldset {
+    border: none;
+    border-radius: 10px;
+    background-image:  
+        linear-gradient(
+            180deg,
+            white,
+            #333
+            );
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-width: 100% auto; /* corrects issues in safari */
+}
+
+
 
 input, textarea, select {
     border: none;
